@@ -5,4 +5,67 @@
     <url>/2022/10/05/Hexo%E9%83%A8%E7%BD%B2%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[]]></content>
   </entry>
+  <entry>
+    <title>使用Docker拉取OP编译环境并进行编译</title>
+    <url>/2022/10/05/%E4%BD%BF%E7%94%A8Docker%E6%8B%89%E5%8F%96OP%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91/</url>
+    <content><![CDATA[<p>最近台式机电脑电源坏了，送厂返修，很长一段时间没有台式机用，遂决定使用安装了OMV的小主机进行编译。由于系统版本较老，安装环境无法成功，于是使用Ubuntu-docker进行环境的搭建，并打包上传到DockerHub，以便下次使用，并且节省空间。<br>
+<img src="https://raw.githubusercontent.com/docker-library/docs/c350af05d3fac7b5c3f6327ac82fe4d990d8729c/docker/logo.png" alt=""></p>
+<h2 id="声明">声明</h2>
+<ul>
+<li>此次只是博主的一次尝试，docker image并没有进行精简，提及可能会比较大。</li>
+<li>op的一些包已经下载完成，减少多次下载的烦恼。</li>
+<li>docker可以根据需要将编译成果或者整个Lede目录挂载到本机方便文件操作，本篇只使用<code>docker cp</code>命令进行文件的转移。</li>
+<li>不喜勿喷，大佬勿喷。</li>
+</ul>
+<h1>使用Docker编译环境</h1>
+<h3 id="拉取镜像">拉取镜像</h3>
+<p>请前往dockerHub拉取镜像，<a href="https://hub.docker.com/repository/docker/frank921/opcompile">传送门</a>。选择最新的docker镜像的tag进行拉取：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull frank921/opcompile:v3</span><br></pre></td></tr></table></figure>
+<p><img src="https://qsykpic.oss-cn-hongkong.aliyuncs.com/usr/uploads/2022/04/1230477398.png" alt="image.png"></p>
+<h3 id="部署镜像">部署镜像</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -itd --name opcompile frank921/opcompile:v3</span><br></pre></td></tr></table></figure>
+<p>通过docker exec 进入容器并进行编译操作。<br>
+<em>注意：这里可以通过 -v 参数添加目录映射，具体请查询docker文档</em></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker exec -it opcompile /bin/bash</span><br></pre></td></tr></table></figure>
+<p>由于openwrt的编译程序不支持使用root用户进行编译，切换至lede用户进行编译并进入lede主目录:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">su lede</span><br><span class="line">cd ~/lede</span><br></pre></td></tr></table></figure>
+<p><strong>lede用户的用户密码默认是12345678，为了安全性，请及时更改</strong></p>
+<p>进行环境更新：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt update -y</span><br><span class="line">sudo apt full-upgrade -y</span><br></pre></td></tr></table></figure>
+<p>进行仓库更新：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git pull</span><br><span class="line">./scripts/feeds update -a</span><br><span class="line">./scripts/feeds install -a</span><br><span class="line">make defconfig</span><br></pre></td></tr></table></figure>
+<p>默认配置文件中我加入了一些常用插件，如果不需要这类插件，输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rm -rf ./tmp &amp;&amp; rm -rf .config</span><br></pre></td></tr></table></figure>
+<p>然后进入编译流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">make menuconfig</span><br><span class="line">make download -j8</span><br><span class="line">make V=s -j$(nproc)</span><br></pre></td></tr></table></figure>
+<h4 id="特别提示">特别提示</h4>
+<p>由于编译过程ssh不能中断，在网络较差的环境下，请使用screen进行持久化。<br>
+创建窗口：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">screen -S compiler</span><br></pre></td></tr></table></figure>
+<p>此时会进入窗口，可以进行编译操作，如果要推出窗口，请按 <code> Ctrl +AD</code> （按住Ctrl,一次按下A和D）<br>
+此时就能退出窗口<br>
+连接回窗口：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">screen -r compiler</span><br></pre></td></tr></table></figure>
+<p>如果发现因为窗口Attached无法连接，可以输入:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">screen -d compiler</span><br></pre></td></tr></table></figure>
+<p>分离会话，然后输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">screen -r compiler</span><br></pre></td></tr></table></figure>
+<p>进入会话。</p>
+<h3 id="编译完成">编译完成</h3>
+<p>当无错误编译完成以后，可以进入bin/targets找到相应的固件。<br>
+进入主机，输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<p>查询相应容器ID。<br>
+<img src="https://qsykpic.oss-cn-hongkong.aliyuncs.com/usr/uploads/2022/04/2389212853.png" alt="image.png"><br>
+记住ID</p>
+<p>输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker cp 容器ID:/home/lede/lede/bin/targets 主机目录</span><br></pre></td></tr></table></figure>
+<p>复制完成固件，复制过程会等待几分钟，正常现象。<br>
+接着进入主机相应目录获取固件。</p>
+<h1>Enjoy!</h1>
+<h1>特别鸣谢</h1>
+<p><a href="https://github.com/coolsnowwolf/lede">https://github.com/coolsnowwolf/lede</a></p>
+<p><a href="https://github.com/kenzok8/openwrt-packages">https://github.com/kenzok8/openwrt-packages</a></p>
+]]></content>
+  </entry>
 </search>
