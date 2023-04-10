@@ -220,13 +220,7 @@
 
       
           <p>最近台式机电脑电源坏了，送厂返修，很长一段时间没有台式机用，遂决定使用安装了OMV的小主机进行编译。由于系统版本较老，安装环境无法成功，于是使用Ubuntu-docker进行环境的搭建，并打包上传到DockerHub，以便下次使用，并且节省空间。<br><img src="https://raw.githubusercontent.com/docker-library/docs/c350af05d3fac7b5c3f6327ac82fe4d990d8729c/docker/logo.png"></p>
-<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><ul>
-<li>此次只是博主的一次尝试，docker image并没有进行精简，提及可能会比较大。</li>
-<li>op的一些包已经下载完成，减少多次下载的烦恼。</li>
-<li>docker可以根据需要将编译成果或者整个Lede目录挂载到本机方便文件操作，本篇只使用<code>docker cp</code>命令进行文件的转移。</li>
-<li>不喜勿喷，大佬勿喷。</li>
-</ul>
-<h1 id="使用Docker编译环境"><a href="#使用Docker编译环境" class="headerlink" title="使用Docker编译环境"></a>使用Docker编译环境</h1><h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3>
+<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/04/21/%E4%BD%BF%E7%94%A8Docker%E6%8B%89%E5%8F%96OP%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91/#more" rel="contents">
@@ -300,9 +294,6 @@
       
           <p>又是很久没有更新了，其实这个已经完成了很多时候了，但是事情太多一直没来的及写。</p>
 <p>因为学校使用的Ethernet是通过802.1x认证的（好像WIFI也是），对于智能家居等不方便更改网络的设备非常不方便，遂有了添加路由器的想法。</p>
-<p><em>顺便说一句，校园网的速度还是非常爽的，最重要的是包含在房租里了，不用另外付费。</em></p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2552550750.png"></p>
-<p>这个测速确认是外网速度，校园内没有测速节点。（可惜是NAT3，不然可以开机子了🤣）</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/02/20/%E9%85%8D%E7%BD%AEOpenWRT%E7%9A%84802-1x%E8%AE%A4%E8%AF%81%E5%8A%A0%E5%85%A5%E5%86%85%E9%83%A8%E7%BD%91/#more" rel="contents">
@@ -376,9 +367,6 @@
       
           <p>最近因为上学博客已经好久没有更新了。</p>
 <p>因为之前沉迷战地2042，原来的1660Ti笔记本打起游戏来已经不够用了，遂在欧洲重新配了一台电脑。基本配置是11600K+3070Ti的组合。</p>
-<p><img src="https://img13.360buyimg.com/n1/jfs/t1/194019/10/13696/108345/60f5457fE97715066/79df0514503e752a.jpg" alt="技嘉魔鹰"></p>
-<p>PS：欧洲的电脑是真的贵啊。</p>
-<p>心想着既然这么好的电脑配了也配了，不如来试试挖矿回血。因为一些原因，电费不需要我来交，所以收入永远都是为正的。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/01/29/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8NBMiner%E6%8C%96%E6%8E%98ETH%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C/#more" rel="contents">
@@ -452,9 +440,6 @@
       
           <p>最近应朋友的需求，研究一个华为云的DDNS解决方式，并且支持OpenWRT和一些主流Linux发行版本。</p>
 <p>本教程来源于Github大佬开发的脚本，<a target="_blank" rel="noopener" href="https://github.com/lllvcs/huaweicloud_ddns">传送门</a></p>
-<p>并且感谢另外一位大佬修改脚本，使其支持Openwrt网卡获取IP：<a target="_blank" rel="noopener" href="https://github.com/iLay1678/huaweicloud_ddns">传送门</a></p>
-<p>此脚本支持IPV4与IPV6双栈，但是需要对脚本做出一些改动，下文会提到。</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/08/16/Linux%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%8D%8E%E4%B8%BA%E4%BA%91DNS%EF%BC%88DDNS%EF%BC%89%E6%94%AF%E6%8C%81OPENWRT/#more" rel="contents">
@@ -527,9 +512,6 @@
 
       
           <h2 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h2><p><em><strong>这篇文章可能违反了中国大陆的法律规定。如果您在中国大陆，请立刻离开。请勿转载和传播，否则可能受到中国大陆法律的处罚或制裁。</strong></em></p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/ff5d8a6cc97d3d129269d051fda69927.jpg"></p>
-<p>机场准备</p>
-<p><del>机场，顾名思义，请立刻前往当地机场</del> （大雾）</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/02/01/%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%8C%AB%E5%92%AA%E4%B8%8E%E5%85%B6%E4%BB%96%E7%9A%84%E7%B1%BB%E4%BC%BC%E8%BD%AF%E4%BB%B6/#more" rel="contents">
@@ -602,9 +584,7 @@
 
       
           <p>今天又开始给博客除草了。这篇文章其实很早就想写了，奈何最近申请季，文书写到头大，实在分不出过多的精力来写这篇博客。今天就来讲讲群晖和硬盘的那些事。</p>
-<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><p>群晖DS216j, 32位CPU，512MB内存，可以说配置不能再差了，并且由于内存很小，硬盘的SWAP是不能关闭的。</p>
-<p>1个千兆网口做内网交换</p>
-<p>西数NAS红盘2TB*2，型号：WD20EFRX-68EUZN0</p>
+<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/10/05/%E5%85%B3%E4%BA%8E%E7%BE%A4%E6%99%96%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/#more" rel="contents">
@@ -678,13 +658,6 @@
       
           <p>因为最近路由器加上了流控的插件，应该大量的带宽占用不会对家宽的体验产生较大的影响，寻思着也不能让宽带闲着吧，500M的宽带也是挺贵的，如果大部分时间这么闲置，其实还是很不划算的，遂想到使用一些低功耗的机器，配上移动硬盘或者硬盘盒，做一个低功率的下载机。</p>
 <p><em>因为是树莓派和移动硬盘的组合，不能保证数据的绝对安全和硬盘的寿命，不推荐长时间如此使用！</em></p>
-<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><ol>
-<li>树莓派 3B+</li>
-<li>Raspberry Pi OS（原Raspbian）</li>
-<li>移动硬盘或者硬盘盒</li>
-<li>电源5V3A</li>
-</ol>
-<p>树莓派3B+虽然是千兆网口，但是是从USB2.0总线引出的，实际速率仅有330Mbps，但是应付USB2.0机械硬盘应该已经足够了。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/09/28/%E5%B0%9D%E8%AF%95%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E4%B8%80%E5%A5%97%E4%BD%8E%E5%8A%9F%E7%8E%87%E4%B8%8B%E8%BD%BD%E6%9C%BA/#more" rel="contents">
@@ -758,8 +731,6 @@
       
           <p>之前因为买了个罗技的GPW，使用下来感觉手感非常的好。轻重，重心恰到好处，续航也很正常，最重要的是，使用这个鼠标可以完全摆脱线缆的束缚，甩枪起来没有后顾之忧。</p>
 <p>但是，使用一段时间后发现，电量指示灯在关机状态下常亮，电池续航大大降低，就算关机也会快速掉电。本来以为只是电池充放问题，没有大碍。长时间正确使用之后依然发现问题没有好转的迹象，遂决定进行申请售后服务</p>
-<h2 id="事先准备"><a href="#事先准备" class="headerlink" title="事先准备"></a>事先准备</h2><p>首先去罗技官网查询全国售后网点，检查本市是否有罗技售后网点。如果不是国行，请ups到美国进行售后，原则上来说，美国的售后服务政策会更加人性化。</p>
-<p><a target="_blank" rel="noopener" href="https://store.logitech.com.cn/help/lgbranches">罗技售后网点</a></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/09/25/%E5%85%B3%E4%BA%8E%E7%BD%97%E6%8A%80%E5%94%AE%E5%90%8E%E7%9A%84%E4%BD%93%E9%AA%8C/#more" rel="contents">
@@ -832,8 +803,6 @@
 
       
           <h2 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h2><p><em><strong>这篇文章可能违反了中国大陆的法律规定。如果您在中国大陆，请立刻离开。请勿转载和传播，否则可能受到中国大陆法律的处罚或制裁。</strong></em></p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/ff5d8a6cc97d3d129269d051fda69927.jpg"></p>
-<h2 id="杂话"><a href="#杂话" class="headerlink" title="杂话"></a>杂话</h2><p>因为已经开学了好久，最近都没什么时间除草，中间还因为一次手误，导致博客丢了几篇文章（备份系统不知道为什么失效了），很烦！所以最近对博客系统进行了一次更改，增加多层备份，并且简化了网络结构，使其更加稳定。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/09/22/%E5%A6%82%E4%BD%95%E5%9C%A8OpenWrt%E8%BD%AF%E8%B7%AF%E7%94%B1%E4%B8%8A%E8%AE%BE%E7%BD%AEOpenClash/#more" rel="contents">
@@ -907,8 +876,6 @@
       
           <p>自从百度网盘的下载器PanDownload作者被抓，明面上无法使用之后，许多人的分享文件和接收文件变得麻烦起来。那么，有没有一个很好的办法能够将自己的文件共享给他人呢。这篇文章就要讲到的是Z-file。<br>本站的文件分享就是基于z-file搭建的，使用OneDrive国际版的存储策略（上传下载速度感人）：<br><del>网址：<a target="_blank" rel="noopener" href="https://file.frankutils.xyz/">https://file.frankutils.xyz</a></del> (已经失效)</p>
 <p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/455967545.png"></p>
-<hr>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Z-file是一个网盘目录索引程序，基于Java开发，能够适用于多种平台，无需考虑兼容性的问题。<br>支持多种存储策略，应用广泛：</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/08/20/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Z-file%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%9B%98%E7%9B%AE%E5%BD%95/#more" rel="contents">

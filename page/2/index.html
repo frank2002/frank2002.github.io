@@ -221,8 +221,6 @@
       
           <p>最近突发奇想，想刷一个黑群晖玩玩，手头上正好有一块闲置的D2550的主板，本来想做软路由的，现在刚好用来把它作为黑群晖的载体。虽说性能一般，但是比原来的DS216j的白群晖，应该可玩性要高一些。</p>
 <p>** 本篇文章的下载地址都会在文章末尾出，如果需要，可以自行提取。**<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3179769476.jpg"></p>
-<hr>
-<h2 id="机器配置"><a href="#机器配置" class="headerlink" title="机器配置"></a>机器配置</h2><h3 id="主板：国光D2550"><a href="#主板：国光D2550" class="headerlink" title="主板：国光D2550"></a>主板：国光D2550</h3>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/08/13/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8D2550%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%BB%91%E7%BE%A4%E6%99%96/#more" rel="contents">
@@ -295,8 +293,6 @@
 
       
           <h2 id="2023年更新"><a href="#2023年更新" class="headerlink" title="2023年更新"></a>2023年更新</h2><p>这次回国已经是此次测试的两年多以后了，城区的5G覆盖基本到位，室内测速也能达到上百兆的速度了，此文现在已经不在准确，请以实际测速为准</p>
-<h2 id="原文如下"><a href="#原文如下" class="headerlink" title="原文如下"></a>原文如下</h2><p>最近一段时间更换了三星的S20+ 5G版本，碰巧遇到营业厅打来的推销5G套餐的电话，脑子一热，就升级了5G套餐。坐标位于江苏，原先是40G流量套餐，现在是每个月加上20元，每个月有100G的高速流量，看起来还是十分实惠的。（可惜宽带不能升级到1000Mbps）。接下来我就对城区内（我常去的地方）的一些地点进行了测速。</p>
-<h2 id="测速环境"><a href="#测速环境" class="headerlink" title="测速环境"></a>测速环境</h2>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/08/05/%E5%AF%B9%E4%BA%8E%E5%8D%97%E6%96%B9%E4%B8%AD%E5%9B%BD%E7%94%B5%E4%BF%A1%E7%9A%845G%E5%88%9D%E4%BD%93%E9%AA%8C/#more" rel="contents">
@@ -369,8 +365,7 @@
 
       
           <p>由于FTP的安全性堪忧，所以很多时候使用网络驱动器都会使用到WebDav协议来传输文件。许多网盘，像坚果云，NextCloud, CloudReve, 群晖等等都支持了WebDav协议的网络硬盘挂载，这篇文章主要讲述如何在Windows平台上挂载WebDav。</p>
-<h3 id="打开此电脑，点击映射网络驱动器"><a href="#打开此电脑，点击映射网络驱动器" class="headerlink" title="打开此电脑，点击映射网络驱动器"></a>打开此电脑，点击映射网络驱动器</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1669217597.png"><br>请确保是** 映射网络驱动器 <strong>，而不是</strong> 添加网络位置 **<br>亲测，添加网络位置无法挂载基于Https的WebDav网络驱动器。</p>
-<h3 id="输入WebDav的url"><a href="#输入WebDav的url" class="headerlink" title="输入WebDav的url"></a>输入WebDav的url</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1251071193.png"><br>确保访问的路径正确，可以直接向提供者询问。</p>
+<h3 id="打开此电脑，点击映射网络驱动器"><a href="#打开此电脑，点击映射网络驱动器" class="headerlink" title="打开此电脑，点击映射网络驱动器"></a>打开此电脑，点击映射网络驱动器</h3>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/07/31/%E5%A6%82%E4%BD%95%E5%9C%A8Windows10%E4%B8%8A%E6%8C%82%E8%BD%BDWebDav/#more" rel="contents">
@@ -443,9 +438,7 @@
 
       
           <p>本文参考：<a target="_blank" rel="noopener" href="https://blog.wangriyu.wang/2018/05-server-nextcloud.html">https://blog.wangriyu.wang/2018/05-server-nextcloud.html</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3113001327.png"><br>Nextcloud是一个功能十分强大的，基于PHP的网盘系统，是个人或者组织进行建立私有云的不二之选。配合NextCloud中间众多的APP，可以实现很多功能，包括团队写作等等。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3053133952.png"></p>
-<h2 id="如何部署Nextcloud"><a href="#如何部署Nextcloud" class="headerlink" title="如何部署Nextcloud"></a>如何部署Nextcloud</h2><h3 id="拉取两个镜像，并且创建docker-compose配置文件："><a href="#拉取两个镜像，并且创建docker-compose配置文件：" class="headerlink" title="拉取两个镜像，并且创建docker-compose配置文件："></a>拉取两个镜像，并且创建docker-compose配置文件：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">docker pull wonderfall/nextcloud</span><br><span class="line">docker pull mariadb:10</span><br><span class="line">vi docker-compose.yml</span><br></pre></td></tr></table></figure>
-
-<h3 id="粘贴进文本框以下内容："><a href="#粘贴进文本框以下内容：" class="headerlink" title="粘贴进文本框以下内容："></a>粘贴进文本框以下内容：</h3>
+<h2 id="如何部署Nextcloud"><a href="#如何部署Nextcloud" class="headerlink" title="如何部署Nextcloud"></a>如何部署Nextcloud</h2>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/07/26/%E4%BD%BF%E7%94%A8Docker%E9%85%8D%E7%BD%AENextcloud/#more" rel="contents">
@@ -628,13 +621,6 @@
 <ol>
 <li>运行</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>查看本机的分区类型，查看主分区所处的位置</li>
-<li>运行</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sda</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/07/23/Linux%E5%AF%B9%E4%BA%8E%E6%89%A9%E5%B1%95%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA%E5%AE%B9%E9%87%8F%E7%9A%84%E6%96%B9%E5%BC%8F/#more" rel="contents">
