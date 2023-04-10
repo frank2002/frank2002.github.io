@@ -1,54 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Linux上的Docker各种教程汇总</title>
-    <url>/2020/07/26/Linux%E4%B8%8A%E7%9A%84Docker%E5%90%84%E7%A7%8D%E6%95%99%E7%A8%8B%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<span id="more"></span> 
-<p>Docker作为一个轻量型的虚拟容器，因为他能够使部署各种服务十分的方便简单，受到许多人的喜爱，这篇教程主要讲Docker从安装到部署的各种方法和注意事项。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3123926452.png" alt="docker"></p>
-<!-- more --> 
-
-<h2 id="各种系统上面部署Docker环境"><a href="#各种系统上面部署Docker环境" class="headerlink" title="各种系统上面部署Docker环境"></a>各种系统上面部署Docker环境</h2><p>docker的部署还是相对复杂的，好在，官方提供了一键部署脚本，配合上国内源，使我们能在各种地方轻松部署docker环境。</p>
-<h3 id="Centos脚本："><a href="#Centos脚本：" class="headerlink" title="Centos脚本："></a>Centos脚本：</h3><blockquote>
-<p>在任意目录下新建sh可执行文件：<br><code>vim DockerInstall.sh</code><br>复制粘贴以下内容（适用于“网络通畅”的主机）：</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"># remove old version</span><br><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine</span><br><span class="line"></span><br><span class="line"># remove all docker data </span><br><span class="line">sudo rm -rf /var/lib/docker</span><br><span class="line"></span><br><span class="line">#  preinstall utils </span><br><span class="line">sudo yum install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-data \</span><br><span class="line">  lvm2</span><br><span class="line"></span><br><span class="line"># add repository</span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"></span><br><span class="line"># make cache</span><br><span class="line">sudo yum makecache fast</span><br><span class="line"></span><br><span class="line"># install the latest stable version of docker</span><br><span class="line">sudo yum install -y docker-ce</span><br><span class="line"></span><br><span class="line"># start deamon and enable auto start when power on</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl enable docker</span><br><span class="line"></span><br><span class="line"># add current user </span><br><span class="line">sudo groupadd docker</span><br><span class="line">sudo gpasswd -a $&#123;USER&#125; docker</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>对于网络“不通畅”的主机，我们则使用以下脚本：</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"># 移除掉旧的版本</span><br><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine</span><br><span class="line"></span><br><span class="line"># 删除所有旧的数据</span><br><span class="line">sudo rm -rf /var/lib/docker</span><br><span class="line"></span><br><span class="line">#  安装依赖包</span><br><span class="line">sudo yum install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-data \</span><br><span class="line">  lvm2</span><br><span class="line"></span><br><span class="line"># 添加源，使用了阿里云镜像</span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line"></span><br><span class="line"># 配置缓存</span><br><span class="line">sudo yum makecache fast</span><br><span class="line"></span><br><span class="line"># 安装最新稳定版本的docker</span><br><span class="line">sudo yum install -y docker-ce</span><br><span class="line"></span><br><span class="line"># 配置镜像加速器</span><br><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;http://hub-mirror.c.163.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"># 启动docker引擎并设置开机启动</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl enable docker</span><br><span class="line"></span><br><span class="line"># 配置当前用户对docker的执行权限</span><br><span class="line">sudo groupadd docker</span><br><span class="line">sudo gpasswd -a $&#123;USER&#125; docker</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="Debian和Ubuntu脚本："><a href="#Debian和Ubuntu脚本：" class="headerlink" title="Debian和Ubuntu脚本："></a>Debian和Ubuntu脚本：</h3><blockquote>
-<p>对于Debian和Ubuntu来说部署则简单许多，只需要运行以下命令：<br>网络通畅：<br><code>curl -sSL https://get.docker.com/ | sh</code></p>
-<p>网络不通畅（DaoCloud）:<br><code>curl -sSL https://get.daocloud.io/docker | sh</code><br>** 这个脚本相对阿里云的来说更快一点，但是有一些小众的docker速度不快，或者存在找不到的情况 **</p>
-<p>阿里云的：<br><code>curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -</code></p>
-</blockquote>
-<h3 id="配置Docker-Hub的镜像加速器"><a href="#配置Docker-Hub的镜像加速器" class="headerlink" title="配置Docker Hub的镜像加速器"></a>配置Docker Hub的镜像加速器</h3><blockquote>
-<p>国内访问 Docker Hub 有时会遇到困难，此时可以配置镜像加速器。国内很多云服 务商都提供了加速器服务</p>
-<p>阿里云的加速器地址：<a href="https://cr.console.aliyun.com/?spm=a2c4e.11153959.blogcont29941.9.699b69d6JE3Sgg#/accelerator">https://cr.console.aliyun.com/?spm=a2c4e.11153959.blogcont29941.9.699b69d6JE3Sgg#/accelerator</a></p>
-<p>针对Docker客户端版本大于1.10.0的用户 您可以通过修改daemon配置文件&#x2F;etc&#x2F;docker&#x2F;daemon.json（没有时新建该文件）来使用加速器:</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://xxx.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>修改后</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [&quot;&lt;your accelerate address&gt;&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h2><p>docker-compose支持用户使用一些现成的配置文件来部署一个容器，并且可定制性非常的强，适合开发者使用<br>安装命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install docker-compose</span><br></pre></td></tr></table></figure>
-
-<p>** 此处仅适用于Debian **</p>
-<hr>
-<h2 id="使用Protainer来管理docker"><a href="#使用Protainer来管理docker" class="headerlink" title="使用Protainer来管理docker"></a>使用Protainer来管理docker</h2><p>Protainer是一款轻量级的docker网页管理系统，并且功能相对强大，支持多个服务器同时管理，十分好用。<br>一键部署：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always --name portainer -v /var/run/docker.sock:/var/run/docker.sock -v /Users/lee/dev/docker_file/portainer/data:/data docker.io/portainer/portainer</span><br></pre></td></tr></table></figure>
-
-<p>外部端口号：9000</p>
-<hr>
-]]></content>
-  </entry>
-  <entry>
     <title>Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT</title>
     <url>/2021/08/16/Linux%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%8D%8E%E4%B8%BA%E4%BA%91DNS%EF%BC%88DDNS%EF%BC%89%E6%94%AF%E6%8C%81OPENWRT/</url>
     <content><![CDATA[<p>最近应朋友的需求，研究一个华为云的DDNS解决方式，并且支持OpenWRT和一些主流Linux发行版本。</p>
@@ -105,12 +57,89 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Linux上的Docker各种教程汇总</title>
+    <url>/2020/07/26/Linux%E4%B8%8A%E7%9A%84Docker%E5%90%84%E7%A7%8D%E6%95%99%E7%A8%8B%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<span id="more"></span> 
+<p>Docker作为一个轻量型的虚拟容器，因为他能够使部署各种服务十分的方便简单，受到许多人的喜爱，这篇教程主要讲Docker从安装到部署的各种方法和注意事项。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3123926452.png" alt="docker"></p>
+<!-- more --> 
+
+<h2 id="各种系统上面部署Docker环境"><a href="#各种系统上面部署Docker环境" class="headerlink" title="各种系统上面部署Docker环境"></a>各种系统上面部署Docker环境</h2><p>docker的部署还是相对复杂的，好在，官方提供了一键部署脚本，配合上国内源，使我们能在各种地方轻松部署docker环境。</p>
+<h3 id="Centos脚本："><a href="#Centos脚本：" class="headerlink" title="Centos脚本："></a>Centos脚本：</h3><blockquote>
+<p>在任意目录下新建sh可执行文件：<br><code>vim DockerInstall.sh</code><br>复制粘贴以下内容（适用于“网络通畅”的主机）：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"># remove old version</span><br><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine</span><br><span class="line"></span><br><span class="line"># remove all docker data </span><br><span class="line">sudo rm -rf /var/lib/docker</span><br><span class="line"></span><br><span class="line">#  preinstall utils </span><br><span class="line">sudo yum install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-data \</span><br><span class="line">  lvm2</span><br><span class="line"></span><br><span class="line"># add repository</span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"></span><br><span class="line"># make cache</span><br><span class="line">sudo yum makecache fast</span><br><span class="line"></span><br><span class="line"># install the latest stable version of docker</span><br><span class="line">sudo yum install -y docker-ce</span><br><span class="line"></span><br><span class="line"># start deamon and enable auto start when power on</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl enable docker</span><br><span class="line"></span><br><span class="line"># add current user </span><br><span class="line">sudo groupadd docker</span><br><span class="line">sudo gpasswd -a $&#123;USER&#125; docker</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对于网络“不通畅”的主机，我们则使用以下脚本：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"># 移除掉旧的版本</span><br><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine</span><br><span class="line"></span><br><span class="line"># 删除所有旧的数据</span><br><span class="line">sudo rm -rf /var/lib/docker</span><br><span class="line"></span><br><span class="line">#  安装依赖包</span><br><span class="line">sudo yum install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-data \</span><br><span class="line">  lvm2</span><br><span class="line"></span><br><span class="line"># 添加源，使用了阿里云镜像</span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line"></span><br><span class="line"># 配置缓存</span><br><span class="line">sudo yum makecache fast</span><br><span class="line"></span><br><span class="line"># 安装最新稳定版本的docker</span><br><span class="line">sudo yum install -y docker-ce</span><br><span class="line"></span><br><span class="line"># 配置镜像加速器</span><br><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;http://hub-mirror.c.163.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"># 启动docker引擎并设置开机启动</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl enable docker</span><br><span class="line"></span><br><span class="line"># 配置当前用户对docker的执行权限</span><br><span class="line">sudo groupadd docker</span><br><span class="line">sudo gpasswd -a $&#123;USER&#125; docker</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="Debian和Ubuntu脚本："><a href="#Debian和Ubuntu脚本：" class="headerlink" title="Debian和Ubuntu脚本："></a>Debian和Ubuntu脚本：</h3><blockquote>
+<p>对于Debian和Ubuntu来说部署则简单许多，只需要运行以下命令：<br>网络通畅：<br><code>curl -sSL https://get.docker.com/ | sh</code></p>
+<p>网络不通畅（DaoCloud）:<br><code>curl -sSL https://get.daocloud.io/docker | sh</code><br>** 这个脚本相对阿里云的来说更快一点，但是有一些小众的docker速度不快，或者存在找不到的情况 **</p>
+<p>阿里云的：<br><code>curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -</code></p>
+</blockquote>
+<h3 id="配置Docker-Hub的镜像加速器"><a href="#配置Docker-Hub的镜像加速器" class="headerlink" title="配置Docker Hub的镜像加速器"></a>配置Docker Hub的镜像加速器</h3><blockquote>
+<p>国内访问 Docker Hub 有时会遇到困难，此时可以配置镜像加速器。国内很多云服 务商都提供了加速器服务</p>
+<p>阿里云的加速器地址：<a href="https://cr.console.aliyun.com/?spm=a2c4e.11153959.blogcont29941.9.699b69d6JE3Sgg#/accelerator">https://cr.console.aliyun.com/?spm=a2c4e.11153959.blogcont29941.9.699b69d6JE3Sgg#/accelerator</a></p>
+<p>针对Docker客户端版本大于1.10.0的用户 您可以通过修改daemon配置文件&#x2F;etc&#x2F;docker&#x2F;daemon.json（没有时新建该文件）来使用加速器:</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://xxx.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>修改后</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [&quot;&lt;your accelerate address&gt;&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h2><p>docker-compose支持用户使用一些现成的配置文件来部署一个容器，并且可定制性非常的强，适合开发者使用<br>安装命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install docker-compose</span><br></pre></td></tr></table></figure>
+
+<p>** 此处仅适用于Debian **</p>
+<hr>
+<h2 id="使用Protainer来管理docker"><a href="#使用Protainer来管理docker" class="headerlink" title="使用Protainer来管理docker"></a>使用Protainer来管理docker</h2><p>Protainer是一款轻量级的docker网页管理系统，并且功能相对强大，支持多个服务器同时管理，十分好用。<br>一键部署：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always --name portainer -v /var/run/docker.sock:/var/run/docker.sock -v /Users/lee/dev/docker_file/portainer/data:/data docker.io/portainer/portainer</span><br></pre></td></tr></table></figure>
+
+<p>外部端口号：9000</p>
+<hr>
+]]></content>
+  </entry>
+  <entry>
+    <title>Linux对于扩展系统分区容量的方式</title>
+    <url>/2020/07/23/Linux%E5%AF%B9%E4%BA%8E%E6%89%A9%E5%B1%95%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA%E5%AE%B9%E9%87%8F%E7%9A%84%E6%96%B9%E5%BC%8F/</url>
+    <content><![CDATA[<p>很多新手刚接触到虚拟机和Linux系统的时候都会对Linux的文件系统而产生疑惑，此篇文章主要讲述，在纯命令行下，如何对Linux的系统分区进行硬盘的容量扩展<br>##在ESXI或Workstation中间扩展硬盘容量（基础）<br>我认为此步骤不需要过多赘述了<br>##更改分区表</p>
+<ol>
+<li>运行</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>查看本机的分区类型，查看主分区所处的位置</li>
+<li>运行</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sda</span><br></pre></td></tr></table></figure>
+
+<p>** 可以输入<code>m</code> 获得fdisk的帮助信息 **<br><code>d</code>删除需要扩容的分区<br><code>p</code>获得现有分区信息<br><code>n</code>创建新分区，设置大小和首尾<br><code>wq</code>保存<br>这样子的话分区表就已经更新好了，但是文件系统还没有更新，我们接着需要更新文件系统。<br>##更新文件系统</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">e2fsck -f /dev/sda1</span><br><span class="line">resize2fs /dev/sda1</span><br></pre></td></tr></table></figure>
+
+<p>** 注意，此处操作不会使原来文件丢失 **<br>接着重启系统，发现磁盘容量已经扩容</p>
+<p>*** 提示：任何磁盘操作都有丢失文件的风险，请先进行备份操作 ***</p>
+<p>##附加：BT-Panel的多个硬盘一件挂载指令（和本文无关）<br>这个命令方便的将未挂载的硬盘一键挂载到系统和BT-Panel上，十分方便。<br>Centos:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install wget -y &amp;&amp; wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; bash auto_disk.sh</span><br></pre></td></tr></table></figure>
+
+<p>Ubuntu:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; sudo bash auto_disk.sh</span><br></pre></td></tr></table></figure>
+
+<p>Debian:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; bash auto_disk.sh</span><br></pre></td></tr></table></figure>
+
+<p>一键挂载原文链接：<a href="https://www.bt.cn/bbs/thread-3187-1-1.html">https://www.bt.cn/bbs/thread-3187-1-1.html</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>使用Docker拉取OP编译环境并进行编译</title>
     <url>/2022/04/21/%E4%BD%BF%E7%94%A8Docker%E6%8B%89%E5%8F%96OP%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91/</url>
-    <content><![CDATA[<span id="more"></span> 
-<p>最近台式机电脑电源坏了，送厂返修，很长一段时间没有台式机用，遂决定使用安装了OMV的小主机进行编译。由于系统版本较老，安装环境无法成功，于是使用Ubuntu-docker进行环境的搭建，并打包上传到DockerHub，以便下次使用，并且节省空间。</p>
-<!-- more --> 
-<p><img src="https://raw.githubusercontent.com/docker-library/docs/c350af05d3fac7b5c3f6327ac82fe4d990d8729c/docker/logo.png"></p>
+    <content><![CDATA[<p>最近台式机电脑电源坏了，送厂返修，很长一段时间没有台式机用，遂决定使用安装了OMV的小主机进行编译。由于系统版本较老，安装环境无法成功，于是使用Ubuntu-docker进行环境的搭建，并打包上传到DockerHub，以便下次使用，并且节省空间。<br><img src="https://raw.githubusercontent.com/docker-library/docs/c350af05d3fac7b5c3f6327ac82fe4d990d8729c/docker/logo.png"></p>
 <h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><ul>
 <li>此次只是博主的一次尝试，docker image并没有进行精简，提及可能会比较大。</li>
 <li>op的一些包已经下载完成，减少多次下载的烦恼。</li>
@@ -168,38 +197,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>Linux对于扩展系统分区容量的方式</title>
-    <url>/2020/07/23/Linux%E5%AF%B9%E4%BA%8E%E6%89%A9%E5%B1%95%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA%E5%AE%B9%E9%87%8F%E7%9A%84%E6%96%B9%E5%BC%8F/</url>
-    <content><![CDATA[<p>很多新手刚接触到虚拟机和Linux系统的时候都会对Linux的文件系统而产生疑惑，此篇文章主要讲述，在纯命令行下，如何对Linux的系统分区进行硬盘的容量扩展<br>##在ESXI或Workstation中间扩展硬盘容量（基础）<br>我认为此步骤不需要过多赘述了<br>##更改分区表</p>
-<ol>
-<li>运行</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>查看本机的分区类型，查看主分区所处的位置</li>
-<li>运行</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sda</span><br></pre></td></tr></table></figure>
-
-<p>** 可以输入<code>m</code> 获得fdisk的帮助信息 **<br><code>d</code>删除需要扩容的分区<br><code>p</code>获得现有分区信息<br><code>n</code>创建新分区，设置大小和首尾<br><code>wq</code>保存<br>这样子的话分区表就已经更新好了，但是文件系统还没有更新，我们接着需要更新文件系统。<br>##更新文件系统</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">e2fsck -f /dev/sda1</span><br><span class="line">resize2fs /dev/sda1</span><br></pre></td></tr></table></figure>
-
-<p>** 注意，此处操作不会使原来文件丢失 **<br>接着重启系统，发现磁盘容量已经扩容</p>
-<p>*** 提示：任何磁盘操作都有丢失文件的风险，请先进行备份操作 ***</p>
-<p>##附加：BT-Panel的多个硬盘一件挂载指令（和本文无关）<br>这个命令方便的将未挂载的硬盘一键挂载到系统和BT-Panel上，十分方便。<br>Centos:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install wget -y &amp;&amp; wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; bash auto_disk.sh</span><br></pre></td></tr></table></figure>
-
-<p>Ubuntu:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; sudo bash auto_disk.sh</span><br></pre></td></tr></table></figure>
-
-<p>Debian:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; bash auto_disk.sh</span><br></pre></td></tr></table></figure>
-
-<p>一键挂载原文链接：<a href="https://www.bt.cn/bbs/thread-3187-1-1.html">https://www.bt.cn/bbs/thread-3187-1-1.html</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>使用Docker配置Nextcloud</title>
     <url>/2020/07/26/%E4%BD%BF%E7%94%A8Docker%E9%85%8D%E7%BD%AENextcloud/</url>
     <content><![CDATA[<p>本文参考：<a href="https://blog.wangriyu.wang/2018/05-server-nextcloud.html">https://blog.wangriyu.wang/2018/05-server-nextcloud.html</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3113001327.png"><br>Nextcloud是一个功能十分强大的，基于PHP的网盘系统，是个人或者组织进行建立私有云的不二之选。配合NextCloud中间众多的APP，可以实现很多功能，包括团队写作等等。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3053133952.png"></p>
@@ -251,69 +248,6 @@
 <p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2347629307.png"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>现在币价逐渐走低，市场对于虚拟产品都不是特别乐观，现在如果特别想入场还是需要十分谨慎，很容易亏钱。但是如果是游戏玩家自己买了卡想回回血，在提前计算自己家中电费的情况下，还是可以试一下的。如果在中国大陆挖矿还是请使用代理类软件，防止上门请喝茶。</p>
 <p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/461364571.png"></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>关于罗技售后的体验</title>
-    <url>/2020/09/25/%E5%85%B3%E4%BA%8E%E7%BD%97%E6%8A%80%E5%94%AE%E5%90%8E%E7%9A%84%E4%BD%93%E9%AA%8C/</url>
-    <content><![CDATA[<p>之前因为买了个罗技的GPW，使用下来感觉手感非常的好。轻重，重心恰到好处，续航也很正常，最重要的是，使用这个鼠标可以完全摆脱线缆的束缚，甩枪起来没有后顾之忧。</p>
-<p>但是，使用一段时间后发现，电量指示灯在关机状态下常亮，电池续航大大降低，就算关机也会快速掉电。本来以为只是电池充放问题，没有大碍。长时间正确使用之后依然发现问题没有好转的迹象，遂决定进行申请售后服务</p>
-<h2 id="事先准备"><a href="#事先准备" class="headerlink" title="事先准备"></a>事先准备</h2><p>首先去罗技官网查询全国售后网点，检查本市是否有罗技售后网点。如果不是国行，请ups到美国进行售后，原则上来说，美国的售后服务政策会更加人性化。</p>
-<p><a href="https://store.logitech.com.cn/help/lgbranches">罗技售后网点</a></p>
-<p>如果本市内有罗技售后网点，那就简单了，直接将包裹（要准备什么之后再说）送到当地罗技售后网点，请他们检测并且给出答复就行了。</p>
-<p>如果本市内没有罗技售后网点，请找到离自己最近的一个售后网点，拨打他们的客服热线，询问寄送流程，并且邮寄到此售后网点。</p>
-<p><em>注意：建议不要拨打中国大区的罗技售后电话，此电话很难有人工接听，直接询问当地售后网点就行了。如果不知道哪个离自己最近，随便拨打一个他们会告诉你</em></p>
-<h2 id="包裹准备"><a href="#包裹准备" class="headerlink" title="包裹准备"></a>包裹准备</h2><p>拨打电话后得知，需要准备如下物品。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">受损的鼠标和接收器、购买凭证复印件、故障描述、联系方式、回寄地址。</span><br></pre></td></tr></table></figure>
-
-<p>将以上物品直接寄送到售后网点，在签收后1周内能得到检测答复。</p>
-<h2 id="答复环节"><a href="#答复环节" class="headerlink" title="答复环节"></a>答复环节</h2><p>在大概签收后的3-4天后，我收到了答复。虽然我让他用邮箱或者QQ答复我，但他们还是打了电话过来，很无语。但是结果还是好的，他们直接告诉我，他们检测出了我GPW的故障，会对我的鼠标进行换新处理，并且还送了我一个新的GPW盒子。u1s1，这波操作还是不错的。</p>
-<p>但是，他们还告诉我，现在GPW没有货了，需要等到10月份到货了再进行通知，这对于我来说就有点惨了，将近2-3周没有一个好的鼠标用真的很不方便。</p>
-<p>截至本博发表为止，我还没有拿到新鼠标，等到新鼠标到手后，本文会继续更新。</p>
-<p><img src="https://resource.logitech.com/w_1200,h_630,c_limit,q_auto,f_auto,dpr_1.0/content/dam/logitech/og-fallback.png?v=1"></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>关于这个博客</title>
-    <url>/2020/07/23/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<p>##这个博客是从typecho移植过来的，为了能够使用github更好的全球分发，并且更加稳定。<br>之前的文章很多都已经找不到了，主要是因为typecho稳定版中间的备份功能竟然有Bug，很烦！ （╯‵□′）╯︵┴─┴<br>后面会继续记录一些个人的心路历程和踩坑经验，希望以后能够绕坑而行。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>关于群晖数据恢复</title>
-    <url>/2020/10/05/%E5%85%B3%E4%BA%8E%E7%BE%A4%E6%99%96%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/</url>
-    <content><![CDATA[<p>今天又开始给博客除草了。这篇文章其实很早就想写了，奈何最近申请季，文书写到头大，实在分不出过多的精力来写这篇博客。今天就来讲讲群晖和硬盘的那些事。</p>
-<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><p>群晖DS216j, 32位CPU，512MB内存，可以说配置不能再差了，并且由于内存很小，硬盘的SWAP是不能关闭的。</p>
-<p>1个千兆网口做内网交换</p>
-<p>西数NAS红盘2TB*2，型号：WD20EFRX-68EUZN0</p>
-<p>双硬盘组软RAID1，提高可靠性</p>
-<p><img src="https://images-na.ssl-images-amazon.com/images/I/91wSK3hWBLL._AC_SX466_.jpg" alt="WD RED"></p>
-<h2 id="事件经过"><a href="#事件经过" class="headerlink" title="事件经过"></a>事件经过</h2><p>最早的时候有一段时间使用群晖自带的Download station进行BT下载，众所周知，群晖自带的下载器性能很差，而且会生成大量的缓存文件，很伤硬盘，所以没到2年一块硬盘就坏了，送回原“淘宝”店家进行质保。这里需要注意一点，这个淘宝店非官方店，很可能会出现假货，我在这里并不清楚，而且质保的质量也不确定。</p>
-<p>在今年年中，另一块硬盘开始逐渐出现坏道，但是没有达到阈值，并且群晖自带的SMART的快速检测没有发现任何问题，完全检测没有办法完成。（这里其实 又是一个大坑，家用版的群晖完整版smart无法检测完成竟然没有提示，其实这里可以直接分析这块硬盘已经坏了）</p>
-<p>随着硬盘坏道数量越来越多，本来计划在双11重新购入硬盘，但是因为坏道太多，在10.1国庆节的低价购入了希捷酷狼4TB*2来替换原来的硬盘。</p>
-<p>在进行raid1扩容操作前，因为疏忽忘记进行备份数据，这里也是一个坑。在1块2TB和1块4TB进行重建数据的时候，另一块系数红盘爆出大量坏道，硬盘直接损毁，存储空间也直接损毁，无法修复。随后进行数据恢复。</p>
-<h2 id="数据恢复"><a href="#数据恢复" class="headerlink" title="数据恢复"></a>数据恢复</h2><p>群晖官方推荐使用UBUNTU进行恢复，但是我在这里并不推荐，因为组了raid必须要插入两块硬盘同时读取，非常麻烦。</p>
-<p><a href="https://www.synology.com/en-uk/knowledgebase/DSM/tutorial/Storage/How_can_I_recover_data_from_my_DiskStation_using_a_PC">原文链接</a></p>
-<p>我在这里推荐一款软件，可以直接在Windows平台进行对于群晖硬盘的读取，并且Raid1可以单盘读取。</p>
-<p>Nas Data Recovery 4.0</p>
-<p><a href="undefined">RuntimeNASDataRecovery_2.zip</a></p>
-<p>百度上可以直接搜索到破解版，下载安装即可使用，虽然是全英文，但是不难理解。</p>
-<p>缺点：无法进行两块raid1硬盘同时读取，修复受损文件。</p>
-<h3 id="事后"><a href="#事后" class="headerlink" title="事后"></a>事后</h3><p>后来发现DiskGenius可以直接读取，哭了！</p>
-<h2 id="硬盘分析"><a href="#硬盘分析" class="headerlink" title="硬盘分析"></a>硬盘分析</h2><p>拿出来放入DiskGenius进行故障排查，发现SMART C5黄字，差不多要完了。随后进行坏道扫描，发现实际有800+坏道，并且大多是坏道集中在硬盘前50G中，绝对超出群晖检测的100-坏道。其实群晖的硬盘检测高度依赖SMART，如果smart无法完成，硬盘检测十分不准。</p>
-<p>尝试写0和低格，发现有时甚至直接掉盘，遂放弃。</p>
-<h2 id="废物利用"><a href="#废物利用" class="headerlink" title="废物利用"></a>废物利用</h2><p>之前家里随手装了一台黑裙玩，一直用一块320G机械硬盘挂PT，一直觉得小，觉得这硬盘虽然损坏，但是还可以发光发热（反正下载的数据没了也就没了，再下就行）。</p>
-<p>刚开始插进去硬盘会直接变成堪用状态，这里我直接禁用硬盘警告</p>
-<p>创建RAID GROUP时切记进行硬盘扫描，否则直接空间损毁。</p>
-<p>创建存储空间时创建两个，第一个空间约50G，用来隔离坏道，数据放在第二个存储空间。实际效果非常理想，PT过程中基本无硬盘错误。</p>
-<p>这里切记全局禁止掉硬盘检查。</p>
-<h2 id="事后分析"><a href="#事后分析" class="headerlink" title="事后分析"></a>事后分析</h2><ol>
-<li>千万别买非官方店的硬盘，小白大概率翻车。送保尽量自己送到原厂保修。</li>
-<li>硬盘操作前都应该进行数据备份</li>
-<li>别买群晖低端家用版，硬盘缓存会减小硬盘寿命（硬盘坏道集中在硬盘前部扇区）</li>
-<li>准备这个双十一试水威联通中端机器。</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1595373681.jpg"></p>
 ]]></content>
   </entry>
   <entry>
@@ -370,6 +304,69 @@
 <h2 id="最后的话"><a href="#最后的话" class="headerlink" title="最后的话"></a>最后的话</h2><p>本教程只是给纯小白看的，对于小猫咪的高阶设置远远不止这些。</p>
 <p>正是因为小猫咪的高阶配置，功能才得以强大。具体将小猫咪调试成适合自己的科学上网模式需要自己探索<del>也可以来问本人</del>。</p>
 <p>本教程就到这里，尽情享受国际视野的海洋吧。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>关于罗技售后的体验</title>
+    <url>/2020/09/25/%E5%85%B3%E4%BA%8E%E7%BD%97%E6%8A%80%E5%94%AE%E5%90%8E%E7%9A%84%E4%BD%93%E9%AA%8C/</url>
+    <content><![CDATA[<p>之前因为买了个罗技的GPW，使用下来感觉手感非常的好。轻重，重心恰到好处，续航也很正常，最重要的是，使用这个鼠标可以完全摆脱线缆的束缚，甩枪起来没有后顾之忧。</p>
+<p>但是，使用一段时间后发现，电量指示灯在关机状态下常亮，电池续航大大降低，就算关机也会快速掉电。本来以为只是电池充放问题，没有大碍。长时间正确使用之后依然发现问题没有好转的迹象，遂决定进行申请售后服务</p>
+<h2 id="事先准备"><a href="#事先准备" class="headerlink" title="事先准备"></a>事先准备</h2><p>首先去罗技官网查询全国售后网点，检查本市是否有罗技售后网点。如果不是国行，请ups到美国进行售后，原则上来说，美国的售后服务政策会更加人性化。</p>
+<p><a href="https://store.logitech.com.cn/help/lgbranches">罗技售后网点</a></p>
+<p>如果本市内有罗技售后网点，那就简单了，直接将包裹（要准备什么之后再说）送到当地罗技售后网点，请他们检测并且给出答复就行了。</p>
+<p>如果本市内没有罗技售后网点，请找到离自己最近的一个售后网点，拨打他们的客服热线，询问寄送流程，并且邮寄到此售后网点。</p>
+<p><em>注意：建议不要拨打中国大区的罗技售后电话，此电话很难有人工接听，直接询问当地售后网点就行了。如果不知道哪个离自己最近，随便拨打一个他们会告诉你</em></p>
+<h2 id="包裹准备"><a href="#包裹准备" class="headerlink" title="包裹准备"></a>包裹准备</h2><p>拨打电话后得知，需要准备如下物品。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">受损的鼠标和接收器、购买凭证复印件、故障描述、联系方式、回寄地址。</span><br></pre></td></tr></table></figure>
+
+<p>将以上物品直接寄送到售后网点，在签收后1周内能得到检测答复。</p>
+<h2 id="答复环节"><a href="#答复环节" class="headerlink" title="答复环节"></a>答复环节</h2><p>在大概签收后的3-4天后，我收到了答复。虽然我让他用邮箱或者QQ答复我，但他们还是打了电话过来，很无语。但是结果还是好的，他们直接告诉我，他们检测出了我GPW的故障，会对我的鼠标进行换新处理，并且还送了我一个新的GPW盒子。u1s1，这波操作还是不错的。</p>
+<p>但是，他们还告诉我，现在GPW没有货了，需要等到10月份到货了再进行通知，这对于我来说就有点惨了，将近2-3周没有一个好的鼠标用真的很不方便。</p>
+<p>截至本博发表为止，我还没有拿到新鼠标，等到新鼠标到手后，本文会继续更新。</p>
+<p><img src="https://resource.logitech.com/w_1200,h_630,c_limit,q_auto,f_auto,dpr_1.0/content/dam/logitech/og-fallback.png?v=1"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>关于群晖数据恢复</title>
+    <url>/2020/10/05/%E5%85%B3%E4%BA%8E%E7%BE%A4%E6%99%96%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/</url>
+    <content><![CDATA[<p>今天又开始给博客除草了。这篇文章其实很早就想写了，奈何最近申请季，文书写到头大，实在分不出过多的精力来写这篇博客。今天就来讲讲群晖和硬盘的那些事。</p>
+<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><p>群晖DS216j, 32位CPU，512MB内存，可以说配置不能再差了，并且由于内存很小，硬盘的SWAP是不能关闭的。</p>
+<p>1个千兆网口做内网交换</p>
+<p>西数NAS红盘2TB*2，型号：WD20EFRX-68EUZN0</p>
+<p>双硬盘组软RAID1，提高可靠性</p>
+<p><img src="https://images-na.ssl-images-amazon.com/images/I/91wSK3hWBLL._AC_SX466_.jpg" alt="WD RED"></p>
+<h2 id="事件经过"><a href="#事件经过" class="headerlink" title="事件经过"></a>事件经过</h2><p>最早的时候有一段时间使用群晖自带的Download station进行BT下载，众所周知，群晖自带的下载器性能很差，而且会生成大量的缓存文件，很伤硬盘，所以没到2年一块硬盘就坏了，送回原“淘宝”店家进行质保。这里需要注意一点，这个淘宝店非官方店，很可能会出现假货，我在这里并不清楚，而且质保的质量也不确定。</p>
+<p>在今年年中，另一块硬盘开始逐渐出现坏道，但是没有达到阈值，并且群晖自带的SMART的快速检测没有发现任何问题，完全检测没有办法完成。（这里其实 又是一个大坑，家用版的群晖完整版smart无法检测完成竟然没有提示，其实这里可以直接分析这块硬盘已经坏了）</p>
+<p>随着硬盘坏道数量越来越多，本来计划在双11重新购入硬盘，但是因为坏道太多，在10.1国庆节的低价购入了希捷酷狼4TB*2来替换原来的硬盘。</p>
+<p>在进行raid1扩容操作前，因为疏忽忘记进行备份数据，这里也是一个坑。在1块2TB和1块4TB进行重建数据的时候，另一块系数红盘爆出大量坏道，硬盘直接损毁，存储空间也直接损毁，无法修复。随后进行数据恢复。</p>
+<h2 id="数据恢复"><a href="#数据恢复" class="headerlink" title="数据恢复"></a>数据恢复</h2><p>群晖官方推荐使用UBUNTU进行恢复，但是我在这里并不推荐，因为组了raid必须要插入两块硬盘同时读取，非常麻烦。</p>
+<p><a href="https://www.synology.com/en-uk/knowledgebase/DSM/tutorial/Storage/How_can_I_recover_data_from_my_DiskStation_using_a_PC">原文链接</a></p>
+<p>我在这里推荐一款软件，可以直接在Windows平台进行对于群晖硬盘的读取，并且Raid1可以单盘读取。</p>
+<p>Nas Data Recovery 4.0</p>
+<p><a href="undefined">RuntimeNASDataRecovery_2.zip</a></p>
+<p>百度上可以直接搜索到破解版，下载安装即可使用，虽然是全英文，但是不难理解。</p>
+<p>缺点：无法进行两块raid1硬盘同时读取，修复受损文件。</p>
+<h3 id="事后"><a href="#事后" class="headerlink" title="事后"></a>事后</h3><p>后来发现DiskGenius可以直接读取，哭了！</p>
+<h2 id="硬盘分析"><a href="#硬盘分析" class="headerlink" title="硬盘分析"></a>硬盘分析</h2><p>拿出来放入DiskGenius进行故障排查，发现SMART C5黄字，差不多要完了。随后进行坏道扫描，发现实际有800+坏道，并且大多是坏道集中在硬盘前50G中，绝对超出群晖检测的100-坏道。其实群晖的硬盘检测高度依赖SMART，如果smart无法完成，硬盘检测十分不准。</p>
+<p>尝试写0和低格，发现有时甚至直接掉盘，遂放弃。</p>
+<h2 id="废物利用"><a href="#废物利用" class="headerlink" title="废物利用"></a>废物利用</h2><p>之前家里随手装了一台黑裙玩，一直用一块320G机械硬盘挂PT，一直觉得小，觉得这硬盘虽然损坏，但是还可以发光发热（反正下载的数据没了也就没了，再下就行）。</p>
+<p>刚开始插进去硬盘会直接变成堪用状态，这里我直接禁用硬盘警告</p>
+<p>创建RAID GROUP时切记进行硬盘扫描，否则直接空间损毁。</p>
+<p>创建存储空间时创建两个，第一个空间约50G，用来隔离坏道，数据放在第二个存储空间。实际效果非常理想，PT过程中基本无硬盘错误。</p>
+<p>这里切记全局禁止掉硬盘检查。</p>
+<h2 id="事后分析"><a href="#事后分析" class="headerlink" title="事后分析"></a>事后分析</h2><ol>
+<li>千万别买非官方店的硬盘，小白大概率翻车。送保尽量自己送到原厂保修。</li>
+<li>硬盘操作前都应该进行数据备份</li>
+<li>别买群晖低端家用版，硬盘缓存会减小硬盘寿命（硬盘坏道集中在硬盘前部扇区）</li>
+<li>准备这个双十一试水威联通中端机器。</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1595373681.jpg"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>关于这个博客</title>
+    <url>/2020/07/23/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<p>##这个博客是从typecho移植过来的，为了能够使用github更好的全球分发，并且更加稳定。<br>之前的文章很多都已经找不到了，主要是因为typecho稳定版中间的备份功能竟然有Bug，很烦！ （╯‵□′）╯︵┴─┴<br>后面会继续记录一些个人的心路历程和踩坑经验，希望以后能够绕坑而行。</p>
 ]]></content>
   </entry>
   <entry>
@@ -438,16 +435,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>如何在Windows10上挂载WebDav</title>
-    <url>/2020/07/31/%E5%A6%82%E4%BD%95%E5%9C%A8Windows10%E4%B8%8A%E6%8C%82%E8%BD%BDWebDav/</url>
-    <content><![CDATA[<p>由于FTP的安全性堪忧，所以很多时候使用网络驱动器都会使用到WebDav协议来传输文件。许多网盘，像坚果云，NextCloud, CloudReve, 群晖等等都支持了WebDav协议的网络硬盘挂载，这篇文章主要讲述如何在Windows平台上挂载WebDav。</p>
-<h3 id="打开此电脑，点击映射网络驱动器"><a href="#打开此电脑，点击映射网络驱动器" class="headerlink" title="打开此电脑，点击映射网络驱动器"></a>打开此电脑，点击映射网络驱动器</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1669217597.png"><br>请确保是** 映射网络驱动器 <strong>，而不是</strong> 添加网络位置 **<br>亲测，添加网络位置无法挂载基于Https的WebDav网络驱动器。</p>
-<h3 id="输入WebDav的url"><a href="#输入WebDav的url" class="headerlink" title="输入WebDav的url"></a>输入WebDav的url</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1251071193.png"><br>确保访问的路径正确，可以直接向提供者询问。</p>
-<h3 id="输入凭据"><a href="#输入凭据" class="headerlink" title="输入凭据"></a>输入凭据</h3><p>因为WebDav相较于FTP更为安全，是不允许匿名访问的，这里需要填写提供商提供的Webdav登录用户名和密码，<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/805380419.jpg"></p>
-<h3 id="返回到Windows资源管理器"><a href="#返回到Windows资源管理器" class="headerlink" title="返回到Windows资源管理器"></a>返回到Windows资源管理器</h3><p>如果前面的步骤都没有报错的话，这一步应该能在此电脑这个界面看到新挂载的WebDav驱动器了</p>
-]]></content>
-  </entry>
-  <entry>
     <title>如何在OpenWrt软路由上设置OpenClash</title>
     <url>/2020/09/22/%E5%A6%82%E4%BD%95%E5%9C%A8OpenWrt%E8%BD%AF%E8%B7%AF%E7%94%B1%E4%B8%8A%E8%AE%BE%E7%BD%AEOpenClash/</url>
     <content><![CDATA[<h2 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h2><p><em><strong>这篇文章可能违反了中国大陆的法律规定。如果您在中国大陆，请立刻离开。请勿转载和传播，否则可能受到中国大陆法律的处罚或制裁。</strong></em></p>
@@ -510,6 +497,16 @@
 <li>ＤＮＳ劫持：拉到最下面，修改自定义ＨＯＳＴＳ文件。</li>
 </ol>
 <h3 id="完成设置"><a href="#完成设置" class="headerlink" title="完成设置"></a>完成设置</h3><p>到这里应该所有设置就完成了，如果需要询问，请发邮件至博主邮箱，或者通过自己的方式联系到我。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>如何在Windows10上挂载WebDav</title>
+    <url>/2020/07/31/%E5%A6%82%E4%BD%95%E5%9C%A8Windows10%E4%B8%8A%E6%8C%82%E8%BD%BDWebDav/</url>
+    <content><![CDATA[<p>由于FTP的安全性堪忧，所以很多时候使用网络驱动器都会使用到WebDav协议来传输文件。许多网盘，像坚果云，NextCloud, CloudReve, 群晖等等都支持了WebDav协议的网络硬盘挂载，这篇文章主要讲述如何在Windows平台上挂载WebDav。</p>
+<h3 id="打开此电脑，点击映射网络驱动器"><a href="#打开此电脑，点击映射网络驱动器" class="headerlink" title="打开此电脑，点击映射网络驱动器"></a>打开此电脑，点击映射网络驱动器</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1669217597.png"><br>请确保是** 映射网络驱动器 <strong>，而不是</strong> 添加网络位置 **<br>亲测，添加网络位置无法挂载基于Https的WebDav网络驱动器。</p>
+<h3 id="输入WebDav的url"><a href="#输入WebDav的url" class="headerlink" title="输入WebDav的url"></a>输入WebDav的url</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1251071193.png"><br>确保访问的路径正确，可以直接向提供者询问。</p>
+<h3 id="输入凭据"><a href="#输入凭据" class="headerlink" title="输入凭据"></a>输入凭据</h3><p>因为WebDav相较于FTP更为安全，是不允许匿名访问的，这里需要填写提供商提供的Webdav登录用户名和密码，<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/805380419.jpg"></p>
+<h3 id="返回到Windows资源管理器"><a href="#返回到Windows资源管理器" class="headerlink" title="返回到Windows资源管理器"></a>返回到Windows资源管理器</h3><p>如果前面的步骤都没有报错的话，这一步应该能在此电脑这个界面看到新挂载的WebDav驱动器了</p>
 ]]></content>
   </entry>
   <entry>
