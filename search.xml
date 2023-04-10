@@ -643,6 +643,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo -g #install Hexo</span><br><span class="line">npm update hexo -g #update Hexo</span><br><span class="line">hexo init #initialize a new blog</span><br></pre></td></tr></table></figure>
 <p>Blog related commands:</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo n &quot;我的博客&quot; == hexo new &quot;我的博客&quot; #create a new post</span><br><span class="line">hexo g == hexo generate #Generate the blog</span><br><span class="line">hexo s == hexo server #start preview webserver</span><br><span class="line">hexo d == hexo deploy # deploy to remote server i.e Github</span><br></pre></td></tr></table></figure>
+<p>Preview server related commands:</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo server #Hexo will monitor the changes to files and update by itself. No need to reboot the server</span><br><span class="line">hexo server -s #static mode</span><br><span class="line">hexo server -p 5000 #change port</span><br><span class="line">hexo server -i 192.168.1.1 #set ip address</span><br><span class="line">hexo clean #clean cache</span><br></pre></td></tr></table></figure>
 ]]></content>
   </entry>
