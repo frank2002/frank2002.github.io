@@ -571,10 +571,7 @@
   <entry>
     <title>Linux上的Docker各种教程汇总</title>
     <url>/2020/07/26/Linux%E4%B8%8A%E7%9A%84Docker%E5%90%84%E7%A7%8D%E6%95%99%E7%A8%8B%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<span id="more"></span> 
-<p>Docker作为一个轻量型的虚拟容器，因为他能够使部署各种服务十分的方便简单，受到许多人的喜爱，这篇教程主要讲Docker从安装到部署的各种方法和注意事项。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3123926452.png" alt="docker"></p>
-<!-- more --> 
-
+    <content><![CDATA[<p>Docker作为一个轻量型的虚拟容器，因为他能够使部署各种服务十分的方便简单，受到许多人的喜爱，这篇教程主要讲Docker从安装到部署的各种方法和注意事项。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3123926452.png" alt="docker"></p>
 <h2 id="各种系统上面部署Docker环境"><a href="#各种系统上面部署Docker环境" class="headerlink" title="各种系统上面部署Docker环境"></a>各种系统上面部署Docker环境</h2><p>docker的部署还是相对复杂的，好在，官方提供了一键部署脚本，配合上国内源，使我们能在各种地方轻松部署docker环境。</p>
 <h3 id="Centos脚本："><a href="#Centos脚本：" class="headerlink" title="Centos脚本："></a>Centos脚本：</h3><blockquote>
 <p>在任意目录下新建sh可执行文件：<br><code>vim DockerInstall.sh</code><br>复制粘贴以下内容（适用于“网络通畅”的主机）：</p>
