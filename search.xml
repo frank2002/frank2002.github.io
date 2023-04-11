@@ -8,6 +8,62 @@
 ]]></content>
   </entry>
   <entry>
+    <title>anaconda frequent commands</title>
+    <url>/2023/04/11/anaconda/</url>
+    <content><![CDATA[<h1 id="conda-related"><a href="#conda-related" class="headerlink" title="conda related"></a>conda related</h1><p>view conda version</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda --version</span><br><span class="line">conda info</span><br></pre></td></tr></table></figure>
+
+<p>Update conda</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda update conda</span><br></pre></td></tr></table></figure>
+
+<h1 id="env-related"><a href="#env-related" class="headerlink" title="env related"></a>env related</h1><p>Create virtual envs</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda create --name evname</span><br></pre></td></tr></table></figure>
+
+<p>Create envs with specific version</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda create --name python36 python=3.6</span><br></pre></td></tr></table></figure>
+
+<p>Activate env</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda activate envname</span><br></pre></td></tr></table></figure>
+
+<p>Go back to previous env</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda deactivate</span><br></pre></td></tr></table></figure>
+
+<p>List existing envs</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda info -e</span><br></pre></td></tr></table></figure>
+
+<p>Remove envs</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda remove --name envname --all</span><br></pre></td></tr></table></figure>
+
+<p>Clone env</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda create --name clone_env --clone envname</span><br></pre></td></tr></table></figure>
+
+<h1 id="Package-related"><a href="#Package-related" class="headerlink" title="Package related"></a>Package related</h1><p>Install a package</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda install packagename</span><br></pre></td></tr></table></figure>
+
+<p>Update a package </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda update packagename</span><br></pre></td></tr></table></figure>
+
+<p>Update all packages</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda update --all</span><br></pre></td></tr></table></figure>
+
+<p>Remove a package</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda remove packagename</span><br></pre></td></tr></table></figure>
+
+<h1 id="Sharing-conda-env"><a href="#Sharing-conda-env" class="headerlink" title="Sharing conda env"></a>Sharing conda env</h1><p>Export a env as a config file</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br></pre></td></tr></table></figure>
+
+<p>Create a env from a config file</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
+
+
+
+
+]]></content>
+      <tags>
+        <tag>command notes</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo frequent commands</title>
     <url>/2023/04/10/commands/</url>
     <content><![CDATA[<p><em><strong>This post is only about several commands that will be used during updating this blog.</strong></em></p>

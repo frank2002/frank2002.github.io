@@ -20,19 +20,20 @@
     var CONFIG = {"hostname":"page.frankutils.xyz","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="##这个博客是从typecho移植过来的，为了能够使用github更好的全球分发，并且更加稳定。之前的文章很多都已经找不到了，主要是因为typecho稳定版中间的备份功能竟然有Bug，很烦！ （╯‵□′）╯︵┴─┴后面会继续记录一些个人的心路历程和踩坑经验，希望以后能够绕坑而行。">
+  <meta name="description" content="conda relatedview conda version">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于这个博客">
-<meta property="og:url" content="https://page.frankutils.xyz/2020/07/23/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:title" content="anaconda frequent commands">
+<meta property="og:url" content="https://page.frankutils.xyz/2023/04/11/anaconda/index.html">
 <meta property="og:site_name" content="Fs Page">
-<meta property="og:description" content="##这个博客是从typecho移植过来的，为了能够使用github更好的全球分发，并且更加稳定。之前的文章很多都已经找不到了，主要是因为typecho稳定版中间的备份功能竟然有Bug，很烦！ （╯‵□′）╯︵┴─┴后面会继续记录一些个人的心路历程和踩坑经验，希望以后能够绕坑而行。">
+<meta property="og:description" content="conda relatedview conda version">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-07-23T14:26:43.000Z">
-<meta property="article:modified_time" content="2023-04-10T14:42:25.459Z">
+<meta property="article:published_time" content="2023-04-11T09:10:21.000Z">
+<meta property="article:modified_time" content="2023-04-11T09:17:33.206Z">
 <meta property="article:author" content="Frank W">
+<meta property="article:tag" content="command notes">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://page.frankutils.xyz/2020/07/23/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2/">
+<link rel="canonical" href="https://page.frankutils.xyz/2023/04/11/anaconda/">
 
 
 <script id="page-configurations">
@@ -45,7 +46,7 @@
   };
 </script>
 
-  <title>关于这个博客 | Fs Page</title>
+  <title>anaconda frequent commands | Fs Page</title>
   
 
 
@@ -179,7 +180,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://page.frankutils.xyz/2020/07/23/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2/">
+    <link itemprop="mainEntityOfPage" href="https://page.frankutils.xyz/2023/04/11/anaconda/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -192,7 +193,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          关于这个博客
+          anaconda frequent commands
         </h1>
 
         <div class="post-meta">
@@ -201,16 +202,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-07-23 16:26:43" itemprop="dateCreated datePublished" datetime="2020-07-23T16:26:43+02:00">2020-07-23</time>
+              <time title="Created: 2023-04-11 11:10:21 / Modified: 11:17:33" itemprop="dateCreated datePublished" datetime="2023-04-11T11:10:21+02:00">2023-04-11</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-04-10 16:42:25" itemprop="dateModified" datetime="2023-04-10T16:42:25+02:00">2023-04-10</time>
-              </span>
 
           <br>
             <span class="post-meta-item" title="Symbols count in article">
@@ -218,7 +213,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>140</span>
+              <span>756</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -237,7 +232,54 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>##这个博客是从typecho移植过来的，为了能够使用github更好的全球分发，并且更加稳定。<br>之前的文章很多都已经找不到了，主要是因为typecho稳定版中间的备份功能竟然有Bug，很烦！ （╯‵□′）╯︵┴─┴<br>后面会继续记录一些个人的心路历程和踩坑经验，希望以后能够绕坑而行。</p>
+        <h1 id="conda-related"><a href="#conda-related" class="headerlink" title="conda related"></a>conda related</h1><p>view conda version</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda --version</span><br><span class="line">conda info</span><br></pre></td></tr></table></figure>
+
+<p>Update conda</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda update conda</span><br></pre></td></tr></table></figure>
+
+<h1 id="env-related"><a href="#env-related" class="headerlink" title="env related"></a>env related</h1><p>Create virtual envs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create --name evname</span><br></pre></td></tr></table></figure>
+
+<p>Create envs with specific version</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create --name python36 python=3.6</span><br></pre></td></tr></table></figure>
+
+<p>Activate env</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda activate envname</span><br></pre></td></tr></table></figure>
+
+<p>Go back to previous env</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda deactivate</span><br></pre></td></tr></table></figure>
+
+<p>List existing envs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda info -e</span><br></pre></td></tr></table></figure>
+
+<p>Remove envs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda remove --name envname --all</span><br></pre></td></tr></table></figure>
+
+<p>Clone env</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create --name clone_env --clone envname</span><br></pre></td></tr></table></figure>
+
+<h1 id="Package-related"><a href="#Package-related" class="headerlink" title="Package related"></a>Package related</h1><p>Install a package</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install packagename</span><br></pre></td></tr></table></figure>
+
+<p>Update a package </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda update packagename</span><br></pre></td></tr></table></figure>
+
+<p>Update all packages</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda update --all</span><br></pre></td></tr></table></figure>
+
+<p>Remove a package</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda remove packagename</span><br></pre></td></tr></table></figure>
+
+<h1 id="Sharing-conda-env"><a href="#Sharing-conda-env" class="headerlink" title="Sharing conda env"></a>Sharing conda env</h1><p>Export a env as a config file</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br></pre></td></tr></table></figure>
+
+<p>Create a env from a config file</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
+
+
+
+
 
     </div>
 
@@ -246,17 +288,20 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/command-notes/" rel="tag"># command notes</a>
+          </div>
 
         
 
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2020/07/23/Linux%E5%AF%B9%E4%BA%8E%E6%89%A9%E5%B1%95%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA%E5%AE%B9%E9%87%8F%E7%9A%84%E6%96%B9%E5%BC%8F/" rel="next" title="Linux对于扩展系统分区容量的方式">
-      Linux对于扩展系统分区容量的方式 <i class="fa fa-chevron-right"></i>
+    <a href="/2023/04/10/announcement/" rel="prev" title="Announcement / 须知">
+      <i class="fa fa-chevron-left"></i> Announcement / 须知
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -316,6 +361,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#conda-related"><span class="nav-number">1.</span> <span class="nav-text">conda related</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#env-related"><span class="nav-number">2.</span> <span class="nav-text">env related</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Package-related"><span class="nav-number">3.</span> <span class="nav-text">Package related</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sharing-conda-env"><span class="nav-number">4.</span> <span class="nav-text">Sharing conda env</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -436,7 +482,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'frank2002.github.io',
       owner       : 'frank2002',
       admin       : ['frank2002'],
-      id          : '80f135f7d7a4d49f0d89c5ffc308a383',
+      id          : 'd332abd25d042694c5929243b4093a09',
         language: '',
       distractionFreeMode: true
     });
