@@ -32,7 +32,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda info -e</span><br></pre></td></tr></table></figure>
 
 <p>Remove envs</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda remove --name envname --all</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env remove --n envname</span><br></pre></td></tr></table></figure>
 
 <p>Clone env</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda create --name clone_env --clone envname</span><br></pre></td></tr></table></figure>
