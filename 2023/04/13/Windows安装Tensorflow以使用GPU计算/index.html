@@ -20,19 +20,24 @@
     var CONFIG = {"hostname":"page.frankutils.xyz","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-2}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="##这个博客是从typecho移植过来的，为了能够使用github更好的全球分发，并且更加稳定。之前的文章很多都已经找不到了，主要是因为typecho稳定版中间的备份功能竟然有Bug，很烦！ （╯‵□′）╯︵┴─┴后面会继续记录一些个人的心路历程和踩坑经验，希望以后能够绕坑而行。">
+  <meta name="description" content="最近ML课大量使用Tensorflow进行计算，并且卷积神经网络的计算量较大，因此我决定使用我的RTX3070Ti进行计算加速，增加生产力。本文记录了我在Windows 10上安装Tensorflow以使用GPU计算的过程。 版本选择">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于这个博客">
-<meta property="og:url" content="https://page.frankutils.xyz/2020/07/23/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:title" content="Windows安装Tensorflow以使用GPU计算">
+<meta property="og:url" content="https://page.frankutils.xyz/2023/04/13/Windows%E5%AE%89%E8%A3%85Tensorflow%E4%BB%A5%E4%BD%BF%E7%94%A8GPU%E8%AE%A1%E7%AE%97/index.html">
 <meta property="og:site_name" content="Fs Page">
-<meta property="og:description" content="##这个博客是从typecho移植过来的，为了能够使用github更好的全球分发，并且更加稳定。之前的文章很多都已经找不到了，主要是因为typecho稳定版中间的备份功能竟然有Bug，很烦！ （╯‵□′）╯︵┴─┴后面会继续记录一些个人的心路历程和踩坑经验，希望以后能够绕坑而行。">
+<meta property="og:description" content="最近ML课大量使用Tensorflow进行计算，并且卷积神经网络的计算量较大，因此我决定使用我的RTX3070Ti进行计算加速，增加生产力。本文记录了我在Windows 10上安装Tensorflow以使用GPU计算的过程。 版本选择">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-07-23T14:26:43.000Z">
-<meta property="article:modified_time" content="2023-04-10T14:42:25.459Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_094853.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_095051.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_102036.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_102624.png">
+<meta property="article:published_time" content="2023-04-13T21:50:45.000Z">
+<meta property="article:modified_time" content="2023-04-14T08:29:23.951Z">
 <meta property="article:author" content="Frank W">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_094853.png">
 
-<link rel="canonical" href="https://page.frankutils.xyz/2020/07/23/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2/">
+<link rel="canonical" href="https://page.frankutils.xyz/2023/04/13/Windows%E5%AE%89%E8%A3%85Tensorflow%E4%BB%A5%E4%BD%BF%E7%94%A8GPU%E8%AE%A1%E7%AE%97/">
 
 
 <script id="page-configurations">
@@ -45,7 +50,7 @@
   };
 </script>
 
-  <title>关于这个博客 | Fs Page</title>
+  <title>Windows安装Tensorflow以使用GPU计算 | Fs Page</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-435WK0REB6"></script>
     <script>
@@ -188,7 +193,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://page.frankutils.xyz/2020/07/23/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2/">
+    <link itemprop="mainEntityOfPage" href="https://page.frankutils.xyz/2023/04/13/Windows%E5%AE%89%E8%A3%85Tensorflow%E4%BB%A5%E4%BD%BF%E7%94%A8GPU%E8%AE%A1%E7%AE%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -201,7 +206,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          关于这个博客
+          Windows安装Tensorflow以使用GPU计算
         </h1>
 
         <div class="post-meta">
@@ -211,14 +216,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-23 16:26:43" itemprop="dateCreated datePublished" datetime="2020-07-23T16:26:43+02:00">2020-07-23</time>
+              <time title="Created: 2023-04-13 23:50:45" itemprop="dateCreated datePublished" datetime="2023-04-13T23:50:45+02:00">2023-04-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-04-10 16:42:25" itemprop="dateModified" datetime="2023-04-10T16:42:25+02:00">2023-04-10</time>
+                <time title="Modified: 2023-04-14 10:29:23" itemprop="dateModified" datetime="2023-04-14T10:29:23+02:00">2023-04-14</time>
               </span>
 
           <br>
@@ -227,7 +232,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>140</span>
+              <span>1.3k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -246,7 +251,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>##这个博客是从typecho移植过来的，为了能够使用github更好的全球分发，并且更加稳定。<br>之前的文章很多都已经找不到了，主要是因为typecho稳定版中间的备份功能竟然有Bug，很烦！ （╯‵□′）╯︵┴─┴<br>后面会继续记录一些个人的心路历程和踩坑经验，希望以后能够绕坑而行。</p>
+        <p>最近ML课大量使用Tensorflow进行计算，并且卷积神经网络的计算量较大，因此我决定使用我的RTX3070Ti进行计算加速，增加生产力。本文记录了我在Windows 10上安装Tensorflow以使用GPU计算的过程。</p>
+<h1 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h1><p>本文安装的是<strong>Tensorflow 2.10.0</strong> 版本。此版本为Windows最后一个原生支持GPU计算的版本。自从Tensorflow 2.11开始，如需在Windows上使用Tensorflow GPU，需要使用WSL或者虚拟机。本文不会讨论WSL或者虚拟机的安装，如需了解，请自行搜索。<br>CUDA和cuDNN的版本选择<br>Tensorflow 2.10.0支持CUDA 11.2和cuDNN 8.1。因此，我们需要安装这两个版本的软件。<br>本文使用<strong>Anaconda</strong>进行安装</p>
+<p><em>建议不要使用过旧版本的Tensorflow，过老版本会存在很多的依赖问题。</em></p>
+<h1 id="安装CUDA"><a href="#安装CUDA" class="headerlink" title="安装CUDA"></a>安装CUDA</h1><p>从NVDIA官网上下载CUDA 11.2的安装包。<br><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-11.2.0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10">传送门</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_094853.png"><br>下载完成后运行安装包，根据提示完成安装。</p>
+<h1 id="安装cuDNN"><a href="#安装cuDNN" class="headerlink" title="安装cuDNN"></a>安装cuDNN</h1><p>从NVDIA官网上下载cuDNN 8.1的安装包。<br><a target="_blank" rel="noopener" href="https://developer.nvidia.com/rdp/cudnn-archive">传送门</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_095051.png"><br>下载完成后解压缩，将解压缩后的文件夹复制到CUDA的安装目录下。<br>默认安装目录为<code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2</code>。<br>将压缩包内的文件直接与CUDA目录合并即可。</p>
+<h1 id="安装Anaconda"><a href="#安装Anaconda" class="headerlink" title="安装Anaconda"></a>安装Anaconda</h1><p>从Anaconda官网上下载Anaconda 3的安装包。<br><a target="_blank" rel="noopener" href="https://www.anaconda.com/products/individual">传送门</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_102036.png"><br>根据提示完成安装。建议不要勾选添加PATH环境变量。</p>
+<h1 id="创建conda虚拟环境"><a href="#创建conda虚拟环境" class="headerlink" title="创建conda虚拟环境"></a>创建conda虚拟环境</h1><h2 id="创建一个新的env"><a href="#创建一个新的env" class="headerlink" title="创建一个新的env:"></a>创建一个新的env:</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create --name tensorflow python=3.9</span><br></pre></td></tr></table></figure>
+
+<h2 id="激活env"><a href="#激活env" class="headerlink" title="激活env:"></a>激活env:</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda activate tensorflow</span><br></pre></td></tr></table></figure>
+<p>接下来我们的操作都会在这个虚拟环境下进行，并不会影响到系统环境。</p>
+<p>如果需要查看更多Conda的常用命令，可以参考此文章<a href="https://page.frankutils.xyz/2023/04/11/anaconda/#more">传送门</a>, 或者直接在命令行中输入<code>conda</code>查看帮助。</p>
+<h1 id="安装Tensorflow"><a href="#安装Tensorflow" class="headerlink" title="安装Tensorflow"></a>安装Tensorflow</h1><h2 id="安装Tensorflow-2-10-0"><a href="#安装Tensorflow-2-10-0" class="headerlink" title="安装Tensorflow 2.10.0"></a>安装Tensorflow 2.10.0</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install tensorflow==2.10.0</span><br></pre></td></tr></table></figure>
+<p>如果没有任何报错的话，此时Tensorflow已经安装完成了。</p>
+<p>接下来可以自行安装其余的包，如numpy，matplotlib等。</p>
+<h1 id="测试Tensorflow"><a href="#测试Tensorflow" class="headerlink" title="测试Tensorflow"></a>测试Tensorflow</h1><h2 id="测试Tensorflow是否安装成功"><a href="#测试Tensorflow是否安装成功" class="headerlink" title="测试Tensorflow是否安装成功"></a>测试Tensorflow是否安装成功</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="built_in">print</span>(tf.__version__)</span><br></pre></td></tr></table></figure>
+<p>如果输出的版本号为2.10.0，则说明Tensorflow安装成功。</p>
+<h2 id="测试Tensorflow是否支持GPU"><a href="#测试Tensorflow是否支持GPU" class="headerlink" title="测试Tensorflow是否支持GPU"></a>测试Tensorflow是否支持GPU</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.config.list_physical_devices(<span class="string">&#x27;GPU&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>如果输出的结果为<code>[PhysicalDevice(name=&#39;/physical_device:GPU:0&#39;, device_type=&#39;GPU&#39;)]</code>，则说明Tensorflow支持GPU。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_102624.png"></p>
 
     </div>
 
@@ -261,11 +283,11 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2020/07/23/Linux%E5%AF%B9%E4%BA%8E%E6%89%A9%E5%B1%95%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA%E5%AE%B9%E9%87%8F%E7%9A%84%E6%96%B9%E5%BC%8F/" rel="next" title="Linux对于扩展系统分区容量的方式">
-      Linux对于扩展系统分区容量的方式 <i class="fa fa-chevron-right"></i>
+    <a href="/2023/04/11/anaconda/" rel="prev" title="anaconda frequent commands">
+      <i class="fa fa-chevron-left"></i> anaconda frequent commands
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -325,6 +347,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E9%80%89%E6%8B%A9"><span class="nav-number">1.</span> <span class="nav-text">版本选择</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85CUDA"><span class="nav-number">2.</span> <span class="nav-text">安装CUDA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85cuDNN"><span class="nav-number">3.</span> <span class="nav-text">安装cuDNN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Anaconda"><span class="nav-number">4.</span> <span class="nav-text">安装Anaconda</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAconda%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83"><span class="nav-number">5.</span> <span class="nav-text">创建conda虚拟环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84env"><span class="nav-number">5.1.</span> <span class="nav-text">创建一个新的env:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BF%80%E6%B4%BBenv"><span class="nav-number">5.2.</span> <span class="nav-text">激活env:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Tensorflow"><span class="nav-number">6.</span> <span class="nav-text">安装Tensorflow</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Tensorflow-2-10-0"><span class="nav-number">6.1.</span> <span class="nav-text">安装Tensorflow 2.10.0</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95Tensorflow"><span class="nav-number">7.</span> <span class="nav-text">测试Tensorflow</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95Tensorflow%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F"><span class="nav-number">7.1.</span> <span class="nav-text">测试Tensorflow是否安装成功</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95Tensorflow%E6%98%AF%E5%90%A6%E6%94%AF%E6%8C%81GPU"><span class="nav-number">7.2.</span> <span class="nav-text">测试Tensorflow是否支持GPU</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -445,7 +468,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'frank2002.github.io',
       owner       : 'frank2002',
       admin       : ['frank2002'],
-      id          : '80f135f7d7a4d49f0d89c5ffc308a383',
+      id          : '5e68179ab4b1877afb09c5cc8825963f',
         language: '',
       distractionFreeMode: false
     });
