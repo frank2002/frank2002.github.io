@@ -7,7 +7,7 @@ docker可以根据需要将编译成果或者整个Lede目录挂载到本机方�
 不喜勿喷，大佬勿喷。
 
 使用Docker编译环境拉取镜像请前往dockerHub拉取镜像，传送门。选择最新的docker镜像的tag进行拉取：
-1docker pull frank921/opcompi.."><meta name="generator" content="Hexo 6.3.0"></head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">J. Wang's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">使用Docker拉取OP编译环境并进行编译</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E"><span class="toc-text">声明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Docker%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83"><span class="toc-text">使用Docker编译环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F"><span class="toc-text">拉取镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E9%95%9C%E5%83%8F"><span class="toc-text">部署镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E5%88%AB%E6%8F%90%E7%A4%BA"><span class="toc-text">特别提示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%AE%8C%E6%88%90"><span class="toc-text">编译完成</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Enjoy"><span class="toc-text">Enjoy!</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%B9%E5%88%AB%E9%B8%A3%E8%B0%A2"><span class="toc-text">特别鸣谢</span></a></div><div class="column is-9"><header class="my-4"></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">使用Docker拉取OP编译环境并进行编译</h1><time class="has-text-grey" datetime="2022-04-21T14:49:18.000Z">2022-04-21</time><article class="mt-2 post-content"><p>最近台式机电脑电源坏了，送厂返修，很长一段时间没有台式机用，遂决定使用安装了OMV的小主机进行编译。由于系统版本较老，安装环境无法成功，于是使用Ubuntu-docker进行环境的搭建，并打包上传到DockerHub，以便下次使用，并且节省空间。<br><img src="https://raw.githubusercontent.com/docker-library/docs/c350af05d3fac7b5c3f6327ac82fe4d990d8729c/docker/logo.png"></p>
+docker pull frank921/opcompil.."><meta name="generator" content="Hexo 6.3.0"></head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">J. Wang's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">使用Docker拉取OP编译环境并进行编译</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E"><span class="toc-text">声明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Docker%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83"><span class="toc-text">使用Docker编译环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F"><span class="toc-text">拉取镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E9%95%9C%E5%83%8F"><span class="toc-text">部署镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E5%88%AB%E6%8F%90%E7%A4%BA"><span class="toc-text">特别提示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%AE%8C%E6%88%90"><span class="toc-text">编译完成</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Enjoy"><span class="toc-text">Enjoy!</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%B9%E5%88%AB%E9%B8%A3%E8%B0%A2"><span class="toc-text">特别鸣谢</span></a></div><div class="column is-9"><header class="my-4"></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">使用Docker拉取OP编译环境并进行编译</h1><time class="has-text-grey" datetime="2022-04-21T14:49:18.000Z">2022-04-21</time><article class="mt-2 post-content"><p>最近台式机电脑电源坏了，送厂返修，很长一段时间没有台式机用，遂决定使用安装了OMV的小主机进行编译。由于系统版本较老，安装环境无法成功，于是使用Ubuntu-docker进行环境的搭建，并打包上传到DockerHub，以便下次使用，并且节省空间。<br><img src="https://raw.githubusercontent.com/docker-library/docs/c350af05d3fac7b5c3f6327ac82fe4d990d8729c/docker/logo.png"></p>
 <h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><ul>
 <li>此次只是博主的一次尝试，docker image并没有进行精简，提及可能会比较大。</li>
 <li>op的一些包已经下载完成，减少多次下载的烦恼。</li>
@@ -15,50 +15,57 @@ docker可以根据需要将编译成果或者整个Lede目录挂载到本机方�
 <li>不喜勿喷，大佬勿喷。</li>
 </ul>
 <h1 id="使用Docker编译环境"><a href="#使用Docker编译环境" class="headerlink" title="使用Docker编译环境"></a>使用Docker编译环境</h1><h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><p>请前往dockerHub拉取镜像，<a target="_blank" rel="noopener" href="https://hub.docker.com/repository/docker/frank921/opcompile">传送门</a>。选择最新的docker镜像的tag进行拉取：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull frank921/opcompile:v3</span><br></pre></td></tr></table></figure>
-
+<pre><code>docker pull frank921/opcompile:v3
+</code></pre>
 <p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1230477398.png"></p>
-<h3 id="部署镜像"><a href="#部署镜像" class="headerlink" title="部署镜像"></a>部署镜像</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd --name opcompile frank921/opcompile:v3</span><br></pre></td></tr></table></figure>
-
+<h3 id="部署镜像"><a href="#部署镜像" class="headerlink" title="部署镜像"></a>部署镜像</h3><pre><code>docker run -itd --name opcompile frank921/opcompile:v3
+</code></pre>
 <p>通过docker exec 进入容器并进行编译操作。<br><em>注意：这里可以通过 -v 参数添加目录映射，具体请查询docker文档</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it opcompile /bin/bash</span><br></pre></td></tr></table></figure>
-
+<pre><code>docker exec -it opcompile /bin/bash
+</code></pre>
 <p>由于openwrt的编译程序不支持使用root用户进行编译，切换至lede用户进行编译并进入lede主目录:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su lede</span><br><span class="line">cd ~/lede</span><br></pre></td></tr></table></figure>
-
+<pre><code>su lede
+cd ~/lede
+</code></pre>
 <p><strong>lede用户的用户密码默认是12345678，为了安全性，请及时更改</strong></p>
 <p>进行环境更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update -y</span><br><span class="line">sudo apt full-upgrade -y</span><br></pre></td></tr></table></figure>
-
+<pre><code>sudo apt update -y
+sudo apt full-upgrade -y
+</code></pre>
 <p>进行仓库更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br><span class="line">./scripts/feeds update -a</span><br><span class="line">./scripts/feeds install -a</span><br><span class="line">make defconfig</span><br></pre></td></tr></table></figure>
-
+<pre><code>git pull
+./scripts/feeds update -a
+./scripts/feeds install -a
+make defconfig
+</code></pre>
 <p>默认配置文件中我加入了一些常用插件，如果不需要这类插件，输入：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ./tmp &amp;&amp; rm -rf .config</span><br></pre></td></tr></table></figure>
-
+<pre><code>rm -rf ./tmp &amp;&amp; rm -rf .config
+</code></pre>
 <p>然后进入编译流程：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br><span class="line">make download -j8</span><br><span class="line">make V=s -j$(nproc)</span><br></pre></td></tr></table></figure>
-
+<pre><code>make menuconfig
+make download -j8
+make V=s -j$(nproc)
+</code></pre>
 <h4 id="特别提示"><a href="#特别提示" class="headerlink" title="特别提示"></a>特别提示</h4><p>由于编译过程ssh不能中断，在网络较差的环境下，请使用screen进行持久化。<br>创建窗口：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen -S compiler</span><br></pre></td></tr></table></figure>
-
+<pre><code>screen -S compiler
+</code></pre>
 <p>此时会进入窗口，可以进行编译操作，如果要推出窗口，请按 <code> Ctrl +AD</code> （按住Ctrl,一次按下A和D）<br>此时就能退出窗口<br>连接回窗口：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen -r compiler</span><br></pre></td></tr></table></figure>
-
+<pre><code>screen -r compiler
+</code></pre>
 <p>如果发现因为窗口Attached无法连接，可以输入:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen -d compiler</span><br></pre></td></tr></table></figure>
-
+<pre><code>screen -d compiler
+</code></pre>
 <p>分离会话，然后输入：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen -r compiler</span><br></pre></td></tr></table></figure>
-
+<pre><code>screen -r compiler
+</code></pre>
 <p>进入会话。</p>
 <h3 id="编译完成"><a href="#编译完成" class="headerlink" title="编译完成"></a>编译完成</h3><p>当无错误编译完成以后，可以进入bin&#x2F;targets找到相应的固件。<br>进入主机，输入：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
-
+<pre><code>docker ps
+</code></pre>
 <p>查询相应容器ID。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2389212853.png"><br>记住ID</p>
 <p>输入：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp 容器ID:/home/lede/lede/bin/targets 主机目录</span><br></pre></td></tr></table></figure>
-
+<pre><code>docker cp 容器ID:/home/lede/lede/bin/targets 主机目录
+</code></pre>
 <p>复制完成固件，复制过程会等待几分钟，正常现象。<br>接着进入主机相应目录获取固件。</p>
 <h1 id="Enjoy"><a href="#Enjoy" class="headerlink" title="Enjoy!"></a>Enjoy!</h1><h1 id="特别鸣谢"><a href="#特别鸣谢" class="headerlink" title="特别鸣谢"></a>特别鸣谢</h1><p><a target="_blank" rel="noopener" href="https://github.com/coolsnowwolf/lede">https://github.com/coolsnowwolf/lede</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/kenzok8/openwrt-packages">https://github.com/kenzok8/openwrt-packages</a></p>

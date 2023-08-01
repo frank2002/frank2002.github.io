@@ -1,51 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Linux上的Docker各种教程汇总</title>
-    <url>/2020/07/26/Linux%E4%B8%8A%E7%9A%84Docker%E5%90%84%E7%A7%8D%E6%95%99%E7%A8%8B%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<p>Docker作为一个轻量型的虚拟容器，因为他能够使部署各种服务十分的方便简单，受到许多人的喜爱，这篇教程主要讲Docker从安装到部署的各种方法和注意事项。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3123926452.png" alt="docker"></p>
-<h2 id="各种系统上面部署Docker环境"><a href="#各种系统上面部署Docker环境" class="headerlink" title="各种系统上面部署Docker环境"></a>各种系统上面部署Docker环境</h2><p>docker的部署还是相对复杂的，好在，官方提供了一键部署脚本，配合上国内源，使我们能在各种地方轻松部署docker环境。</p>
-<h3 id="Centos脚本："><a href="#Centos脚本：" class="headerlink" title="Centos脚本："></a>Centos脚本：</h3><blockquote>
-<p>在任意目录下新建sh可执行文件：<br><code>vim DockerInstall.sh</code><br>复制粘贴以下内容（适用于“网络通畅”的主机）：</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"># remove old version</span><br><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine</span><br><span class="line"></span><br><span class="line"># remove all docker data </span><br><span class="line">sudo rm -rf /var/lib/docker</span><br><span class="line"></span><br><span class="line">#  preinstall utils </span><br><span class="line">sudo yum install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-data \</span><br><span class="line">  lvm2</span><br><span class="line"></span><br><span class="line"># add repository</span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"></span><br><span class="line"># make cache</span><br><span class="line">sudo yum makecache fast</span><br><span class="line"></span><br><span class="line"># install the latest stable version of docker</span><br><span class="line">sudo yum install -y docker-ce</span><br><span class="line"></span><br><span class="line"># start deamon and enable auto start when power on</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl enable docker</span><br><span class="line"></span><br><span class="line"># add current user </span><br><span class="line">sudo groupadd docker</span><br><span class="line">sudo gpasswd -a $&#123;USER&#125; docker</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>对于网络“不通畅”的主机，我们则使用以下脚本：</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"># 移除掉旧的版本</span><br><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine</span><br><span class="line"></span><br><span class="line"># 删除所有旧的数据</span><br><span class="line">sudo rm -rf /var/lib/docker</span><br><span class="line"></span><br><span class="line">#  安装依赖包</span><br><span class="line">sudo yum install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-data \</span><br><span class="line">  lvm2</span><br><span class="line"></span><br><span class="line"># 添加源，使用了阿里云镜像</span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line"></span><br><span class="line"># 配置缓存</span><br><span class="line">sudo yum makecache fast</span><br><span class="line"></span><br><span class="line"># 安装最新稳定版本的docker</span><br><span class="line">sudo yum install -y docker-ce</span><br><span class="line"></span><br><span class="line"># 配置镜像加速器</span><br><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;http://hub-mirror.c.163.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"># 启动docker引擎并设置开机启动</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl enable docker</span><br><span class="line"></span><br><span class="line"># 配置当前用户对docker的执行权限</span><br><span class="line">sudo groupadd docker</span><br><span class="line">sudo gpasswd -a $&#123;USER&#125; docker</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="Debian和Ubuntu脚本："><a href="#Debian和Ubuntu脚本：" class="headerlink" title="Debian和Ubuntu脚本："></a>Debian和Ubuntu脚本：</h3><blockquote>
-<p>对于Debian和Ubuntu来说部署则简单许多，只需要运行以下命令：<br>网络通畅：<br><code>curl -sSL https://get.docker.com/ | sh</code></p>
-<p>网络不通畅（DaoCloud）:<br><code>curl -sSL https://get.daocloud.io/docker | sh</code><br>** 这个脚本相对阿里云的来说更快一点，但是有一些小众的docker速度不快，或者存在找不到的情况 **</p>
-<p>阿里云的：<br><code>curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -</code></p>
-</blockquote>
-<h3 id="配置Docker-Hub的镜像加速器"><a href="#配置Docker-Hub的镜像加速器" class="headerlink" title="配置Docker Hub的镜像加速器"></a>配置Docker Hub的镜像加速器</h3><blockquote>
-<p>国内访问 Docker Hub 有时会遇到困难，此时可以配置镜像加速器。国内很多云服 务商都提供了加速器服务</p>
-<p>阿里云的加速器地址：<a href="https://cr.console.aliyun.com/?spm=a2c4e.11153959.blogcont29941.9.699b69d6JE3Sgg#/accelerator">https://cr.console.aliyun.com/?spm=a2c4e.11153959.blogcont29941.9.699b69d6JE3Sgg#/accelerator</a></p>
-<p>针对Docker客户端版本大于1.10.0的用户 您可以通过修改daemon配置文件&#x2F;etc&#x2F;docker&#x2F;daemon.json（没有时新建该文件）来使用加速器:</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://xxx.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>修改后</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [&quot;&lt;your accelerate address&gt;&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h2><p>docker-compose支持用户使用一些现成的配置文件来部署一个容器，并且可定制性非常的强，适合开发者使用<br>安装命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install docker-compose</span><br></pre></td></tr></table></figure>
-
-<p>** 此处仅适用于Debian **</p>
-<hr>
-<h2 id="使用Protainer来管理docker"><a href="#使用Protainer来管理docker" class="headerlink" title="使用Protainer来管理docker"></a>使用Protainer来管理docker</h2><p>Protainer是一款轻量级的docker网页管理系统，并且功能相对强大，支持多个服务器同时管理，十分好用。<br>一键部署：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always --name portainer -v /var/run/docker.sock:/var/run/docker.sock -v /Users/lee/dev/docker_file/portainer/data:/data docker.io/portainer/portainer</span><br></pre></td></tr></table></figure>
-
-<p>外部端口号：9000</p>
-<hr>
-]]></content>
-  </entry>
-  <entry>
     <title>Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT</title>
     <url>/2021/08/16/Linux%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%8D%8E%E4%B8%BA%E4%BA%91DNS%EF%BC%88DDNS%EF%BC%89%E6%94%AF%E6%8C%81OPENWRT/</url>
     <content><![CDATA[<p>最近应朋友的需求，研究一个华为云的DDNS解决方式，并且支持OpenWRT和一些主流Linux发行版本。</p>
@@ -59,15 +14,30 @@
 <ul>
 <li>首先在脚本开头，修改个人配置</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#用户名</span></span><br><span class="line">username=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="comment">#账户名</span></span><br><span class="line">accountname=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="comment">#密码</span></span><br><span class="line">password=<span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#域名</span></span><br><span class="line">domain=<span class="string">&quot;example.com&quot;</span></span><br><span class="line"><span class="comment">#主机名</span></span><br><span class="line">host=<span class="string">&quot;www&quot;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">#用户名
+username=&quot;&quot;
+#账户名
+accountname=&quot;&quot;
+#密码
+password=&quot;&quot;
 
+#域名
+domain=&quot;example.com&quot;
+#主机名
+host=&quot;www&quot;
+</code></pre>
 <p>username与accountname都填你登陆的用户名，password填入密码</p>
 <p>domain填入你的顶级域名，hosts填入二级域名，如果想直接用顶级域名，将hosts改成<code>#</code></p>
 <ul>
 <li>填写IP获取方式</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#从外网api获取ip地址(开启1/关闭0 默认开启)</span></span><br><span class="line">REMOTE_RESOLVE=0</span><br><span class="line"></span><br><span class="line"><span class="comment">#从网卡获取ip地址(填写网卡名 如eth0 ens3 he-ipv6)</span></span><br><span class="line"><span class="comment">#并请根据实际情况填写sed行数(第96 98行处)</span></span><br><span class="line">INTERFACE=<span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">#从外网api获取ip地址(开启1/关闭0 默认开启)
+REMOTE_RESOLVE=0
 
+#从网卡获取ip地址(填写网卡名 如eth0 ens3 he-ipv6)
+#并请根据实际情况填写sed行数(第96 98行处)
+INTERFACE=&quot;&quot;
+</code></pre>
 <p>如果需要从网卡获取，将Interface改成对应的WAN口网卡。</p>
 <p>如果要从外网API获取，请将REMOTE_RESOLVE改成<code>1</code></p>
 <ul>
@@ -76,8 +46,9 @@
 </ul>
 <p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3653619456.png"></p>
 <h2 id="配置双栈"><a href="#配置双栈" class="headerlink" title="配置双栈"></a>配置双栈</h2><p>据脚本作者所说：</p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">本项目存在已知的BUG，由于华为云API采用模糊搜索策略，recordset可能存在多个返回值，这会导致解析记录无法正常更新。</span><br><span class="line">经确认，为华为云方面更能迭代，目前只支持recordset的模糊搜索，请谨慎使用本脚本！</span><br></pre></td></tr></table></figure>
-
+<pre><code class="markdown">本项目存在已知的BUG，由于华为云API采用模糊搜索策略，recordset可能存在多个返回值，这会导致解析记录无法正常更新。
+经确认，为华为云方面更能迭代，目前只支持recordset的模糊搜索，请谨慎使用本脚本！
+</code></pre>
 <p>并且按照未修改的脚本，AAAA记录会和A记录产生冲突，无法更新某一条记录。</p>
 <p>由此我们这里需要对脚本进行手动配置</p>
 <p>首先将A记录与AAAA记录同时添加完成。</p>
@@ -95,11 +66,210 @@
 <p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/227733475.png"></p>
 <p>记住Recordset_ID和Zone_ID，打开脚本</p>
 <p>在最后</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X PUT -L -k -s \</span><br><span class="line">    <span class="string">&quot;https://<span class="variable">$dns</span>/v2/zones/<span class="variable">$ZONE_ID</span>/recordsets/<span class="variable">$RECORDSET_ID</span>&quot;</span> \</span><br><span class="line">    -H <span class="string">&quot;Content-Type: application/json&quot;</span> \</span><br><span class="line">    -H <span class="string">&quot;X-Auth-Token: <span class="variable">$token</span>&quot;</span> \</span><br><span class="line">    -d <span class="string">&quot;&#123;\&quot;records\&quot;: [\&quot;<span class="variable">$TARGET_IP</span>\&quot;],\&quot;ttl\&quot;: 1&#125;&quot;</span></span><br><span class="line">logger -t <span class="string">&quot;【更新dns地址解析】&quot;</span> <span class="string">&quot;完成&quot;</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">curl -X PUT -L -k -s \
+    &quot;https://$dns/v2/zones/$ZONE_ID/recordsets/$RECORDSET_ID&quot; \
+    -H &quot;Content-Type: application/json&quot; \
+    -H &quot;X-Auth-Token: $token&quot; \
+    -d &quot;&#123;\&quot;records\&quot;: [\&quot;$TARGET_IP\&quot;],\&quot;ttl\&quot;: 1&#125;&quot;
+logger -t &quot;【更新dns地址解析】&quot; &quot;完成&quot;
+</code></pre>
 <p>中间的<code>$RECORDSET_ID</code> 和<code>$Zone_ID</code>替换成记事本中对应的值</p>
 <p>修改完成后上传Linux进行测试。</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Linux上的Docker各种教程汇总</title>
+    <url>/2020/07/26/Linux%E4%B8%8A%E7%9A%84Docker%E5%90%84%E7%A7%8D%E6%95%99%E7%A8%8B%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<p>Docker作为一个轻量型的虚拟容器，因为他能够使部署各种服务十分的方便简单，受到许多人的喜爱，这篇教程主要讲Docker从安装到部署的各种方法和注意事项。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3123926452.png" alt="docker"></p>
+<h2 id="各种系统上面部署Docker环境"><a href="#各种系统上面部署Docker环境" class="headerlink" title="各种系统上面部署Docker环境"></a>各种系统上面部署Docker环境</h2><p>docker的部署还是相对复杂的，好在，官方提供了一键部署脚本，配合上国内源，使我们能在各种地方轻松部署docker环境。</p>
+<h3 id="Centos脚本："><a href="#Centos脚本：" class="headerlink" title="Centos脚本："></a>Centos脚本：</h3><blockquote>
+<p>在任意目录下新建sh可执行文件：<br><code>vim DockerInstall.sh</code><br>复制粘贴以下内容（适用于“网络通畅”的主机）：</p>
+</blockquote>
+<pre><code>#!/bin/bash
+# remove old version
+sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-selinux \
+                  docker-engine-selinux \
+                  docker-engine
+
+# remove all docker data 
+sudo rm -rf /var/lib/docker
+
+#  preinstall utils 
+sudo yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+
+# add repository
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+# make cache
+sudo yum makecache fast
+
+# install the latest stable version of docker
+sudo yum install -y docker-ce
+
+# start deamon and enable auto start when power on
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# add current user 
+sudo groupadd docker
+sudo gpasswd -a $&#123;USER&#125; docker
+sudo systemctl restart docker
+</code></pre>
+<blockquote>
+<p>对于网络“不通畅”的主机，我们则使用以下脚本：</p>
+</blockquote>
+<pre><code>#!/bin/bash
+# 移除掉旧的版本
+sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-selinux \
+                  docker-engine-selinux \
+                  docker-engine
+
+# 删除所有旧的数据
+sudo rm -rf /var/lib/docker
+
+#  安装依赖包
+sudo yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+
+# 添加源，使用了阿里云镜像
+sudo yum-config-manager \
+    --add-repo \
+    http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+# 配置缓存
+sudo yum makecache fast
+
+# 安装最新稳定版本的docker
+sudo yum install -y docker-ce
+
+# 配置镜像加速器
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json &lt;&lt;-&#39;EOF&#39;
+&#123;
+  &quot;registry-mirrors&quot;: [&quot;http://hub-mirror.c.163.com&quot;]
+&#125;
+EOF
+
+# 启动docker引擎并设置开机启动
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# 配置当前用户对docker的执行权限
+sudo groupadd docker
+sudo gpasswd -a $&#123;USER&#125; docker
+sudo systemctl restart docker
+</code></pre>
+<h3 id="Debian和Ubuntu脚本："><a href="#Debian和Ubuntu脚本：" class="headerlink" title="Debian和Ubuntu脚本："></a>Debian和Ubuntu脚本：</h3><blockquote>
+<p>对于Debian和Ubuntu来说部署则简单许多，只需要运行以下命令：<br>网络通畅：<br><code>curl -sSL https://get.docker.com/ | sh</code></p>
+<p>网络不通畅（DaoCloud）:<br><code>curl -sSL https://get.daocloud.io/docker | sh</code><br>** 这个脚本相对阿里云的来说更快一点，但是有一些小众的docker速度不快，或者存在找不到的情况 **</p>
+<p>阿里云的：<br><code>curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -</code></p>
+</blockquote>
+<h3 id="配置Docker-Hub的镜像加速器"><a href="#配置Docker-Hub的镜像加速器" class="headerlink" title="配置Docker Hub的镜像加速器"></a>配置Docker Hub的镜像加速器</h3><blockquote>
+<p>国内访问 Docker Hub 有时会遇到困难，此时可以配置镜像加速器。国内很多云服 务商都提供了加速器服务</p>
+<p>阿里云的加速器地址：<a href="https://cr.console.aliyun.com/?spm=a2c4e.11153959.blogcont29941.9.699b69d6JE3Sgg#/accelerator">https://cr.console.aliyun.com/?spm=a2c4e.11153959.blogcont29941.9.699b69d6JE3Sgg#/accelerator</a></p>
+<p>针对Docker客户端版本大于1.10.0的用户 您可以通过修改daemon配置文件&#x2F;etc&#x2F;docker&#x2F;daemon.json（没有时新建该文件）来使用加速器:</p>
+</blockquote>
+<pre><code>sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json &lt;&lt;-&#39;EOF&#39;
+&#123;
+  &quot;registry-mirrors&quot;: [&quot;https://xxx.mirror.aliyuncs.com&quot;]
+&#125;
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+</code></pre>
+<blockquote>
+<p>修改后</p>
+</blockquote>
+<pre><code>&#123;
+    &quot;registry-mirrors&quot;: [&quot;&lt;your accelerate address&gt;&quot;]
+&#125;
+</code></pre>
+<hr>
+<h2 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h2><p>docker-compose支持用户使用一些现成的配置文件来部署一个容器，并且可定制性非常的强，适合开发者使用<br>安装命令：</p>
+<pre><code>apt install docker-compose
+</code></pre>
+<p>** 此处仅适用于Debian **</p>
+<hr>
+<h2 id="使用Protainer来管理docker"><a href="#使用Protainer来管理docker" class="headerlink" title="使用Protainer来管理docker"></a>使用Protainer来管理docker</h2><p>Protainer是一款轻量级的docker网页管理系统，并且功能相对强大，支持多个服务器同时管理，十分好用。<br>一键部署：</p>
+<pre><code>docker run -d -p 9000:9000 --restart=always --name portainer -v /var/run/docker.sock:/var/run/docker.sock -v /Users/lee/dev/docker_file/portainer/data:/data docker.io/portainer/portainer
+</code></pre>
+<p>外部端口号：9000</p>
+<hr>
+]]></content>
+  </entry>
+  <entry>
+    <title>anaconda frequent commands</title>
+    <url>/2023/04/11/anaconda/</url>
+    <content><![CDATA[<h1 id="conda-related"><a href="#conda-related" class="headerlink" title="conda related"></a>conda related</h1><p>view conda version</p>
+<pre><code>conda --version
+conda info
+</code></pre>
+<p>Update conda</p>
+<pre><code>conda update conda
+</code></pre>
+<h1 id="env-related"><a href="#env-related" class="headerlink" title="env related"></a>env related</h1><p>Create virtual envs</p>
+<pre><code>conda create --name evname
+</code></pre>
+<p>Create envs with specific version</p>
+<pre><code>conda create --name python36 python=3.6
+</code></pre>
+<p>Activate env</p>
+<pre><code>conda activate envname
+</code></pre>
+<p>Go back to previous env</p>
+<pre><code>conda deactivate
+</code></pre>
+<p>List existing envs</p>
+<pre><code>conda info -e
+</code></pre>
+<p>Remove envs</p>
+<pre><code>conda env remove --n envname
+</code></pre>
+<p>Clone env</p>
+<pre><code>conda create --name clone_env --clone envname
+</code></pre>
+<h1 id="Package-related"><a href="#Package-related" class="headerlink" title="Package related"></a>Package related</h1><p>Install a package</p>
+<pre><code>conda install packagename
+</code></pre>
+<p>Update a package </p>
+<pre><code>conda update packagename
+</code></pre>
+<p>Update all packages</p>
+<pre><code>conda update --all
+</code></pre>
+<p>Remove a package</p>
+<pre><code>conda remove packagename
+</code></pre>
+<h1 id="Sharing-conda-env"><a href="#Sharing-conda-env" class="headerlink" title="Sharing conda env"></a>Sharing conda env</h1><p>Export a env as a config file</p>
+<pre><code>conda env export &gt; environment.yml
+</code></pre>
+<p>Create a env from a config file</p>
+<pre><code>conda env create -f environment.yml
+</code></pre>
+]]></content>
+      <tags>
+        <tag>command notes</tag>
+      </tags>
   </entry>
   <entry>
     <title>Linux对于扩展系统分区容量的方式</title>
@@ -108,29 +278,61 @@
 <ol>
 <li>运行</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure>
-
+<pre><code>fdisk -l
+</code></pre>
 <ol start="2">
 <li>查看本机的分区类型，查看主分区所处的位置</li>
 <li>运行</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sda</span><br></pre></td></tr></table></figure>
-
+<pre><code>fdisk /dev/sda
+</code></pre>
 <p>** 可以输入<code>m</code> 获得fdisk的帮助信息 **<br><code>d</code>删除需要扩容的分区<br><code>p</code>获得现有分区信息<br><code>n</code>创建新分区，设置大小和首尾<br><code>wq</code>保存<br>这样子的话分区表就已经更新好了，但是文件系统还没有更新，我们接着需要更新文件系统。<br>##更新文件系统</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">e2fsck -f /dev/sda1</span><br><span class="line">resize2fs /dev/sda1</span><br></pre></td></tr></table></figure>
-
+<pre><code>e2fsck -f /dev/sda1
+resize2fs /dev/sda1
+</code></pre>
 <p>** 注意，此处操作不会使原来文件丢失 **<br>接着重启系统，发现磁盘容量已经扩容</p>
 <p>*** 提示：任何磁盘操作都有丢失文件的风险，请先进行备份操作 ***</p>
 <p>##附加：BT-Panel的多个硬盘一件挂载指令（和本文无关）<br>这个命令方便的将未挂载的硬盘一键挂载到系统和BT-Panel上，十分方便。<br>Centos:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install wget -y &amp;&amp; wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; bash auto_disk.sh</span><br></pre></td></tr></table></figure>
-
+<pre><code>yum install wget -y &amp;&amp; wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; bash auto_disk.sh
+</code></pre>
 <p>Ubuntu:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; sudo bash auto_disk.sh</span><br></pre></td></tr></table></figure>
-
+<pre><code>wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; sudo bash auto_disk.sh
+</code></pre>
 <p>Debian:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; bash auto_disk.sh</span><br></pre></td></tr></table></figure>
-
+<pre><code>wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; bash auto_disk.sh
+</code></pre>
 <p>一键挂载原文链接：<a href="https://www.bt.cn/bbs/thread-3187-1-1.html">https://www.bt.cn/bbs/thread-3187-1-1.html</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Announcement / 须知</title>
+    <url>/2023/04/10/announcement/</url>
+    <content><![CDATA[<h1 id="Announcement"><a href="#Announcement" class="headerlink" title="Announcement"></a>Announcement</h1><p>This blog will be a hybrid of English and Chinese posts. Probably some posts will not have translations between each other in this site. Please use translation tools if you want.</p>
+<h1 id="须知"><a href="#须知" class="headerlink" title="须知"></a>须知</h1><p>本博客会混合一些英文和中文的文章。并且很有可能本博客并不在英语和中文之间进行翻译。如有需要请使用翻译工具。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hexo frequent commands</title>
+    <url>/2023/04/10/commands/</url>
+    <content><![CDATA[<p><em><strong>This post is only about several commands that will be used during updating this blog.</strong></em></p>
+<p>Hexo related commands:</p>
+<pre><code>npm install hexo -g #install Hexo
+npm update hexo -g #update Hexo
+hexo init #initialize a new blog
+</code></pre>
+<p>Blog related commands:</p>
+<pre><code>hexo n &quot;我的博客&quot; == hexo new &quot;我的博客&quot; #create a new post
+hexo g == hexo generate #Generate the blog
+hexo s == hexo server #start preview webserver
+hexo d == hexo deploy # deploy to remote server i.e Github
+</code></pre>
+<p>Preview server related commands:</p>
+<pre><code>hexo server #Hexo will monitor the changes to files and update by itself. No need to reboot the server
+hexo server -s #static mode
+hexo server -p 5000 #change port
+hexo server -i 192.168.1.1 #set ip address
+hexo clean #clean cache
+</code></pre>
 ]]></content>
   </entry>
   <entry>
@@ -142,93 +344,106 @@
 <h1 id="安装CUDA"><a href="#安装CUDA" class="headerlink" title="安装CUDA"></a>安装CUDA</h1><p>从NVDIA官网上下载CUDA 11.2的安装包。<br><a href="https://developer.nvidia.com/cuda-11.2.0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10">传送门</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_094853.png"><br>下载完成后运行安装包，根据提示完成安装。</p>
 <h1 id="安装cuDNN"><a href="#安装cuDNN" class="headerlink" title="安装cuDNN"></a>安装cuDNN</h1><p>从NVDIA官网上下载cuDNN 8.1的安装包。<br><a href="https://developer.nvidia.com/rdp/cudnn-archive">传送门</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_095051.png"><br>下载完成后解压缩，将解压缩后的文件夹复制到CUDA的安装目录下。<br>默认安装目录为<code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2</code>。<br>将压缩包内的文件直接与CUDA目录合并即可。</p>
 <h1 id="安装Anaconda"><a href="#安装Anaconda" class="headerlink" title="安装Anaconda"></a>安装Anaconda</h1><p>从Anaconda官网上下载Anaconda 3的安装包。<br><a href="https://www.anaconda.com/products/individual">传送门</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_102036.png"><br>根据提示完成安装。建议不要勾选添加PATH环境变量。</p>
-<h1 id="创建conda虚拟环境"><a href="#创建conda虚拟环境" class="headerlink" title="创建conda虚拟环境"></a>创建conda虚拟环境</h1><h2 id="创建一个新的env"><a href="#创建一个新的env" class="headerlink" title="创建一个新的env:"></a>创建一个新的env:</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">conda create --name tensorflow python=3.9</span><br></pre></td></tr></table></figure>
-
-<h2 id="激活env"><a href="#激活env" class="headerlink" title="激活env:"></a>激活env:</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">conda activate tensorflow</span><br></pre></td></tr></table></figure>
+<h1 id="创建conda虚拟环境"><a href="#创建conda虚拟环境" class="headerlink" title="创建conda虚拟环境"></a>创建conda虚拟环境</h1><h2 id="创建一个新的env"><a href="#创建一个新的env" class="headerlink" title="创建一个新的env:"></a>创建一个新的env:</h2><pre><code class="shell">conda create --name tensorflow python=3.9
+</code></pre>
+<h2 id="激活env"><a href="#激活env" class="headerlink" title="激活env:"></a>激活env:</h2><pre><code class="shell">conda activate tensorflow
+</code></pre>
 <p>接下来我们的操作都会在这个虚拟环境下进行，并不会影响到系统环境。</p>
 <p>如果需要查看更多Conda的常用命令，可以参考此文章<a href="https://page.frankutils.xyz/2023/04/11/anaconda/#more">传送门</a>, 或者直接在命令行中输入<code>conda</code>查看帮助。</p>
-<h1 id="安装Tensorflow"><a href="#安装Tensorflow" class="headerlink" title="安装Tensorflow"></a>安装Tensorflow</h1><h2 id="安装Tensorflow-2-10-0"><a href="#安装Tensorflow-2-10-0" class="headerlink" title="安装Tensorflow 2.10.0"></a>安装Tensorflow 2.10.0</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip install tensorflow==2.10.0</span><br></pre></td></tr></table></figure>
+<h1 id="安装Tensorflow"><a href="#安装Tensorflow" class="headerlink" title="安装Tensorflow"></a>安装Tensorflow</h1><h2 id="安装Tensorflow-2-10-0"><a href="#安装Tensorflow-2-10-0" class="headerlink" title="安装Tensorflow 2.10.0"></a>安装Tensorflow 2.10.0</h2><pre><code class="shell">pip install tensorflow==2.10.0
+</code></pre>
 <p>如果没有任何报错的话，此时Tensorflow已经安装完成了。</p>
 <p>接下来可以自行安装其余的包，如numpy，matplotlib等。</p>
-<h1 id="测试Tensorflow"><a href="#测试Tensorflow" class="headerlink" title="测试Tensorflow"></a>测试Tensorflow</h1><h2 id="测试Tensorflow是否安装成功"><a href="#测试Tensorflow是否安装成功" class="headerlink" title="测试Tensorflow是否安装成功"></a>测试Tensorflow是否安装成功</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="built_in">print</span>(tf.__version__)</span><br></pre></td></tr></table></figure>
+<h1 id="测试Tensorflow"><a href="#测试Tensorflow" class="headerlink" title="测试Tensorflow"></a>测试Tensorflow</h1><h2 id="测试Tensorflow是否安装成功"><a href="#测试Tensorflow是否安装成功" class="headerlink" title="测试Tensorflow是否安装成功"></a>测试Tensorflow是否安装成功</h2><pre><code class="python">import tensorflow as tf
+print(tf.__version__)
+</code></pre>
 <p>如果输出的版本号为2.10.0，则说明Tensorflow安装成功。</p>
-<h2 id="测试Tensorflow是否支持GPU"><a href="#测试Tensorflow是否支持GPU" class="headerlink" title="测试Tensorflow是否支持GPU"></a>测试Tensorflow是否支持GPU</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tf.config.list_physical_devices(<span class="string">&#x27;GPU&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="测试Tensorflow是否支持GPU"><a href="#测试Tensorflow是否支持GPU" class="headerlink" title="测试Tensorflow是否支持GPU"></a>测试Tensorflow是否支持GPU</h2><pre><code class="python">tf.config.list_physical_devices(&#39;GPU&#39;)
+</code></pre>
 <p>如果输出的结果为<code>[PhysicalDevice(name=&#39;/physical_device:GPU:0&#39;, device_type=&#39;GPU&#39;)]</code>，则说明Tensorflow支持GPU。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_102624.png"><br><em>python3.10.10也可以支持Tensorflow 2.10.0</em><br>至此，本文完结。</p>
 ]]></content>
   </entry>
   <entry>
-    <title>Announcement / 须知</title>
-    <url>/2023/04/10/announcement/</url>
-    <content><![CDATA[<h1 id="Announcement"><a href="#Announcement" class="headerlink" title="Announcement"></a>Announcement</h1><p>This blog will be a hybrid of English and Chinese posts. Probably some posts will not have translations between each other in this site. Please use translation tools if you want.</p>
-<h1 id="须知"><a href="#须知" class="headerlink" title="须知"></a>须知</h1><p>本博客会混合一些英文和中文的文章。并且很有可能本博客并不在英语和中文之间进行翻译。如有需要请使用翻译工具。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>anaconda frequent commands</title>
-    <url>/2023/04/11/anaconda/</url>
-    <content><![CDATA[<h1 id="conda-related"><a href="#conda-related" class="headerlink" title="conda related"></a>conda related</h1><p>view conda version</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda --version</span><br><span class="line">conda info</span><br></pre></td></tr></table></figure>
+    <title>使用Docker配置Nextcloud</title>
+    <url>/2020/07/26/%E4%BD%BF%E7%94%A8Docker%E9%85%8D%E7%BD%AENextcloud/</url>
+    <content><![CDATA[<p>本文参考：<a href="https://blog.wangriyu.wang/2018/05-server-nextcloud.html">https://blog.wangriyu.wang/2018/05-server-nextcloud.html</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3113001327.png"><br>Nextcloud是一个功能十分强大的，基于PHP的网盘系统，是个人或者组织进行建立私有云的不二之选。配合NextCloud中间众多的APP，可以实现很多功能，包括团队写作等等。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3053133952.png"></p>
+<h2 id="如何部署Nextcloud"><a href="#如何部署Nextcloud" class="headerlink" title="如何部署Nextcloud"></a>如何部署Nextcloud</h2><h3 id="拉取两个镜像，并且创建docker-compose配置文件："><a href="#拉取两个镜像，并且创建docker-compose配置文件：" class="headerlink" title="拉取两个镜像，并且创建docker-compose配置文件："></a>拉取两个镜像，并且创建docker-compose配置文件：</h3><pre><code>cd ~
+docker pull wonderfall/nextcloud
+docker pull mariadb:10
+vi docker-compose.yml
+</code></pre>
+<h3 id="粘贴进文本框以下内容："><a href="#粘贴进文本框以下内容：" class="headerlink" title="粘贴进文本框以下内容："></a>粘贴进文本框以下内容：</h3><pre><code>nextcloud:
+  image: wonderfall/nextcloud
+  container_name: nextcloud_web
+  links:
+    - nextcloud-db:nextcloud-db
+  environment:
+    - UID=1000
+    - GID=1000
+    - UPLOAD_MAX_SIZE=5G
+    - APC_SHM_SIZE=128M
+    - OPCACHE_MEM_SIZE=128
+    - CRON_PERIOD=15m
+    - TZ=Aisa/Shanghai
+    - ADMIN_USER=登录账号
+    - ADMIN_PASSWORD=登录密码
+    - DOMAIN=localhost
+    - DB_TYPE=mysql
+    - DB_NAME=nextcloud
+    - DB_USER=nextcloud
+    - DB_PASSWORD=数据库 nextcloud 账号密码
+    - DB_HOST=nextcloud-db
+  volumes:
+    # 文件会放在宿主机的 `/docker/nextcloud` 目录，如果不存在会自动创建
+    - /docker/nextcloud/data:/data
+    - /docker/nextcloud/config:/config
+    - /docker/nextcloud/apps:/apps2
+    - /docker/nextcloud/themes:/nextcloud/themes
+  expose:
+    - 8888
+  ports:
+    # 宿主机端口:镜像端口
+    - 8888:8888/tcp
+  restart: always
 
-<p>Update conda</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda update conda</span><br></pre></td></tr></table></figure>
-
-<h1 id="env-related"><a href="#env-related" class="headerlink" title="env related"></a>env related</h1><p>Create virtual envs</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda create --name evname</span><br></pre></td></tr></table></figure>
-
-<p>Create envs with specific version</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda create --name python36 python=3.6</span><br></pre></td></tr></table></figure>
-
-<p>Activate env</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda activate envname</span><br></pre></td></tr></table></figure>
-
-<p>Go back to previous env</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda deactivate</span><br></pre></td></tr></table></figure>
-
-<p>List existing envs</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda info -e</span><br></pre></td></tr></table></figure>
-
-<p>Remove envs</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env remove --n envname</span><br></pre></td></tr></table></figure>
-
-<p>Clone env</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda create --name clone_env --clone envname</span><br></pre></td></tr></table></figure>
-
-<h1 id="Package-related"><a href="#Package-related" class="headerlink" title="Package related"></a>Package related</h1><p>Install a package</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda install packagename</span><br></pre></td></tr></table></figure>
-
-<p>Update a package </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda update packagename</span><br></pre></td></tr></table></figure>
-
-<p>Update all packages</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda update --all</span><br></pre></td></tr></table></figure>
-
-<p>Remove a package</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda remove packagename</span><br></pre></td></tr></table></figure>
-
-<h1 id="Sharing-conda-env"><a href="#Sharing-conda-env" class="headerlink" title="Sharing conda env"></a>Sharing conda env</h1><p>Export a env as a config file</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br></pre></td></tr></table></figure>
-
-<p>Create a env from a config file</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
-
-
-
-
-]]></content>
-      <tags>
-        <tag>command notes</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo frequent commands</title>
-    <url>/2023/04/10/commands/</url>
-    <content><![CDATA[<p><em><strong>This post is only about several commands that will be used during updating this blog.</strong></em></p>
-<p>Hexo related commands:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo -g #install Hexo</span><br><span class="line">npm update hexo -g #update Hexo</span><br><span class="line">hexo init #initialize a new blog</span><br></pre></td></tr></table></figure>
-<p>Blog related commands:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo n &quot;我的博客&quot; == hexo new &quot;我的博客&quot; #create a new post</span><br><span class="line">hexo g == hexo generate #Generate the blog</span><br><span class="line">hexo s == hexo server #start preview webserver</span><br><span class="line">hexo d == hexo deploy # deploy to remote server i.e Github</span><br></pre></td></tr></table></figure>
-<p>Preview server related commands:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo server #Hexo will monitor the changes to files and update by itself. No need to reboot the server</span><br><span class="line">hexo server -s #static mode</span><br><span class="line">hexo server -p 5000 #change port</span><br><span class="line">hexo server -i 192.168.1.1 #set ip address</span><br><span class="line">hexo clean #clean cache</span><br></pre></td></tr></table></figure>
+nextcloud-db:
+  image: mariadb:10
+  container_name: nextcloud_db
+  volumes:
+    # 数据库文件会放在宿主机的 `/docker/nextcloud/db` 目录，如果不存在会自动创建
+    - /docker/nextcloud/db:/var/lib/mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=数据库 root 密码
+    - MYSQL_DATABASE=nextcloud
+    - MYSQL_USER=nextcloud
+    - MYSQL_PASSWORD=数据库 nextcloud 账号密码
+  restart: always
+</code></pre>
+<ul>
+<li>这里使用Mariadb(Mysql)作为数据库，如果个人使用，对性能要求不高，希望负载较小，可以使用Sqlite，在这里删除nextcloud-db下的内容，并对上面nextcloud-web进行相应更改。 *</li>
+</ul>
+<h3 id="保存退出并运行："><a href="#保存退出并运行：" class="headerlink" title="保存退出并运行："></a>保存退出并运行：</h3><p><code>docker-compose up -d</code></p>
+<h3 id="测试之前需要等待一段时间，从这里开始容器应该就配置完成了，可以使用以下命令进行检验："><a href="#测试之前需要等待一段时间，从这里开始容器应该就配置完成了，可以使用以下命令进行检验：" class="headerlink" title="测试之前需要等待一段时间，从这里开始容器应该就配置完成了，可以使用以下命令进行检验："></a>测试之前需要等待一段时间，从这里开始容器应该就配置完成了，可以使用以下命令进行检验：</h3><pre><code>docker ps -a // 可以看到容器已经起来
+docker logs nextcloud_db // 查看数据库配置是否完成
+docker logs nextcloud_web // 查看 nextcloud 是否配置完成
+</code></pre>
+<h3 id="配置web反代"><a href="#配置web反代" class="headerlink" title="配置web反代"></a>配置web反代</h3><p>配置web反向代理在这里将不会展开，新手可以使用BT-panel来进行图形化的操作，大佬就可以直接写Nginx的配置文件了，在这里就不过多赘述了。</p>
+<hr>
+<h2 id="使用Docker配置OnlyOffice-Community-Server"><a href="#使用Docker配置OnlyOffice-Community-Server" class="headerlink" title="使用Docker配置OnlyOffice Community Server"></a>使用Docker配置OnlyOffice Community Server</h2><pre><code>docker pull onlyoffice/documentserver
+docker run -i -t -d -p 8080:80 onlyoffice/documentserver
+</code></pre>
+<p>访问一下:<a href="http://ip:8080/">http://IP:8080</a><br>如果出现绿色的勾，那么你的服务器就成功部署了</p>
+<blockquote>
+<p>附：配置要求（官方）<br>RAM: 4 GB+<br>CPU: 双核 2 GHz +<br>Swap: 至少2 GB<br>HDD: 至少有2GB的剩余空间<br>系统要求: RedHat 64bit，CentOS类、Debian类的内核版本3.8以上。<br>Docker: 1.9.0版本及以上</p>
+</blockquote>
+<hr>
+<h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><p>这时候如果在nextcloud里面设置好OnlyOffice，打开一个Word文件什么都显示不出来，控制台报错：</p>
+<pre><code>Refused to frame &#39;http://office.domain/&#39; because it violates the following Content Security Policy directive: &quot;frame-src https://office.domain/&quot;.
+</code></pre>
+<p>这是因为OnlyOffice服务器在这里是默认使用Http传输，但是NextCloud是Https传输，两种内容不能混合在一起。<br>我们需要在OnlyOffice服务器的反向代理配置中加入一句话就能搞定：</p>
+<pre><code>proxy_set_header X-Forwarded-Proto $scheme;
+</code></pre>
+<p>保存后再次打开Word文件，发现显示正常：<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2375875066.png"><br>这样，NextCloud的主题就基本配置完成了&#x2F;</p>
 ]]></content>
   </entry>
   <entry>
@@ -242,107 +457,60 @@
 <li>不喜勿喷，大佬勿喷。</li>
 </ul>
 <h1 id="使用Docker编译环境"><a href="#使用Docker编译环境" class="headerlink" title="使用Docker编译环境"></a>使用Docker编译环境</h1><h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><p>请前往dockerHub拉取镜像，<a href="https://hub.docker.com/repository/docker/frank921/opcompile">传送门</a>。选择最新的docker镜像的tag进行拉取：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull frank921/opcompile:v3</span><br></pre></td></tr></table></figure>
-
+<pre><code>docker pull frank921/opcompile:v3
+</code></pre>
 <p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1230477398.png"></p>
-<h3 id="部署镜像"><a href="#部署镜像" class="headerlink" title="部署镜像"></a>部署镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -itd --name opcompile frank921/opcompile:v3</span><br></pre></td></tr></table></figure>
-
+<h3 id="部署镜像"><a href="#部署镜像" class="headerlink" title="部署镜像"></a>部署镜像</h3><pre><code>docker run -itd --name opcompile frank921/opcompile:v3
+</code></pre>
 <p>通过docker exec 进入容器并进行编译操作。<br><em>注意：这里可以通过 -v 参数添加目录映射，具体请查询docker文档</em></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker exec -it opcompile /bin/bash</span><br></pre></td></tr></table></figure>
-
+<pre><code>docker exec -it opcompile /bin/bash
+</code></pre>
 <p>由于openwrt的编译程序不支持使用root用户进行编译，切换至lede用户进行编译并进入lede主目录:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">su lede</span><br><span class="line">cd ~/lede</span><br></pre></td></tr></table></figure>
-
+<pre><code>su lede
+cd ~/lede
+</code></pre>
 <p><strong>lede用户的用户密码默认是12345678，为了安全性，请及时更改</strong></p>
 <p>进行环境更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt update -y</span><br><span class="line">sudo apt full-upgrade -y</span><br></pre></td></tr></table></figure>
-
+<pre><code>sudo apt update -y
+sudo apt full-upgrade -y
+</code></pre>
 <p>进行仓库更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git pull</span><br><span class="line">./scripts/feeds update -a</span><br><span class="line">./scripts/feeds install -a</span><br><span class="line">make defconfig</span><br></pre></td></tr></table></figure>
-
+<pre><code>git pull
+./scripts/feeds update -a
+./scripts/feeds install -a
+make defconfig
+</code></pre>
 <p>默认配置文件中我加入了一些常用插件，如果不需要这类插件，输入：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rm -rf ./tmp &amp;&amp; rm -rf .config</span><br></pre></td></tr></table></figure>
-
+<pre><code>rm -rf ./tmp &amp;&amp; rm -rf .config
+</code></pre>
 <p>然后进入编译流程：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">make menuconfig</span><br><span class="line">make download -j8</span><br><span class="line">make V=s -j$(nproc)</span><br></pre></td></tr></table></figure>
-
+<pre><code>make menuconfig
+make download -j8
+make V=s -j$(nproc)
+</code></pre>
 <h4 id="特别提示"><a href="#特别提示" class="headerlink" title="特别提示"></a>特别提示</h4><p>由于编译过程ssh不能中断，在网络较差的环境下，请使用screen进行持久化。<br>创建窗口：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">screen -S compiler</span><br></pre></td></tr></table></figure>
-
+<pre><code>screen -S compiler
+</code></pre>
 <p>此时会进入窗口，可以进行编译操作，如果要推出窗口，请按 <code> Ctrl +AD</code> （按住Ctrl,一次按下A和D）<br>此时就能退出窗口<br>连接回窗口：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">screen -r compiler</span><br></pre></td></tr></table></figure>
-
+<pre><code>screen -r compiler
+</code></pre>
 <p>如果发现因为窗口Attached无法连接，可以输入:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">screen -d compiler</span><br></pre></td></tr></table></figure>
-
+<pre><code>screen -d compiler
+</code></pre>
 <p>分离会话，然后输入：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">screen -r compiler</span><br></pre></td></tr></table></figure>
-
+<pre><code>screen -r compiler
+</code></pre>
 <p>进入会话。</p>
 <h3 id="编译完成"><a href="#编译完成" class="headerlink" title="编译完成"></a>编译完成</h3><p>当无错误编译完成以后，可以进入bin&#x2F;targets找到相应的固件。<br>进入主机，输入：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
-
+<pre><code>docker ps
+</code></pre>
 <p>查询相应容器ID。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2389212853.png"><br>记住ID</p>
 <p>输入：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker cp 容器ID:/home/lede/lede/bin/targets 主机目录</span><br></pre></td></tr></table></figure>
-
+<pre><code>docker cp 容器ID:/home/lede/lede/bin/targets 主机目录
+</code></pre>
 <p>复制完成固件，复制过程会等待几分钟，正常现象。<br>接着进入主机相应目录获取固件。</p>
 <h1 id="Enjoy"><a href="#Enjoy" class="headerlink" title="Enjoy!"></a>Enjoy!</h1><h1 id="特别鸣谢"><a href="#特别鸣谢" class="headerlink" title="特别鸣谢"></a>特别鸣谢</h1><p><a href="https://github.com/coolsnowwolf/lede">https://github.com/coolsnowwolf/lede</a></p>
 <p><a href="https://github.com/kenzok8/openwrt-packages">https://github.com/kenzok8/openwrt-packages</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>使用Docker配置Nextcloud</title>
-    <url>/2020/07/26/%E4%BD%BF%E7%94%A8Docker%E9%85%8D%E7%BD%AENextcloud/</url>
-    <content><![CDATA[<p>本文参考：<a href="https://blog.wangriyu.wang/2018/05-server-nextcloud.html">https://blog.wangriyu.wang/2018/05-server-nextcloud.html</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3113001327.png"><br>Nextcloud是一个功能十分强大的，基于PHP的网盘系统，是个人或者组织进行建立私有云的不二之选。配合NextCloud中间众多的APP，可以实现很多功能，包括团队写作等等。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3053133952.png"></p>
-<h2 id="如何部署Nextcloud"><a href="#如何部署Nextcloud" class="headerlink" title="如何部署Nextcloud"></a>如何部署Nextcloud</h2><h3 id="拉取两个镜像，并且创建docker-compose配置文件："><a href="#拉取两个镜像，并且创建docker-compose配置文件：" class="headerlink" title="拉取两个镜像，并且创建docker-compose配置文件："></a>拉取两个镜像，并且创建docker-compose配置文件：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd ~</span><br><span class="line">docker pull wonderfall/nextcloud</span><br><span class="line">docker pull mariadb:10</span><br><span class="line">vi docker-compose.yml</span><br></pre></td></tr></table></figure>
-
-<h3 id="粘贴进文本框以下内容："><a href="#粘贴进文本框以下内容：" class="headerlink" title="粘贴进文本框以下内容："></a>粘贴进文本框以下内容：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nextcloud:</span><br><span class="line">  image: wonderfall/nextcloud</span><br><span class="line">  container_name: nextcloud_web</span><br><span class="line">  links:</span><br><span class="line">    - nextcloud-db:nextcloud-db</span><br><span class="line">  environment:</span><br><span class="line">    - UID=1000</span><br><span class="line">    - GID=1000</span><br><span class="line">    - UPLOAD_MAX_SIZE=5G</span><br><span class="line">    - APC_SHM_SIZE=128M</span><br><span class="line">    - OPCACHE_MEM_SIZE=128</span><br><span class="line">    - CRON_PERIOD=15m</span><br><span class="line">    - TZ=Aisa/Shanghai</span><br><span class="line">    - ADMIN_USER=登录账号</span><br><span class="line">    - ADMIN_PASSWORD=登录密码</span><br><span class="line">    - DOMAIN=localhost</span><br><span class="line">    - DB_TYPE=mysql</span><br><span class="line">    - DB_NAME=nextcloud</span><br><span class="line">    - DB_USER=nextcloud</span><br><span class="line">    - DB_PASSWORD=数据库 nextcloud 账号密码</span><br><span class="line">    - DB_HOST=nextcloud-db</span><br><span class="line">  volumes:</span><br><span class="line">    # 文件会放在宿主机的 `/docker/nextcloud` 目录，如果不存在会自动创建</span><br><span class="line">    - /docker/nextcloud/data:/data</span><br><span class="line">    - /docker/nextcloud/config:/config</span><br><span class="line">    - /docker/nextcloud/apps:/apps2</span><br><span class="line">    - /docker/nextcloud/themes:/nextcloud/themes</span><br><span class="line">  expose:</span><br><span class="line">    - 8888</span><br><span class="line">  ports:</span><br><span class="line">    # 宿主机端口:镜像端口</span><br><span class="line">    - 8888:8888/tcp</span><br><span class="line">  restart: always</span><br><span class="line"></span><br><span class="line">nextcloud-db:</span><br><span class="line">  image: mariadb:10</span><br><span class="line">  container_name: nextcloud_db</span><br><span class="line">  volumes:</span><br><span class="line">    # 数据库文件会放在宿主机的 `/docker/nextcloud/db` 目录，如果不存在会自动创建</span><br><span class="line">    - /docker/nextcloud/db:/var/lib/mysql</span><br><span class="line">  environment:</span><br><span class="line">    - MYSQL_ROOT_PASSWORD=数据库 root 密码</span><br><span class="line">    - MYSQL_DATABASE=nextcloud</span><br><span class="line">    - MYSQL_USER=nextcloud</span><br><span class="line">    - MYSQL_PASSWORD=数据库 nextcloud 账号密码</span><br><span class="line">  restart: always</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>这里使用Mariadb(Mysql)作为数据库，如果个人使用，对性能要求不高，希望负载较小，可以使用Sqlite，在这里删除nextcloud-db下的内容，并对上面nextcloud-web进行相应更改。 *</li>
-</ul>
-<h3 id="保存退出并运行："><a href="#保存退出并运行：" class="headerlink" title="保存退出并运行："></a>保存退出并运行：</h3><p><code>docker-compose up -d</code></p>
-<h3 id="测试之前需要等待一段时间，从这里开始容器应该就配置完成了，可以使用以下命令进行检验："><a href="#测试之前需要等待一段时间，从这里开始容器应该就配置完成了，可以使用以下命令进行检验：" class="headerlink" title="测试之前需要等待一段时间，从这里开始容器应该就配置完成了，可以使用以下命令进行检验："></a>测试之前需要等待一段时间，从这里开始容器应该就配置完成了，可以使用以下命令进行检验：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker ps -a // 可以看到容器已经起来</span><br><span class="line">docker logs nextcloud_db // 查看数据库配置是否完成</span><br><span class="line">docker logs nextcloud_web // 查看 nextcloud 是否配置完成</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置web反代"><a href="#配置web反代" class="headerlink" title="配置web反代"></a>配置web反代</h3><p>配置web反向代理在这里将不会展开，新手可以使用BT-panel来进行图形化的操作，大佬就可以直接写Nginx的配置文件了，在这里就不过多赘述了。</p>
-<hr>
-<h2 id="使用Docker配置OnlyOffice-Community-Server"><a href="#使用Docker配置OnlyOffice-Community-Server" class="headerlink" title="使用Docker配置OnlyOffice Community Server"></a>使用Docker配置OnlyOffice Community Server</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull onlyoffice/documentserver</span><br><span class="line">docker run -i -t -d -p 8080:80 onlyoffice/documentserver</span><br></pre></td></tr></table></figure>
-
-<p>访问一下:<a href="http://ip:8080/">http://IP:8080</a><br>如果出现绿色的勾，那么你的服务器就成功部署了</p>
-<blockquote>
-<p>附：配置要求（官方）<br>RAM: 4 GB+<br>CPU: 双核 2 GHz +<br>Swap: 至少2 GB<br>HDD: 至少有2GB的剩余空间<br>系统要求: RedHat 64bit，CentOS类、Debian类的内核版本3.8以上。<br>Docker: 1.9.0版本及以上</p>
-</blockquote>
-<hr>
-<h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><p>这时候如果在nextcloud里面设置好OnlyOffice，打开一个Word文件什么都显示不出来，控制台报错：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Refused to frame &#x27;http://office.domain/&#x27; because it violates the following Content Security Policy directive: &quot;frame-src https://office.domain/&quot;.</span><br></pre></td></tr></table></figure>
-
-<p>这是因为OnlyOffice服务器在这里是默认使用Http传输，但是NextCloud是Https传输，两种内容不能混合在一起。<br>我们需要在OnlyOffice服务器的反向代理配置中加入一句话就能搞定：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">proxy_set_header X-Forwarded-Proto $scheme;</span><br></pre></td></tr></table></figure>
-
-<p>保存后再次打开Word文件，发现显示正常：<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2375875066.png"><br>这样，NextCloud的主题就基本配置完成了&#x2F;</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>关于使用NBMiner挖掘ETH的初体验</title>
-    <url>/2022/01/29/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8NBMiner%E6%8C%96%E6%8E%98ETH%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C/</url>
-    <content><![CDATA[<p>最近因为上学博客已经好久没有更新了。</p>
-<p>因为之前沉迷战地2042，原来的1660Ti笔记本打起游戏来已经不够用了，遂在欧洲重新配了一台电脑。基本配置是11600K+3070Ti的组合。</p>
-<p><img src="https://img13.360buyimg.com/n1/jfs/t1/194019/10/13696/108345/60f5457fE97715066/79df0514503e752a.jpg" alt="技嘉魔鹰"></p>
-<p>PS：欧洲的电脑是真的贵啊。</p>
-<p>心想着既然这么好的电脑配了也配了，不如来试试挖矿回血。因为一些原因，电费不需要我来交，所以收入永远都是为正的。</p>
-<p>本篇只是记录一下挖矿心得，并不是教程。</p>
-<h2 id="矿池选择"><a href="#矿池选择" class="headerlink" title="矿池选择"></a>矿池选择</h2><p>市面上有很多挖矿矿池，请根据自己的需要进行选择。</p>
-<p>我使用的是Binance矿池，虽然总算力不高，但是好处就是可以随时体现，对于我这种只是尝试的人还是很香的。</p>
-<p>Binance矿池和Binance的账号是通用的，开通一个挖矿账号就可以开始挖矿了。</p>
-<h2 id="软件选择"><a href="#软件选择" class="headerlink" title="软件选择"></a>软件选择</h2><p>因为我的卡是RTX 3070Ti，是LHR版本（<em>LHR：low hash rate</em>），选择了NBMiner作为挖矿软件，毕竟是初来乍到，原来就听说了可以解锁68%的算力，还是很香的。</p>
-<p>本人测试的时候Nbminer更新到了v40.1版本，亲自测试，本卡可以解锁到73.5%-74%的算力性能。</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2394345912.png"></p>
-<h2 id="网络事项"><a href="#网络事项" class="headerlink" title="网络事项"></a>网络事项</h2><p>由于中国境内的特殊原因，切勿直连到矿池进行挖矿。并且SSL技术也不可靠，不可能100%绕过监管。请使用socks类代理软件进行对挖矿软件的代理。NBminer支持使用socks5类型的代理进行矿池链接，亲测效果不错。</p>
-<h2 id="挖矿实测"><a href="#挖矿实测" class="headerlink" title="挖矿实测"></a>挖矿实测</h2><p>根据挖矿实际测试，如果满功耗不超频的情况下，算力会在50MH&#x2F;s左右波动，功耗会在210W左右, 按照现在的币价来说，不算电费一天可以赚15人名币左右，如果要回本还是要很长一个周期的。</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2347629307.png"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>现在币价逐渐走低，市场对于虚拟产品都不是特别乐观，现在如果特别想入场还是需要十分谨慎，很容易亏钱。但是如果是游戏玩家自己买了卡想回回血，在提前计算自己家中电费的情况下，还是可以试一下的。如果在中国大陆挖矿还是请使用代理类软件，防止上门请喝茶。</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/461364571.png"></p>
 ]]></content>
   </entry>
   <entry>
@@ -412,13 +580,35 @@
 <p>如果本市内没有罗技售后网点，请找到离自己最近的一个售后网点，拨打他们的客服热线，询问寄送流程，并且邮寄到此售后网点。</p>
 <p><em>注意：建议不要拨打中国大区的罗技售后电话，此电话很难有人工接听，直接询问当地售后网点就行了。如果不知道哪个离自己最近，随便拨打一个他们会告诉你</em></p>
 <h2 id="包裹准备"><a href="#包裹准备" class="headerlink" title="包裹准备"></a>包裹准备</h2><p>拨打电话后得知，需要准备如下物品。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">受损的鼠标和接收器、购买凭证复印件、故障描述、联系方式、回寄地址。</span><br></pre></td></tr></table></figure>
-
+<pre><code>受损的鼠标和接收器、购买凭证复印件、故障描述、联系方式、回寄地址。
+</code></pre>
 <p>将以上物品直接寄送到售后网点，在签收后1周内能得到检测答复。</p>
 <h2 id="答复环节"><a href="#答复环节" class="headerlink" title="答复环节"></a>答复环节</h2><p>在大概签收后的3-4天后，我收到了答复。虽然我让他用邮箱或者QQ答复我，但他们还是打了电话过来，很无语。但是结果还是好的，他们直接告诉我，他们检测出了我GPW的故障，会对我的鼠标进行换新处理，并且还送了我一个新的GPW盒子。u1s1，这波操作还是不错的。</p>
 <p>但是，他们还告诉我，现在GPW没有货了，需要等到10月份到货了再进行通知，这对于我来说就有点惨了，将近2-3周没有一个好的鼠标用真的很不方便。</p>
 <p>截至本博发表为止，我还没有拿到新鼠标，等到新鼠标到手后，本文会继续更新。</p>
 <p><img src="https://resource.logitech.com/w_1200,h_630,c_limit,q_auto,f_auto,dpr_1.0/content/dam/logitech/og-fallback.png?v=1"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>关于使用NBMiner挖掘ETH的初体验</title>
+    <url>/2022/01/29/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8NBMiner%E6%8C%96%E6%8E%98ETH%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C/</url>
+    <content><![CDATA[<p>最近因为上学博客已经好久没有更新了。</p>
+<p>因为之前沉迷战地2042，原来的1660Ti笔记本打起游戏来已经不够用了，遂在欧洲重新配了一台电脑。基本配置是11600K+3070Ti的组合。</p>
+<p><img src="https://img13.360buyimg.com/n1/jfs/t1/194019/10/13696/108345/60f5457fE97715066/79df0514503e752a.jpg" alt="技嘉魔鹰"></p>
+<p>PS：欧洲的电脑是真的贵啊。</p>
+<p>心想着既然这么好的电脑配了也配了，不如来试试挖矿回血。因为一些原因，电费不需要我来交，所以收入永远都是为正的。</p>
+<p>本篇只是记录一下挖矿心得，并不是教程。</p>
+<h2 id="矿池选择"><a href="#矿池选择" class="headerlink" title="矿池选择"></a>矿池选择</h2><p>市面上有很多挖矿矿池，请根据自己的需要进行选择。</p>
+<p>我使用的是Binance矿池，虽然总算力不高，但是好处就是可以随时体现，对于我这种只是尝试的人还是很香的。</p>
+<p>Binance矿池和Binance的账号是通用的，开通一个挖矿账号就可以开始挖矿了。</p>
+<h2 id="软件选择"><a href="#软件选择" class="headerlink" title="软件选择"></a>软件选择</h2><p>因为我的卡是RTX 3070Ti，是LHR版本（<em>LHR：low hash rate</em>），选择了NBMiner作为挖矿软件，毕竟是初来乍到，原来就听说了可以解锁68%的算力，还是很香的。</p>
+<p>本人测试的时候Nbminer更新到了v40.1版本，亲自测试，本卡可以解锁到73.5%-74%的算力性能。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2394345912.png"></p>
+<h2 id="网络事项"><a href="#网络事项" class="headerlink" title="网络事项"></a>网络事项</h2><p>由于中国境内的特殊原因，切勿直连到矿池进行挖矿。并且SSL技术也不可靠，不可能100%绕过监管。请使用socks类代理软件进行对挖矿软件的代理。NBminer支持使用socks5类型的代理进行矿池链接，亲测效果不错。</p>
+<h2 id="挖矿实测"><a href="#挖矿实测" class="headerlink" title="挖矿实测"></a>挖矿实测</h2><p>根据挖矿实际测试，如果满功耗不超频的情况下，算力会在50MH&#x2F;s左右波动，功耗会在210W左右, 按照现在的币价来说，不算电费一天可以赚15人名币左右，如果要回本还是要很长一个周期的。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2347629307.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>现在币价逐渐走低，市场对于虚拟产品都不是特别乐观，现在如果特别想入场还是需要十分谨慎，很容易亏钱。但是如果是游戏玩家自己买了卡想回回血，在提前计算自己家中电费的情况下，还是可以试一下的。如果在中国大陆挖矿还是请使用代理类软件，防止上门请喝茶。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/461364571.png"></p>
 ]]></content>
   </entry>
   <entry>
@@ -465,6 +655,16 @@
 ]]></content>
   </entry>
   <entry>
+    <title>如何在Windows10上挂载WebDav</title>
+    <url>/2020/07/31/%E5%A6%82%E4%BD%95%E5%9C%A8Windows10%E4%B8%8A%E6%8C%82%E8%BD%BDWebDav/</url>
+    <content><![CDATA[<p>由于FTP的安全性堪忧，所以很多时候使用网络驱动器都会使用到WebDav协议来传输文件。许多网盘，像坚果云，NextCloud, CloudReve, 群晖等等都支持了WebDav协议的网络硬盘挂载，这篇文章主要讲述如何在Windows平台上挂载WebDav。</p>
+<h3 id="打开此电脑，点击映射网络驱动器"><a href="#打开此电脑，点击映射网络驱动器" class="headerlink" title="打开此电脑，点击映射网络驱动器"></a>打开此电脑，点击映射网络驱动器</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1669217597.png"><br>请确保是** 映射网络驱动器 <strong>，而不是</strong> 添加网络位置 **<br>亲测，添加网络位置无法挂载基于Https的WebDav网络驱动器。</p>
+<h3 id="输入WebDav的url"><a href="#输入WebDav的url" class="headerlink" title="输入WebDav的url"></a>输入WebDav的url</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1251071193.png"><br>确保访问的路径正确，可以直接向提供者询问。</p>
+<h3 id="输入凭据"><a href="#输入凭据" class="headerlink" title="输入凭据"></a>输入凭据</h3><p>因为WebDav相较于FTP更为安全，是不允许匿名访问的，这里需要填写提供商提供的Webdav登录用户名和密码，<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/805380419.jpg"></p>
+<h3 id="返回到Windows资源管理器"><a href="#返回到Windows资源管理器" class="headerlink" title="返回到Windows资源管理器"></a>返回到Windows资源管理器</h3><p>如果前面的步骤都没有报错的话，这一步应该能在此电脑这个界面看到新挂载的WebDav驱动器了</p>
+]]></content>
+  </entry>
+  <entry>
     <title>如何使用D2550搭建一个黑群晖</title>
     <url>/2020/08/13/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8D2550%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%BB%91%E7%BE%A4%E6%99%96/</url>
     <content><![CDATA[<p>最近突发奇想，想刷一个黑群晖玩玩，手头上正好有一块闲置的D2550的主板，本来想做软路由的，现在刚好用来把它作为黑群晖的载体。虽说性能一般，但是比原来的DS216j的白群晖，应该可玩性要高一些。</p>
@@ -502,31 +702,66 @@
 </ul>
 <p><strong>总的来说，z-file的功能还是非常齐全的，能够胜任分享网盘的任务。同时也能够在多平台上面部署</strong></p>
 <h2 id="搭建教程"><a href="#搭建教程" class="headerlink" title="搭建教程"></a>搭建教程</h2><p>###官方：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># CentOS系统</span><br><span class="line">yum install -y java-1.8.0-openjdk unzip</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Debian 9 / Ubuntu 14+</span><br><span class="line">apt update</span><br><span class="line">apt install -y openjdk-8-jre-headless unzip</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Debian 10 (Buster) 系统</span><br><span class="line">apt update &amp;&amp; apt install -y apt-transport-https software-properties-common ca-certificates dirmngr gnupg</span><br><span class="line">wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -</span><br><span class="line">add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/</span><br><span class="line">apt update &amp;&amp; apt install -y adoptopenjdk-8-hotspot-jre</span><br></pre></td></tr></table></figure>
-
+<pre><code># CentOS系统
+yum install -y java-1.8.0-openjdk unzip
+</code></pre>
+<pre><code># Debian 9 / Ubuntu 14+
+apt update
+apt install -y openjdk-8-jre-headless unzip
+</code></pre>
+<pre><code># Debian 10 (Buster) 系统
+apt update &amp;&amp; apt install -y apt-transport-https software-properties-common ca-certificates dirmngr gnupg
+wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
+add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+apt update &amp;&amp; apt install -y adoptopenjdk-8-hotspot-jre
+</code></pre>
 <ul>
 <li>如为更新程序, 则请先执行 <code>~/zfile/bin/stop.sh &amp;&amp; rm -rf ~/zfile</code> 清理旧程序. 首次安装请忽略此选项.</li>
 </ul>
 <p>下载主文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd ~</span><br><span class="line">wget https://c.jun6.net/ZFILE/zfile-release.war</span><br><span class="line">mkdir zfile &amp;&amp; unzip zfile-release.war -d zfile &amp;&amp; rm -rf zfile-release.war</span><br><span class="line">chmod +x zfile/bin/*.sh</span><br></pre></td></tr></table></figure>
-
+<pre><code>cd ~
+wget https://c.jun6.net/ZFILE/zfile-release.war
+mkdir zfile &amp;&amp; unzip zfile-release.war -d zfile &amp;&amp; rm -rf zfile-release.war
+chmod +x zfile/bin/*.sh
+</code></pre>
 <p>*** 支持更改下载版本 ***</p>
 <p>控制命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">~/zfile/bin/start.sh</span><br></pre></td></tr></table></figure>
-
+<pre><code> ~/zfile/bin/start.sh
+</code></pre>
 <p>访问地址：</p>
 <p>** 用户前台: <a href="http://127.0.0.1:8080/#/main">http://127.0.0.1:8080/#/main</a> **<br>** 初始安装: <a href="http://127.0.0.1:8080/#/install">http://127.0.0.1:8080/#/install</a> **<br>** 管理后台: <a href="http://127.0.0.1:8080/#/admin">http://127.0.0.1:8080/#/admin</a> **</p>
-<h3 id="第三方一键脚本"><a href="#第三方一键脚本" class="headerlink" title="第三方一键脚本"></a>第三方一键脚本</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget -P ~ https://yun.fly-me.cn/directlink/1/Z-File/zfile.sh &amp;&amp; chmod +x zfile.sh &amp;&amp; ./zfile.sh</span><br></pre></td></tr></table></figure>
-
+<h3 id="第三方一键脚本"><a href="#第三方一键脚本" class="headerlink" title="第三方一键脚本"></a>第三方一键脚本</h3><pre><code>wget -P ~ https://yun.fly-me.cn/directlink/1/Z-File/zfile.sh &amp;&amp; chmod +x zfile.sh &amp;&amp; ./zfile.sh
+</code></pre>
 <h3 id="Docker部署"><a href="#Docker部署" class="headerlink" title="Docker部署"></a>Docker部署</h3><p>请自行前往DockerHub寻找合适的镜像</p>
 <hr>
 <h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>这个软件虽然好用，但是仍然存在一些缺点。<br>由于使用Java的JVM虚拟机，内存占用必不可少的会占用很客观的一部分。<br>由于仍处于开发阶段，会出现各种各样的问题<br>不支持文件夹下载<br>暂时不支持上传文件<br>有一些特定的系统会出现部署失误的问题<br>不支持多用户（也没有意象）</p>
 <hr>
 <h2 id="原网址"><a href="#原网址" class="headerlink" title="原网址"></a>原网址</h2><p>Github：<a href="https://github.com/zhaojun1998/zfile">https://github.com/zhaojun1998/zfile</a><br>演示网站：<a href="https://zfile.jun6.net/">https://zfile.jun6.net</a><br>文档：<a href="http://docs.zhaojun.im/zfile">http://docs.zhaojun.im/zfile</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>对于南方中国电信的5G初体验</title>
+    <url>/2020/08/05/%E5%AF%B9%E4%BA%8E%E5%8D%97%E6%96%B9%E4%B8%AD%E5%9B%BD%E7%94%B5%E4%BF%A1%E7%9A%845G%E5%88%9D%E4%BD%93%E9%AA%8C/</url>
+    <content><![CDATA[<h2 id="2023年更新"><a href="#2023年更新" class="headerlink" title="2023年更新"></a>2023年更新</h2><p>这次回国已经是此次测试的两年多以后了，城区的5G覆盖基本到位，室内测速也能达到上百兆的速度了，此文现在已经不在准确，请以实际测速为准</p>
+<h2 id="原文如下"><a href="#原文如下" class="headerlink" title="原文如下"></a>原文如下</h2><p>最近一段时间更换了三星的S20+ 5G版本，碰巧遇到营业厅打来的推销5G套餐的电话，脑子一热，就升级了5G套餐。坐标位于江苏，原先是40G流量套餐，现在是每个月加上20元，每个月有100G的高速流量，看起来还是十分实惠的。（可惜宽带不能升级到1000Mbps）。接下来我就对城区内（我常去的地方）的一些地点进行了测速。</p>
+<h2 id="测速环境"><a href="#测速环境" class="headerlink" title="测速环境"></a>测速环境</h2><p>手机： Samsung Galaxy S20+ 5G<br>运营商： 中国电信<br>位置：江苏某二线城市市中心5KM半径以内<br>软件： SpeedTest 江苏电信5G节点<br>家庭宽带：500Mbps光纤入户，采用i3软路由加上tplink mesh作为AP（有可能跑不满500Mbps）<br>** 测试区域在营业厅的5G建设图上都已经被5G信号覆盖了 **</p>
+<h2 id="测速结果"><a href="#测速结果" class="headerlink" title="测速结果"></a>测速结果</h2><ul>
+<li>室外</li>
+</ul>
+<p>在室外信号满格的最好状态<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3741477998.jpg"><br>从这里可以看出，5G在室外还是十分优异的，速度很快（虽然没有达到他宣称的速度），延迟不是很高，和4G环境其实不相上下。</p>
+<ul>
+<li>普通室外</li>
+</ul>
+<p>在室外普通的情况下一般能达到100-300Mbps，速度看起来还是比4G要快很多的，延迟依然和4G相差不大，估计在玩游戏上还是不能达到和家庭宽带一样的效果<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3042080346.jpg"></p>
+<p>*不同室内</p>
+<p>在室内测速，信号满格，是两种不同环境下在居民住宅中测的速，在较新的居民住宅中，速度达到50Mbps左右，和普通4G差不多速度。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/812419390.jpg"></p>
+<p>但是在老式居民区中，信号少两格，（地理位置不同），速度竟然只达到2-5Mbps，这竟然比4G还要弱，这是大大出乎我的意料的<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1082812633.jpg"></p>
+<ul>
+<li>延迟方面<br>从SpeedTest上面来看，5G的延迟和4G的相差无几，并没有宣传的低延迟，相较于家宽，还是有10-20ms的差距的。<br>从游戏方面来看，（这里还没有做测试）</li>
+</ul>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>5G网络在室外已经十分的快了，速度已经能达到宽带水平。但是，5G网络的缺点也十分明显，现在的基础建设十分不足，在室内和室外，或者不同的地理位置，信号都有着巨大的差距，有的地方甚至都没有4G网络的质量好。（我相信大多数人用数据流量还是在室内用的）<br>关于延迟方面，并没有推广说的低延迟，感觉和4G一个水平，比家庭宽带要高上10-20ms，对于游戏来说还是有一定影响的。<br>测速时发现，网速由低到高都需要很长一段时间来爬升（从图中的趋势可以看出）相比家庭宽带爬升的要慢。<br>我的建议是，如果现在急着换手机，那么可以买一个5G手机并且升级套餐，但是如果手机还能用，还不想换，那么也没有必要盲目升级5G，现在还不是完全成熟的阶段。</p>
+<h2 id="附："><a href="#附：" class="headerlink" title="附："></a>附：</h2><p>4G测速结果：<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2819579817.jpg"></p>
+<p>家庭宽带测速结果：<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/256753916.jpg"></p>
 ]]></content>
   </entry>
   <entry>
@@ -595,41 +830,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>如何在Windows10上挂载WebDav</title>
-    <url>/2020/07/31/%E5%A6%82%E4%BD%95%E5%9C%A8Windows10%E4%B8%8A%E6%8C%82%E8%BD%BDWebDav/</url>
-    <content><![CDATA[<p>由于FTP的安全性堪忧，所以很多时候使用网络驱动器都会使用到WebDav协议来传输文件。许多网盘，像坚果云，NextCloud, CloudReve, 群晖等等都支持了WebDav协议的网络硬盘挂载，这篇文章主要讲述如何在Windows平台上挂载WebDav。</p>
-<h3 id="打开此电脑，点击映射网络驱动器"><a href="#打开此电脑，点击映射网络驱动器" class="headerlink" title="打开此电脑，点击映射网络驱动器"></a>打开此电脑，点击映射网络驱动器</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1669217597.png"><br>请确保是** 映射网络驱动器 <strong>，而不是</strong> 添加网络位置 **<br>亲测，添加网络位置无法挂载基于Https的WebDav网络驱动器。</p>
-<h3 id="输入WebDav的url"><a href="#输入WebDav的url" class="headerlink" title="输入WebDav的url"></a>输入WebDav的url</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1251071193.png"><br>确保访问的路径正确，可以直接向提供者询问。</p>
-<h3 id="输入凭据"><a href="#输入凭据" class="headerlink" title="输入凭据"></a>输入凭据</h3><p>因为WebDav相较于FTP更为安全，是不允许匿名访问的，这里需要填写提供商提供的Webdav登录用户名和密码，<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/805380419.jpg"></p>
-<h3 id="返回到Windows资源管理器"><a href="#返回到Windows资源管理器" class="headerlink" title="返回到Windows资源管理器"></a>返回到Windows资源管理器</h3><p>如果前面的步骤都没有报错的话，这一步应该能在此电脑这个界面看到新挂载的WebDav驱动器了</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>对于南方中国电信的5G初体验</title>
-    <url>/2020/08/05/%E5%AF%B9%E4%BA%8E%E5%8D%97%E6%96%B9%E4%B8%AD%E5%9B%BD%E7%94%B5%E4%BF%A1%E7%9A%845G%E5%88%9D%E4%BD%93%E9%AA%8C/</url>
-    <content><![CDATA[<h2 id="2023年更新"><a href="#2023年更新" class="headerlink" title="2023年更新"></a>2023年更新</h2><p>这次回国已经是此次测试的两年多以后了，城区的5G覆盖基本到位，室内测速也能达到上百兆的速度了，此文现在已经不在准确，请以实际测速为准</p>
-<h2 id="原文如下"><a href="#原文如下" class="headerlink" title="原文如下"></a>原文如下</h2><p>最近一段时间更换了三星的S20+ 5G版本，碰巧遇到营业厅打来的推销5G套餐的电话，脑子一热，就升级了5G套餐。坐标位于江苏，原先是40G流量套餐，现在是每个月加上20元，每个月有100G的高速流量，看起来还是十分实惠的。（可惜宽带不能升级到1000Mbps）。接下来我就对城区内（我常去的地方）的一些地点进行了测速。</p>
-<h2 id="测速环境"><a href="#测速环境" class="headerlink" title="测速环境"></a>测速环境</h2><p>手机： Samsung Galaxy S20+ 5G<br>运营商： 中国电信<br>位置：江苏某二线城市市中心5KM半径以内<br>软件： SpeedTest 江苏电信5G节点<br>家庭宽带：500Mbps光纤入户，采用i3软路由加上tplink mesh作为AP（有可能跑不满500Mbps）<br>** 测试区域在营业厅的5G建设图上都已经被5G信号覆盖了 **</p>
-<h2 id="测速结果"><a href="#测速结果" class="headerlink" title="测速结果"></a>测速结果</h2><ul>
-<li>室外</li>
-</ul>
-<p>在室外信号满格的最好状态<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3741477998.jpg"><br>从这里可以看出，5G在室外还是十分优异的，速度很快（虽然没有达到他宣称的速度），延迟不是很高，和4G环境其实不相上下。</p>
-<ul>
-<li>普通室外</li>
-</ul>
-<p>在室外普通的情况下一般能达到100-300Mbps，速度看起来还是比4G要快很多的，延迟依然和4G相差不大，估计在玩游戏上还是不能达到和家庭宽带一样的效果<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3042080346.jpg"></p>
-<p>*不同室内</p>
-<p>在室内测速，信号满格，是两种不同环境下在居民住宅中测的速，在较新的居民住宅中，速度达到50Mbps左右，和普通4G差不多速度。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/812419390.jpg"></p>
-<p>但是在老式居民区中，信号少两格，（地理位置不同），速度竟然只达到2-5Mbps，这竟然比4G还要弱，这是大大出乎我的意料的<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1082812633.jpg"></p>
-<ul>
-<li>延迟方面<br>从SpeedTest上面来看，5G的延迟和4G的相差无几，并没有宣传的低延迟，相较于家宽，还是有10-20ms的差距的。<br>从游戏方面来看，（这里还没有做测试）</li>
-</ul>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>5G网络在室外已经十分的快了，速度已经能达到宽带水平。但是，5G网络的缺点也十分明显，现在的基础建设十分不足，在室内和室外，或者不同的地理位置，信号都有着巨大的差距，有的地方甚至都没有4G网络的质量好。（我相信大多数人用数据流量还是在室内用的）<br>关于延迟方面，并没有推广说的低延迟，感觉和4G一个水平，比家庭宽带要高上10-20ms，对于游戏来说还是有一定影响的。<br>测速时发现，网速由低到高都需要很长一段时间来爬升（从图中的趋势可以看出）相比家庭宽带爬升的要慢。<br>我的建议是，如果现在急着换手机，那么可以买一个5G手机并且升级套餐，但是如果手机还能用，还不想换，那么也没有必要盲目升级5G，现在还不是完全成熟的阶段。</p>
-<h2 id="附："><a href="#附：" class="headerlink" title="附："></a>附：</h2><p>4G测速结果：<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2819579817.jpg"></p>
-<p>家庭宽带测速结果：<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/256753916.jpg"></p>
-]]></content>
-  </entry>
-  <entry>
     <title>尝试使用树莓派搭建一套低功率下载机</title>
     <url>/2020/09/28/%E5%B0%9D%E8%AF%95%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E4%B8%80%E5%A5%97%E4%BD%8E%E5%8A%9F%E7%8E%87%E4%B8%8B%E8%BD%BD%E6%9C%BA/</url>
     <content><![CDATA[<p>因为最近路由器加上了流控的插件，应该大量的带宽占用不会对家宽的体验产生较大的影响，寻思着也不能让宽带闲着吧，500M的宽带也是挺贵的，如果大部分时间这么闲置，其实还是很不划算的，遂想到使用一些低功耗的机器，配上移动硬盘或者硬盘盒，做一个低功率的下载机。</p>
@@ -670,8 +870,12 @@
 <h1 id="配置802-1x认证"><a href="#配置802-1x认证" class="headerlink" title="配置802.1x认证"></a>配置802.1x认证</h1><p>最重要的就是配置802.1x认证了，不然都是瞎扯。</p>
 <h2 id="1-安装完整WPAD"><a href="#1-安装完整WPAD" class="headerlink" title="1. 安装完整WPAD"></a>1. 安装完整WPAD</h2><p>现在OpenWRT上默认使用的是wpad-mini，并不支持802.1x认证，需要安装wpad来进行认证。</p>
 <p><em>如果OpenWRT系统使用了wpad完整版或者Hostapd就无需再次安装，直接跳到下一步，上面使用的骷髅头固件，在2022&#x2F;2&#x2F;19的版本以后已经集成了hostapd，无需此步。</em></p>
-<h3 id="如果有网络访问"><a href="#如果有网络访问" class="headerlink" title="如果有网络访问"></a>如果有网络访问</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">opkg update</span><br><span class="line">opkg download wpad</span><br><span class="line">opkg remove wpad-basic</span><br><span class="line">opkg install wpad_&lt;version&gt;_&lt;arch&gt;.ipk</span><br><span class="line">#请注意替换文件名</span><br></pre></td></tr></table></figure>
-
+<h3 id="如果有网络访问"><a href="#如果有网络访问" class="headerlink" title="如果有网络访问"></a>如果有网络访问</h3><pre><code>opkg update
+opkg download wpad
+opkg remove wpad-basic
+opkg install wpad_&lt;version&gt;_&lt;arch&gt;.ipk
+#请注意替换文件名
+</code></pre>
 <p><em>这时候一般是没有外网的，可以通过手机热点，共享给电脑，再通过windows共享给路由器，路由器注意修改网关，稍微有些复杂，这里不再赘述，不会的话可以通过下面的方式。</em></p>
 <h3 id="如果没有外网访问"><a href="#如果没有外网访问" class="headerlink" title="如果没有外网访问"></a>如果没有外网访问</h3><h4 id="1-获取软件包的位置"><a href="#1-获取软件包的位置" class="headerlink" title="1. 获取软件包的位置"></a>1. 获取软件包的位置</h4><p>在控制台中输入 <code>opkg update</code></p>
 <p>找到如下的一个URL（从开头一直到base)：<img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1396639689.png"></p>
@@ -679,45 +883,91 @@
 <p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1026497168.png"></p>
 <p>通过SCP或者FTP将软件包上传到软路由下并进行安装：<code> opkg install wpadxxxxxx.ipk</code></p>
 <h2 id="配置802-1x配置文件"><a href="#配置802-1x配置文件" class="headerlink" title="配置802.1x配置文件"></a>配置802.1x配置文件</h2><p>创建一个配置文件:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/config/wpa_supplicant.802.1x.conf</span><br></pre></td></tr></table></figure>
-
+<pre><code>vim /etc/config/wpa_supplicant.802.1x.conf
+</code></pre>
 <p>输入如下信息：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ctrl_interface=/var/run/wpa_supplicant</span><br><span class="line">ctrl_interface_group=root</span><br><span class="line">ap_scan=0</span><br><span class="line">network=&#123;</span><br><span class="line">  key_mgmt=IEEE8021X</span><br><span class="line">  eap=PEAP</span><br><span class="line">  phase2=&quot;autheap=MSCHAPV2&quot;</span><br><span class="line">  identity=&quot;&lt;&lt;username&gt;&gt;&quot;</span><br><span class="line">  password=&quot;&lt;&lt;password&gt;&gt;&quot;</span><br><span class="line">  priority=2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">ctrl_interface=/var/run/wpa_supplicant
+ctrl_interface_group=root
+ap_scan=0
+network=&#123;
+  key_mgmt=IEEE8021X
+  eap=PEAP
+  phase2=&quot;autheap=MSCHAPV2&quot;
+  identity=&quot;&lt;&lt;username&gt;&gt;&quot;
+  password=&quot;&lt;&lt;password&gt;&gt;&quot;
+  priority=2
+&#125;
+</code></pre>
 <p>这里需要注意一下校园或者单位的加密方式等配置，具体请在各自网站查找，或询问技术人员。</p>
 <h2 id="验证信息"><a href="#验证信息" class="headerlink" title="验证信息"></a>验证信息</h2><p>查找验证自己WAN口的网卡设备名称</p>
 <p>执行命令并确认是否正常：（注意修改网卡名称）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wpa_supplicant -D wired -i eth0.2 -c /etc/config/wpa_supplicant.802.1x.conf -dd -t</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">wpa_supplicant -D wired -i eth0.2 -c /etc/config/wpa_supplicant.802.1x.conf -dd -t
+</code></pre>
 <h2 id="创建开机脚本"><a href="#创建开机脚本" class="headerlink" title="创建开机脚本"></a>创建开机脚本</h2><p>创建文件：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/init.d/wpa-autostart</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">vim /etc/init.d/wpa-autostart
+</code></pre>
 <p>输入以下内容：（注意修改网卡设备名称）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh /etc/rc.common</span></span><br><span class="line">START=99</span><br><span class="line"></span><br><span class="line">start() &#123;</span><br><span class="line">echo start</span><br><span class="line">    pgrep -f wpa_supplicant.802.1x.conf|xargs kill</span><br><span class="line">    wpa_supplicant -D wired -i eth0.2 -c /etc/config/wpa_supplicant.802.1x.conf -dd -t &amp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="shell">#!/bin/sh /etc/rc.common
+START=99
 
+start() &#123;
+echo start
+    pgrep -f wpa_supplicant.802.1x.conf|xargs kill
+    wpa_supplicant -D wired -i eth0.2 -c /etc/config/wpa_supplicant.802.1x.conf -dd -t &amp;
+&#125;
+</code></pre>
 <p>赋予脚本权限和启动自启脚本：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chmod +x /etc/init.d/wpa-autostart</span><br><span class="line">/etc/init.d/wpa-autostart enable</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">chmod +x /etc/init.d/wpa-autostart
+/etc/init.d/wpa-autostart enable
+</code></pre>
 <h2 id="创建检测脚本"><a href="#创建检测脚本" class="headerlink" title="创建检测脚本"></a>创建检测脚本</h2><p>此脚本是为了断线重连，非必须。</p>
 <p>创建一个crontab脚本：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line">  </span><br><span class="line">export PATH=/usr/sbin:/usr/bin:/sbin:/bin</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">uci show network.wan.ifname</span></span><br><span class="line">wan=eth0.2</span><br><span class="line">time=$(date +&#x27;%F %T&#x27;)</span><br><span class="line">ipaddr=$(ip -4 -o a s $wan)</span><br><span class="line"></span><br><span class="line">if [ -n &quot;$ipaddr&quot; ]</span><br><span class="line">then</span><br><span class="line">    ip=$(ip -o a s $wan|awk &#x27;&#123;print $4&#125;&#x27;)</span><br><span class="line">    echo &quot;__INFO: $(basename &quot;$0&quot;) $time OK $wan IP: $ip&quot;</span><br><span class="line">else</span><br><span class="line">    echo &quot;__INFO: $(basename &quot;$0&quot;) $time ERROR $wan IP missing&quot;</span><br><span class="line">    if pgrep -af wpa_supplicant.802.1x.conf</span><br><span class="line">    then</span><br><span class="line">        pgrep -f wpa_supplicant.802.1x.conf|xargs kill</span><br><span class="line">    fi</span><br><span class="line">    echo &quot;$time $(basename &quot;$0&quot;)&quot; &gt;&gt; /tmp/802.1x-restart.log</span><br><span class="line">    wpa_supplicant -D wired -i $wan -c /etc/config/wpa_supplicant.802.1x.conf -dd -t &amp;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<pre><code class="shell">#!/bin/sh
+  
+export PATH=/usr/sbin:/usr/bin:/sbin:/bin
 
+# uci show network.wan.ifname
+wan=eth0.2
+time=$(date +&#39;%F %T&#39;)
+ipaddr=$(ip -4 -o a s $wan)
+
+if [ -n &quot;$ipaddr&quot; ]
+then
+    ip=$(ip -o a s $wan|awk &#39;&#123;print $4&#125;&#39;)
+    echo &quot;__INFO: $(basename &quot;$0&quot;) $time OK $wan IP: $ip&quot;
+else
+    echo &quot;__INFO: $(basename &quot;$0&quot;) $time ERROR $wan IP missing&quot;
+    if pgrep -af wpa_supplicant.802.1x.conf
+    then
+        pgrep -f wpa_supplicant.802.1x.conf|xargs kill
+    fi
+    echo &quot;$time $(basename &quot;$0&quot;)&quot; &gt;&gt; /tmp/802.1x-restart.log
+    wpa_supplicant -D wired -i $wan -c /etc/config/wpa_supplicant.802.1x.conf -dd -t &amp;
+fi
+</code></pre>
 <p>注意：请修改对应的网卡设备名称，此脚本只检测是否存在对应的IPV4地址，并不检测和上级路由是否通畅。</p>
 <p>添加crontab任务：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">crontab -l</span><br></pre></td></tr></table></figure>
-
+<pre><code>crontab -l
+</code></pre>
 <p>加入以下内容：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">* * * * * /bin/sh -x /etc/config/check.802.1x.sh &amp;&gt; /tmp/check.802.1x.log</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">* * * * * /bin/sh -x /etc/config/check.802.1x.sh &amp;&gt; /tmp/check.802.1x.log
+</code></pre>
 <p>启动crontab服务并观察：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/init.d/cron enable</span><br><span class="line">/etc/init.d/cron start</span><br><span class="line"></span><br><span class="line">pgrep -af cron</span><br><span class="line"></span><br><span class="line">logread -e cron</span><br></pre></td></tr></table></figure>
+<pre><code>/etc/init.d/cron enable
+/etc/init.d/cron start
 
+pgrep -af cron
+
+logread -e cron
+</code></pre>
 <p>到这里就基本完成上网的认证了</p>
 <h1 id="升级OpenWRT系统相关问题"><a href="#升级OpenWRT系统相关问题" class="headerlink" title="升级OpenWRT系统相关问题"></a>升级OpenWRT系统相关问题</h1><p>由于Openwrt系统默认不保存我们生成的系统文件，我们要对备份做一些修改。进入web后台：</p>
 <p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/9660548.png"></p>
 <p>加入下列路径：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/config/wpa_supplicant.802.1x.conf</span><br><span class="line">/etc/init.d/wpa-autostart</span><br><span class="line">/etc/config/check.802.1x.sh</span><br></pre></td></tr></table></figure>
-
+<pre><code>/etc/config/wpa_supplicant.802.1x.conf
+/etc/init.d/wpa-autostart
+/etc/config/check.802.1x.sh
+</code></pre>
 <p>如果没有wpad的系统也可以备份一下wpad安装包，根据自己的路径进行备份。（有可能升级以后旧版wpad安装包无法安装）</p>
 <p>点击右下角提交，进入<code>动作</code>选项卡，执行一次备份。</p>
 <h1 id="关于DNS接管问题"><a href="#关于DNS接管问题" class="headerlink" title="关于DNS接管问题"></a>关于DNS接管问题</h1><p>有的时候认证成功获取到ip以后访问外网IP可以通，外网域名无法解析的情况下，可能是内网将dns接管了</p>

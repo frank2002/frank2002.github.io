@@ -13,26 +13,36 @@
 </ul>
 <p><strong>总的来说，z-file的功能还是非常齐全的，能够胜任分享网盘的任务。同时也能够在多平台上面部署</strong></p>
 <h2 id="搭建教程"><a href="#搭建教程" class="headerlink" title="搭建教程"></a>搭建教程</h2><p>###官方：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># CentOS系统</span><br><span class="line">yum install -y java-1.8.0-openjdk unzip</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Debian 9 / Ubuntu 14+</span><br><span class="line">apt update</span><br><span class="line">apt install -y openjdk-8-jre-headless unzip</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Debian 10 (Buster) 系统</span><br><span class="line">apt update &amp;&amp; apt install -y apt-transport-https software-properties-common ca-certificates dirmngr gnupg</span><br><span class="line">wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -</span><br><span class="line">add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/</span><br><span class="line">apt update &amp;&amp; apt install -y adoptopenjdk-8-hotspot-jre</span><br></pre></td></tr></table></figure>
-
+<pre><code># CentOS系统
+yum install -y java-1.8.0-openjdk unzip
+</code></pre>
+<pre><code># Debian 9 / Ubuntu 14+
+apt update
+apt install -y openjdk-8-jre-headless unzip
+</code></pre>
+<pre><code># Debian 10 (Buster) 系统
+apt update &amp;&amp; apt install -y apt-transport-https software-properties-common ca-certificates dirmngr gnupg
+wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
+add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+apt update &amp;&amp; apt install -y adoptopenjdk-8-hotspot-jre
+</code></pre>
 <ul>
 <li>如为更新程序, 则请先执行 <code>~/zfile/bin/stop.sh &amp;&amp; rm -rf ~/zfile</code> 清理旧程序. 首次安装请忽略此选项.</li>
 </ul>
 <p>下载主文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">wget https://c.jun6.net/ZFILE/zfile-release.war</span><br><span class="line">mkdir zfile &amp;&amp; unzip zfile-release.war -d zfile &amp;&amp; rm -rf zfile-release.war</span><br><span class="line">chmod +x zfile/bin/*.sh</span><br></pre></td></tr></table></figure>
-
+<pre><code>cd ~
+wget https://c.jun6.net/ZFILE/zfile-release.war
+mkdir zfile &amp;&amp; unzip zfile-release.war -d zfile &amp;&amp; rm -rf zfile-release.war
+chmod +x zfile/bin/*.sh
+</code></pre>
 <p>*** 支持更改下载版本 ***</p>
 <p>控制命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/zfile/bin/start.sh</span><br></pre></td></tr></table></figure>
-
+<pre><code> ~/zfile/bin/start.sh
+</code></pre>
 <p>访问地址：</p>
 <p>** 用户前台: <a target="_blank" rel="noopener" href="http://127.0.0.1:8080/#/main">http://127.0.0.1:8080/#/main</a> **<br>** 初始安装: <a target="_blank" rel="noopener" href="http://127.0.0.1:8080/#/install">http://127.0.0.1:8080/#/install</a> **<br>** 管理后台: <a target="_blank" rel="noopener" href="http://127.0.0.1:8080/#/admin">http://127.0.0.1:8080/#/admin</a> **</p>
-<h3 id="第三方一键脚本"><a href="#第三方一键脚本" class="headerlink" title="第三方一键脚本"></a>第三方一键脚本</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -P ~ https://yun.fly-me.cn/directlink/1/Z-File/zfile.sh &amp;&amp; chmod +x zfile.sh &amp;&amp; ./zfile.sh</span><br></pre></td></tr></table></figure>
-
+<h3 id="第三方一键脚本"><a href="#第三方一键脚本" class="headerlink" title="第三方一键脚本"></a>第三方一键脚本</h3><pre><code>wget -P ~ https://yun.fly-me.cn/directlink/1/Z-File/zfile.sh &amp;&amp; chmod +x zfile.sh &amp;&amp; ./zfile.sh
+</code></pre>
 <h3 id="Docker部署"><a href="#Docker部署" class="headerlink" title="Docker部署"></a>Docker部署</h3><p>请自行前往DockerHub寻找合适的镜像</p>
 <hr>
 <h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>这个软件虽然好用，但是仍然存在一些缺点。<br>由于使用Java的JVM虚拟机，内存占用必不可少的会占用很客观的一部分。<br>由于仍处于开发阶段，会出现各种各样的问题<br>不支持文件夹下载<br>暂时不支持上传文件<br>有一些特定的系统会出现部署失误的问题<br>不支持多用户（也没有意象）</p>
