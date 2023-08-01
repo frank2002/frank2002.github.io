@@ -1,0 +1,64 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT</title><meta name="description" content="Chill"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="最近应朋友的需求，研究一个华为云的DDNS解决方式，并且支持OpenWRT和一些主流Linux发行版本。
+本教程来源于Github大佬开发的脚本，传送门
+并且感谢另外一位大佬修改脚本，使其支持Openwrt网卡获取IP：传送门
+此脚本支持IPV4与IPV6双栈，但是需要对脚本做出一些改动，下文会提到。
+准备工作首先将域名解析到华为云上，这里不再赘述。
+添加需要ddns的A记录或者AAAA记录。建议将TTL改小。
+
+配置单IPV4或者单IPV6首先点击链接下载脚本文件（IPV4，IPV6)，请下载对应的脚本。
+
+首先在脚本开头，修改个人配置
+
+1234567891011#用户名username=&amp;quot;&amp;quot;#账户名accountname=&amp;quot;&amp;quot;#密码password=&amp;quot;.."><meta name="generator" content="Hexo 6.3.0"></head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">J. Wang's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%8D%95IPV4%E6%88%96%E8%80%85%E5%8D%95IPV6"><span class="toc-text">配置单IPV4或者单IPV6</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%A0%88"><span class="toc-text">配置双栈</span></a></li></ol></div><div class="column is-9"><header class="my-4"></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT</h1><time class="has-text-grey" datetime="2021-08-16T19:38:32.000Z">2021-08-16</time><article class="mt-2 post-content"><p>最近应朋友的需求，研究一个华为云的DDNS解决方式，并且支持OpenWRT和一些主流Linux发行版本。</p>
+<p>本教程来源于Github大佬开发的脚本，<a target="_blank" rel="noopener" href="https://github.com/lllvcs/huaweicloud_ddns">传送门</a></p>
+<p>并且感谢另外一位大佬修改脚本，使其支持Openwrt网卡获取IP：<a target="_blank" rel="noopener" href="https://github.com/iLay1678/huaweicloud_ddns">传送门</a></p>
+<p>此脚本支持IPV4与IPV6双栈，但是需要对脚本做出一些改动，下文会提到。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>首先将域名解析到华为云上，这里不再赘述。</p>
+<p>添加需要ddns的A记录或者AAAA记录。建议将TTL改小。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1611623921.png"></p>
+<h3 id="配置单IPV4或者单IPV6"><a href="#配置单IPV4或者单IPV6" class="headerlink" title="配置单IPV4或者单IPV6"></a>配置单IPV4或者单IPV6</h3><p>首先点击链接下载脚本文件（<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ilay1678/huaweicloud_ddns/master/huaweicloud_ddns.sh">IPV4</a>，<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ilay1678/huaweicloud_ddns/ipv6/huaweicloud_ddns_ipv6.sh">IPV6</a>)，请下载对应的脚本。</p>
+<ul>
+<li>首先在脚本开头，修改个人配置</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#用户名</span></span><br><span class="line">username=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="comment">#账户名</span></span><br><span class="line">accountname=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="comment">#密码</span></span><br><span class="line">password=<span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#域名</span></span><br><span class="line">domain=<span class="string">&quot;example.com&quot;</span></span><br><span class="line"><span class="comment">#主机名</span></span><br><span class="line">host=<span class="string">&quot;www&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>username与accountname都填你登陆的用户名，password填入密码</p>
+<p>domain填入你的顶级域名，hosts填入二级域名，如果想直接用顶级域名，将hosts改成<code>#</code></p>
+<ul>
+<li>填写IP获取方式</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#从外网api获取ip地址(开启1/关闭0 默认开启)</span></span><br><span class="line">REMOTE_RESOLVE=0</span><br><span class="line"></span><br><span class="line"><span class="comment">#从网卡获取ip地址(填写网卡名 如eth0 ens3 he-ipv6)</span></span><br><span class="line"><span class="comment">#并请根据实际情况填写sed行数(第96 98行处)</span></span><br><span class="line">INTERFACE=<span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果需要从网卡获取，将Interface改成对应的WAN口网卡。</p>
+<p>如果要从外网API获取，请将REMOTE_RESOLVE改成<code>1</code></p>
+<ul>
+<li>上传到LINUX，给予权限，运行脚本</li>
+<li>如果返回没有报错，添加到Crontab中间进行定时获取。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3653619456.png"></p>
+<h2 id="配置双栈"><a href="#配置双栈" class="headerlink" title="配置双栈"></a>配置双栈</h2><p>据脚本作者所说：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">本项目存在已知的BUG，由于华为云API采用模糊搜索策略，recordset可能存在多个返回值，这会导致解析记录无法正常更新。</span><br><span class="line">经确认，为华为云方面更能迭代，目前只支持recordset的模糊搜索，请谨慎使用本脚本！</span><br></pre></td></tr></table></figure>
+
+<p>并且按照未修改的脚本，AAAA记录会和A记录产生冲突，无法更新某一条记录。</p>
+<p>由此我们这里需要对脚本进行手动配置</p>
+<p>首先将A记录与AAAA记录同时添加完成。</p>
+<p>IPV6脚本从上面的链接下载以后按照原来的脚本配置好，不需要改动，我们主要改动IPV4脚本。（改动哪个脚本都行，哪个脚本报错改哪个。）</p>
+<p>首先，我们进入华为云DNS界面，并且对一个记录点击<code>修改</code></p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3610534789.png"></p>
+<p>在这里不要动任何东西。</p>
+<p>在Chrome浏览器中，按<code>F12</code>，切换到Network选项卡，清除所有记录</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2064672223.png"></p>
+<p>此时在华为dns界面点击确定，此时右边会出现一些返回数据。</p>
+<p>在控制台中按<code>CTRL + F</code>，搜索<code>recordset</code>，找到如下图所示的值，打开response选项卡，复制所有数据到一个记事本中，方便分析。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1929601006.png"></p>
+<p>仔细阅读记事本，首先找到你需要修改的记录。</p>
+<p>找到Zone_ID和Recordset_ID，每一条记录都会如下图所示</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/227733475.png"></p>
+<p>记住Recordset_ID和Zone_ID，打开脚本</p>
+<p>在最后</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -X PUT -L -k -s \</span><br><span class="line">    <span class="string">&quot;https://<span class="variable">$dns</span>/v2/zones/<span class="variable">$ZONE_ID</span>/recordsets/<span class="variable">$RECORDSET_ID</span>&quot;</span> \</span><br><span class="line">    -H <span class="string">&quot;Content-Type: application/json&quot;</span> \</span><br><span class="line">    -H <span class="string">&quot;X-Auth-Token: <span class="variable">$token</span>&quot;</span> \</span><br><span class="line">    -d <span class="string">&quot;&#123;\&quot;records\&quot;: [\&quot;<span class="variable">$TARGET_IP</span>\&quot;],\&quot;ttl\&quot;: 1&#125;&quot;</span></span><br><span class="line">logger -t <span class="string">&quot;【更新dns地址解析】&quot;</span> <span class="string">&quot;完成&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>中间的<code>$RECORDSET_ID</code> 和<code>$Zone_ID</code>替换成记事本中对应的值</p>
+<p>修改完成后上传Linux进行测试。</p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2022/01/29/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8NBMiner%E6%8C%96%E6%8E%98ETH%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C/" title="关于使用NBMiner挖掘ETH的初体验"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: 关于使用NBMiner挖掘ETH的初体验</span></a><a class="button is-default" href="/2021/02/01/%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%8C%AB%E5%92%AA%E4%B8%8E%E5%85%B6%E4%BB%96%E7%9A%84%E7%B1%BB%E4%BC%BC%E8%BD%AF%E4%BB%B6/" title="关于如何使用小猫咪与其他的类似软件"><span class="has-text-weight-semibold">Next: 关于如何使用小猫咪与其他的类似软件</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="frank2002/frank2002.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com//"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/frank2002"><i class="iconfont icon-github"></i></a><!-- Ins--><a title="instagram" target="_blank" rel="noopener nofollow" href="//www.instagram.com//"><i class="iconfont icon-ins"></i></a><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> J. Wang 2023</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

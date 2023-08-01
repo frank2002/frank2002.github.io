@@ -1,0 +1,150 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>J. Wang's blog</title><meta name="description" content="Chill"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/widget-post-list.css"><meta name="generator" content="Hexo 6.3.0"></head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">J. Wang's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><article class="post-container is-flex is-justify-content-center section container is-max-widescreen pt-4 px-2"><div class="columns is-variable is-1-tablet is-3-desktop-only is-2-widescreen is-full-width"><section class="column"><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_094853.png" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2023/04/13/Windows%E5%AE%89%E8%A3%85Tensorflow%E4%BB%A5%E4%BD%BF%E7%94%A8GPU%E8%AE%A1%E7%AE%97/"><img class="post-cover-img js-img-fadeIn" src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_094853.png" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/04/13/Windows%E5%AE%89%E8%A3%85Tensorflow%E4%BB%A5%E4%BD%BF%E7%94%A8GPU%E8%AE%A1%E7%AE%97/">Windows安装Tensorflow以使用GPU计算</a></h2><time class="has-text-grey" datetime="2023-04-13T21:50:45.000Z">2023-04-13</time><p class="is-flex-grow-2 mt-2">最近ML课大量使用Tensorflow进行计算，并且卷积神经网络的计算量较大，因此我决定使用我的RTX3070Ti进行计算加速，增加生产力。本文记录了我在Windows 10上安装Tensorflow以使用GPU计算的过程。
+版本选择</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/04/13/Windows%E5%AE%89%E8%A3%85Tensorflow%E4%BB%A5%E4%BD%BF%E7%94%A8GPU%E8%AE%A1%E7%AE%97/">Read more</a></section></article><article class="post-item-card"><section class="content post-card-content p-4 pb-5"><header><a href="/tags/command%20notes"><i class="tag post-item-tag">command notes</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/04/11/anaconda/">anaconda frequent commands</a></h2><time class="has-text-grey" datetime="2023-04-11T09:10:21.000Z">2023-04-11</time><p class="is-flex-grow-2 mt-2">conda relatedview conda version</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/04/11/anaconda/">Read more</a></section></article><article class="post-item-card"><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/04/10/announcement/">Announcement / 须知</a></h2><time class="has-text-grey" datetime="2023-04-10T19:00:31.000Z">2023-04-10</time><p class="is-flex-grow-2 mt-2">AnnouncementThis blog will be a hybrid of English and Chinese posts. Probably some posts will not have translations between each other in this site. Please use translation tools if you want.</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/04/10/announcement/">Read more</a></section></article><article class="post-item-card"><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/04/10/commands/">Hexo frequent commands</a></h2><time class="has-text-grey" datetime="2023-04-10T15:57:01.000Z">2023-04-10</time><p class="is-flex-grow-2 mt-2">This post is only about several commands that will be used during updating this blog.
+Hexo related commands:</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/04/10/commands/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="https://raw.githubusercontent.com/docker-library/docs/c350af05d3fac7b5c3f6327ac82fe4d990d8729c/docker/logo.png" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2022/04/21/%E4%BD%BF%E7%94%A8Docker%E6%8B%89%E5%8F%96OP%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91/"><img class="post-cover-img js-img-fadeIn" src="https://raw.githubusercontent.com/docker-library/docs/c350af05d3fac7b5c3f6327ac82fe4d990d8729c/docker/logo.png" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2022/04/21/%E4%BD%BF%E7%94%A8Docker%E6%8B%89%E5%8F%96OP%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91/">使用Docker拉取OP编译环境并进行编译</a></h2><time class="has-text-grey" datetime="2022-04-21T14:49:18.000Z">2022-04-21</time><p class="is-flex-grow-2 mt-2">最近台式机电脑电源坏了，送厂返修，很长一段时间没有台式机用，遂决定使用安装了OMV的小主机进行编译。由于系统版本较老，安装环境无法成功，于是使用Ubuntu-docker进行环境的搭建，并打包上传到DockerHub，以便下次使用，并且节省空间。
+声明</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2022/04/21/%E4%BD%BF%E7%94%A8Docker%E6%8B%89%E5%8F%96OP%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2552550750.png" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2022/02/20/%E9%85%8D%E7%BD%AEOpenWRT%E7%9A%84802-1x%E8%AE%A4%E8%AF%81%E5%8A%A0%E5%85%A5%E5%86%85%E9%83%A8%E7%BD%91/"><img class="post-cover-img js-img-fadeIn" src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2552550750.png" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2022/02/20/%E9%85%8D%E7%BD%AEOpenWRT%E7%9A%84802-1x%E8%AE%A4%E8%AF%81%E5%8A%A0%E5%85%A5%E5%86%85%E9%83%A8%E7%BD%91/">配置OpenWRT的802.1x认证加入内部网</a></h2><time class="has-text-grey" datetime="2022-02-20T01:55:32.000Z">2022-02-20</time><p class="is-flex-grow-2 mt-2">又是很久没有更新了，其实这个已经完成了很多时候了，但是事情太多一直没来的及写。
+因为学校使用的Ethernet是通过802.1x认证的（好像WIFI也是），对于智能家居等不方便更改网络的设备非常不方便，遂有了添加路由器的想法。</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2022/02/20/%E9%85%8D%E7%BD%AEOpenWRT%E7%9A%84802-1x%E8%AE%A4%E8%AF%81%E5%8A%A0%E5%85%A5%E5%86%85%E9%83%A8%E7%BD%91/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="https://img13.360buyimg.com/n1/jfs/t1/194019/10/13696/108345/60f5457fE97715066/79df0514503e752a.jpg" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2022/01/29/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8NBMiner%E6%8C%96%E6%8E%98ETH%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C/"><img class="post-cover-img js-img-fadeIn" src="https://img13.360buyimg.com/n1/jfs/t1/194019/10/13696/108345/60f5457fE97715066/79df0514503e752a.jpg" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2022/01/29/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8NBMiner%E6%8C%96%E6%8E%98ETH%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C/">关于使用NBMiner挖掘ETH的初体验</a></h2><time class="has-text-grey" datetime="2022-01-29T09:09:14.000Z">2022-01-29</time><p class="is-flex-grow-2 mt-2">最近因为上学博客已经好久没有更新了。
+因为之前沉迷战地2042，原来的1660Ti笔记本打起游戏来已经不够用了，遂在欧洲重新配了一台电脑。基本配置是11600K+3070Ti的组合。</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2022/01/29/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8NBMiner%E6%8C%96%E6%8E%98ETH%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1611623921.png" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2021/08/16/Linux%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%8D%8E%E4%B8%BA%E4%BA%91DNS%EF%BC%88DDNS%EF%BC%89%E6%94%AF%E6%8C%81OPENWRT/"><img class="post-cover-img js-img-fadeIn" src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1611623921.png" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2021/08/16/Linux%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%8D%8E%E4%B8%BA%E4%BA%91DNS%EF%BC%88DDNS%EF%BC%89%E6%94%AF%E6%8C%81OPENWRT/">Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT</a></h2><time class="has-text-grey" datetime="2021-08-16T19:38:32.000Z">2021-08-16</time><p class="is-flex-grow-2 mt-2">最近应朋友的需求，研究一个华为云的DDNS解决方式，并且支持OpenWRT和一些主流Linux发行版本。
+本教程来源于Github大佬开发的脚本，传送门</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2021/08/16/Linux%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%8D%8E%E4%B8%BA%E4%BA%91DNS%EF%BC%88DDNS%EF%BC%89%E6%94%AF%E6%8C%81OPENWRT/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/ff5d8a6cc97d3d129269d051fda69927.jpg" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2021/02/01/%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%8C%AB%E5%92%AA%E4%B8%8E%E5%85%B6%E4%BB%96%E7%9A%84%E7%B1%BB%E4%BC%BC%E8%BD%AF%E4%BB%B6/"><img class="post-cover-img js-img-fadeIn" src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/ff5d8a6cc97d3d129269d051fda69927.jpg" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2021/02/01/%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%8C%AB%E5%92%AA%E4%B8%8E%E5%85%B6%E4%BB%96%E7%9A%84%E7%B1%BB%E4%BC%BC%E8%BD%AF%E4%BB%B6/">关于如何使用小猫咪与其他的类似软件</a></h2><time class="has-text-grey" datetime="2021-02-01T20:30:27.000Z">2021-02-01</time><p class="is-flex-grow-2 mt-2">注：这篇文章可能违反了中国大陆的法律规定。如果您在中国大陆，请立刻离开。请勿转载和传播，否则可能受到中国大陆法律的处罚或制裁。</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2021/02/01/%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%8C%AB%E5%92%AA%E4%B8%8E%E5%85%B6%E4%BB%96%E7%9A%84%E7%B1%BB%E4%BC%BC%E8%BD%AF%E4%BB%B6/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="https://images-na.ssl-images-amazon.com/images/I/91wSK3hWBLL._AC_SX466_.jpg" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2020/10/05/%E5%85%B3%E4%BA%8E%E7%BE%A4%E6%99%96%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/"><img class="post-cover-img js-img-fadeIn" src="https://images-na.ssl-images-amazon.com/images/I/91wSK3hWBLL._AC_SX466_.jpg" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2020/10/05/%E5%85%B3%E4%BA%8E%E7%BE%A4%E6%99%96%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/">关于群晖数据恢复</a></h2><time class="has-text-grey" datetime="2020-10-05T04:54:10.000Z">2020-10-05</time><p class="is-flex-grow-2 mt-2">今天又开始给博客除草了。这篇文章其实很早就想写了，奈何最近申请季，文书写到头大，实在分不出过多的精力来写这篇博客。今天就来讲讲群晖和硬盘的那些事。
+系统配置</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2020/10/05/%E5%85%B3%E4%BA%8E%E7%BE%A4%E6%99%96%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/">Read more</a></section></article><section class="paginator is-flex is-justify-content-flex-end is-flex-wrap-wrap mt-5"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-next has-text-grey"></i></a></section></section><aside class="column is-hidden-mobile is-4-tablet is-3-widescreen"><style>.search-widget .search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--second-text-color);
+}
+.search-widget .search-content {
+    position: absolute;
+    left: 0;
+    top: calc(100% - 3px);
+    z-index: 2;
+
+    width: 100%;
+    height: 0;
+    max-height: 550px;
+
+    overflow: auto;
+    box-sizing: border-box;
+
+    background: var(--top-bar-bg-color);
+    backdrop-filter: blur(var(--backdropFilter));
+    -webkit-backdrop-filter: blur(var(--backdropFilter));
+
+    border-bottom-left-radius: var(--borderRadius);
+    border-bottom-right-radius: var(--borderRadius);
+    box-shadow: 0 12px 15px rgba(0, 0, 0, 0.08);
+}
+
+.search-widget .search-content a:hover h5 {
+    color: #3273dc!important;
+}
+</style><main class="aside-card-container search-widget is-relative"><label for="searchInput"><div class="is-flex px-4" id="searchButton"><i class="iconfont icon--search1 mr-1"></i><input class="search-input is-flex-grow-1" id="searchInput" placeholder="Search everything.."></div></label><section class="search-content content" id="searchContent"></section></main><script>var searchDatabase = []
+var searchInputEl = document.getElementById('searchInput')
+var searchButtonEl = document.getElementById('searchButton')
+var searchResultEl = document.getElementById('searchContent')
+
+searchInputEl.oninput = function (evt) {
+    var searchValue = evt.srcElement.value
+    var haveSearchValue = Boolean(searchValue.trim())
+    if (!haveSearchValue) {
+        searchResultEl.style.height = 0
+        searchResultEl.innerHTML = null
+        return
+    }
+
+    var searchResults = searching(searchValue)
+
+    if (searchResults.length > 0) {
+        renderSearchResults(searchResults)
+    }
+}
+
+function renderSearchResults(results) {
+    searchResultEl.innerHTML = null
+    var fragment = document.createDocumentFragment()
+
+    results.forEach(function (item) {
+        var link = document.createElement('a')
+        var title = document.createElement('h5')
+        var content = document.createElement('p')
+
+        title.className = 'mb-1'
+        title.innerText = item.title
+        content.innerText = item.content
+
+        link.href = item.link
+        link.appendChild(title)
+        link.appendChild(content)
+        link.className = 'p-4 is-block'
+
+        fragment.appendChild(link)
+    })
+
+    searchResultEl.appendChild(fragment)
+    searchResultEl.style.height = 'auto'
+}
+
+function searching(inputText) {
+    var inputTexts = inputText.split(' ')
+    var searchResults = []
+    inputTexts.forEach(function (searchKey) {
+        var haveSearchValue = Boolean(searchKey.trim())
+        if (!haveSearchValue) return
+
+        var key = searchKey.toLowerCase()
+
+        for (var entry of searchDatabase) {
+            var title = entry.getElementsByTagName('title')[0].textContent
+            var link = entry.getElementsByTagName('link')[0].getAttribute('href')
+            var contentWithTags = entry.getElementsByTagName('content')[0].textContent
+            var rawContent = contentWithTags.trim().replace(/<[^>]+>/g, '').toLowerCase()
+
+            var LENGTH = 80
+            var finalContent = ''
+            var contentLength = rawContent.length
+            var searchResultIdx = rawContent.indexOf(key)
+
+            var startIdx = searchResultIdx - 20,
+                endIdx = startIdx + LENGTH
+
+            if (startIdx < 0) {
+                startIdx = 0
+                endIdx = 100
+            }
+
+            endIdx > contentLength && (endIdx = contentLength)
+
+            finalContent = rawContent.substring(startIdx, endIdx)
+
+            if (title.indexOf(key) > -1 || searchResultIdx > -1) {
+                searchResults.push({
+                    link: link,
+                    title: title,
+                    content: finalContent
+                })
+            }
+        }
+    })
+    return searchResults
+}
+
+searchButtonEl.onclick = function () {
+    if (searchDatabase.length > 0) return;
+
+    fetch(window.location.href + '/search.xml').then(res => res.text()).then(res => {
+        var domparser = new DOMParser
+        var doc = domparser.parseFromString(res, 'application/xml')
+        searchDatabase = doc.getElementsByTagName('search')[0].children
+    })
+}</script><main class="aside-card-container profile-widget"><!-- todo: 使用取色工具动态阴影--><section class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center"><section class="is-flex is-justify-content-center avatar is-clipped"><div class="avatar-placeholder"></div></section><h3 class="user-name">J. Wang</h3><blockquote class="has-text-centered is-relative"><span style="margin-bottom: 5px;">Chill</span></blockquote><address class="has-text-centered has-text-grey"><i class="iconfont icon-location" style="margin-right: 5px;"></i><span class="has-text-grey">In the middle of nowhere</span></address></section><section class="sns-container is-flex is-justify-content-center is-align-items-center"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com//"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/frank2002"><i class="iconfont icon-github"></i></a><!-- Ins--><a title="instagram" target="_blank" rel="noopener nofollow" href="//www.instagram.com//"><i class="iconfont icon-ins"></i></a><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//"><i class="iconfont icon-tian7_facebook"></i></a></section></main><main class="aside-card-container recent-widget"><h3>Recent</h3><ul><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_094853.png" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/04/13/Windows%E5%AE%89%E8%A3%85Tensorflow%E4%BB%A5%E4%BD%BF%E7%94%A8GPU%E8%AE%A1%E7%AE%97/">Windows安装Tensorflow以使用GPU计算</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-04-13T21:50:45.000Z">2023-04-13</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://ui-avatars.com/api/?background=f5f5f5&amp;name=an" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/04/11/anaconda/">anaconda frequent commands</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-04-11T09:10:21.000Z">2023-04-11</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://ui-avatars.com/api/?background=f5f5f5&amp;name=An" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/04/10/announcement/">Announcement / 须知</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-04-10T19:00:31.000Z">2023-04-10</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://ui-avatars.com/api/?background=f5f5f5&amp;name=He" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/04/10/commands/">Hexo frequent commands</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-04-10T15:57:01.000Z">2023-04-10</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://raw.githubusercontent.com/docker-library/docs/c350af05d3fac7b5c3f6327ac82fe4d990d8729c/docker/logo.png" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2022/04/21/%E4%BD%BF%E7%94%A8Docker%E6%8B%89%E5%8F%96OP%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91/">使用Docker拉取OP编译环境并进行编译</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2022-04-21T14:49:18.000Z">2022-04-21</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2552550750.png" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2022/02/20/%E9%85%8D%E7%BD%AEOpenWRT%E7%9A%84802-1x%E8%AE%A4%E8%AF%81%E5%8A%A0%E5%85%A5%E5%86%85%E9%83%A8%E7%BD%91/">配置OpenWRT的802.1x认证加入内部网</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2022-02-20T01:55:32.000Z">2022-02-20</time></section></li></ul></main><main class="aside-card-container archives-widget"><h3>Archives</h3><section><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">5</span></li></ul></section></main><main class="aside-card-container tag-widget"><h3>Tags</h3><section><a href="/tags/command%20notes"><span class="tag post-item-tag" style="margin-bottom: 5px;">command notes</span></a></section></main><main class="aside-card-container friend-widget"><h3>Friends</h3><section><a target="_blank" rel="noopener" href="https://www.google.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">Google</span></a><a target="_blank" rel="noopener" href="https://www.github.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">Github</span></a><a target="_blank" rel="noopener" href="https://v2ex.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">V2EX</span></a><a target="_blank" rel="noopener" href="https://twitter.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">Twitter</span></a></section></main></aside></div></article><script>$claudia.fadeInImage(null, $claudia.blurBackdropImg)
+
+window.addEventListener('resize', $claudia.throttle(function () {
+    var images = document.querySelectorAll('.js-img-fadeIn')
+
+    images.forEach($claudia.blurBackdropImg)
+}, 150))</script></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com//"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/frank2002"><i class="iconfont icon-github"></i></a><!-- Ins--><a title="instagram" target="_blank" rel="noopener nofollow" href="//www.instagram.com//"><i class="iconfont icon-ins"></i></a><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> J. Wang 2023</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script>$claudia.fadeInImage(null, $claudia.blurBackdropImg)
+
+window.addEventListener('resize', $claudia.throttle(function () {
+    var images = document.querySelectorAll('.js-img-fadeIn')
+
+    images.forEach($claudia.blurBackdropImg)
+}, 150))</script></body></html>
