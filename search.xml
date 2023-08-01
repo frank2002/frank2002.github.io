@@ -218,6 +218,39 @@ sudo systemctl restart docker
 ]]></content>
   </entry>
   <entry>
+    <title>Linux对于扩展系统分区容量的方式</title>
+    <url>/2020/07/23/Linux%E5%AF%B9%E4%BA%8E%E6%89%A9%E5%B1%95%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA%E5%AE%B9%E9%87%8F%E7%9A%84%E6%96%B9%E5%BC%8F/</url>
+    <content><![CDATA[<p>很多新手刚接触到虚拟机和Linux系统的时候都会对Linux的文件系统而产生疑惑，此篇文章主要讲述，在纯命令行下，如何对Linux的系统分区进行硬盘的容量扩展<br>##在ESXI或Workstation中间扩展硬盘容量（基础）<br>我认为此步骤不需要过多赘述了<br>##更改分区表</p>
+<ol>
+<li>运行</li>
+</ol>
+<pre><code>fdisk -l
+</code></pre>
+<ol start="2">
+<li>查看本机的分区类型，查看主分区所处的位置</li>
+<li>运行</li>
+</ol>
+<pre><code>fdisk /dev/sda
+</code></pre>
+<p>** 可以输入<code>m</code> 获得fdisk的帮助信息 **<br><code>d</code>删除需要扩容的分区<br><code>p</code>获得现有分区信息<br><code>n</code>创建新分区，设置大小和首尾<br><code>wq</code>保存<br>这样子的话分区表就已经更新好了，但是文件系统还没有更新，我们接着需要更新文件系统。<br>##更新文件系统</p>
+<pre><code>e2fsck -f /dev/sda1
+resize2fs /dev/sda1
+</code></pre>
+<p>** 注意，此处操作不会使原来文件丢失 **<br>接着重启系统，发现磁盘容量已经扩容</p>
+<p>*** 提示：任何磁盘操作都有丢失文件的风险，请先进行备份操作 ***</p>
+<p>##附加：BT-Panel的多个硬盘一件挂载指令（和本文无关）<br>这个命令方便的将未挂载的硬盘一键挂载到系统和BT-Panel上，十分方便。<br>Centos:</p>
+<pre><code>yum install wget -y &amp;&amp; wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; bash auto_disk.sh
+</code></pre>
+<p>Ubuntu:</p>
+<pre><code>wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; sudo bash auto_disk.sh
+</code></pre>
+<p>Debian:</p>
+<pre><code>wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; bash auto_disk.sh
+</code></pre>
+<p>一键挂载原文链接：<a href="https://www.bt.cn/bbs/thread-3187-1-1.html">https://www.bt.cn/bbs/thread-3187-1-1.html</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>anaconda frequent commands</title>
     <url>/2023/04/11/anaconda/</url>
     <content><![CDATA[<h1 id="conda-related"><a href="#conda-related" class="headerlink" title="conda related"></a>conda related</h1><p>view conda version</p>
@@ -272,36 +305,31 @@ conda info
       </tags>
   </entry>
   <entry>
-    <title>Linux对于扩展系统分区容量的方式</title>
-    <url>/2020/07/23/Linux%E5%AF%B9%E4%BA%8E%E6%89%A9%E5%B1%95%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA%E5%AE%B9%E9%87%8F%E7%9A%84%E6%96%B9%E5%BC%8F/</url>
-    <content><![CDATA[<p>很多新手刚接触到虚拟机和Linux系统的时候都会对Linux的文件系统而产生疑惑，此篇文章主要讲述，在纯命令行下，如何对Linux的系统分区进行硬盘的容量扩展<br>##在ESXI或Workstation中间扩展硬盘容量（基础）<br>我认为此步骤不需要过多赘述了<br>##更改分区表</p>
-<ol>
-<li>运行</li>
-</ol>
-<pre><code>fdisk -l
+    <title>Windows安装Tensorflow以使用GPU计算</title>
+    <url>/2023/04/13/Windows%E5%AE%89%E8%A3%85Tensorflow%E4%BB%A5%E4%BD%BF%E7%94%A8GPU%E8%AE%A1%E7%AE%97/</url>
+    <content><![CDATA[<p>最近ML课大量使用Tensorflow进行计算，并且卷积神经网络的计算量较大，因此我决定使用我的RTX3070Ti进行计算加速，增加生产力。本文记录了我在Windows 10上安装Tensorflow以使用GPU计算的过程。</p>
+<h1 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h1><p>本文安装的是<strong>Tensorflow 2.10.0</strong> 版本。此版本为Windows最后一个原生支持GPU计算的版本。自从Tensorflow 2.11开始，如需在Windows上使用Tensorflow GPU，需要使用WSL或者虚拟机。本文不会讨论WSL或者虚拟机的安装，如需了解，请自行搜索。<br>CUDA和cuDNN的版本选择<br>Tensorflow 2.10.0支持CUDA 11.2和cuDNN 8.1。因此，我们需要安装这两个版本的软件。<br>本文使用<strong>Anaconda</strong>进行安装</p>
+<p><em>建议不要使用过旧版本的Tensorflow，过老版本会存在很多的依赖问题。</em></p>
+<h1 id="安装CUDA"><a href="#安装CUDA" class="headerlink" title="安装CUDA"></a>安装CUDA</h1><p>从NVDIA官网上下载CUDA 11.2的安装包。<br><a href="https://developer.nvidia.com/cuda-11.2.0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10">传送门</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_094853.png"><br>下载完成后运行安装包，根据提示完成安装。</p>
+<h1 id="安装cuDNN"><a href="#安装cuDNN" class="headerlink" title="安装cuDNN"></a>安装cuDNN</h1><p>从NVDIA官网上下载cuDNN 8.1的安装包。<br><a href="https://developer.nvidia.com/rdp/cudnn-archive">传送门</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_095051.png"><br>下载完成后解压缩，将解压缩后的文件夹复制到CUDA的安装目录下。<br>默认安装目录为<code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2</code>。<br>将压缩包内的文件直接与CUDA目录合并即可。</p>
+<h1 id="安装Anaconda"><a href="#安装Anaconda" class="headerlink" title="安装Anaconda"></a>安装Anaconda</h1><p>从Anaconda官网上下载Anaconda 3的安装包。<br><a href="https://www.anaconda.com/products/individual">传送门</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_102036.png"><br>根据提示完成安装。建议不要勾选添加PATH环境变量。</p>
+<h1 id="创建conda虚拟环境"><a href="#创建conda虚拟环境" class="headerlink" title="创建conda虚拟环境"></a>创建conda虚拟环境</h1><h2 id="创建一个新的env"><a href="#创建一个新的env" class="headerlink" title="创建一个新的env:"></a>创建一个新的env:</h2><pre><code class="shell">conda create --name tensorflow python=3.9
 </code></pre>
-<ol start="2">
-<li>查看本机的分区类型，查看主分区所处的位置</li>
-<li>运行</li>
-</ol>
-<pre><code>fdisk /dev/sda
+<h2 id="激活env"><a href="#激活env" class="headerlink" title="激活env:"></a>激活env:</h2><pre><code class="shell">conda activate tensorflow
 </code></pre>
-<p>** 可以输入<code>m</code> 获得fdisk的帮助信息 **<br><code>d</code>删除需要扩容的分区<br><code>p</code>获得现有分区信息<br><code>n</code>创建新分区，设置大小和首尾<br><code>wq</code>保存<br>这样子的话分区表就已经更新好了，但是文件系统还没有更新，我们接着需要更新文件系统。<br>##更新文件系统</p>
-<pre><code>e2fsck -f /dev/sda1
-resize2fs /dev/sda1
+<p>接下来我们的操作都会在这个虚拟环境下进行，并不会影响到系统环境。</p>
+<p>如果需要查看更多Conda的常用命令，可以参考此文章<a href="https://page.frankutils.xyz/2023/04/11/anaconda/#more">传送门</a>, 或者直接在命令行中输入<code>conda</code>查看帮助。</p>
+<h1 id="安装Tensorflow"><a href="#安装Tensorflow" class="headerlink" title="安装Tensorflow"></a>安装Tensorflow</h1><h2 id="安装Tensorflow-2-10-0"><a href="#安装Tensorflow-2-10-0" class="headerlink" title="安装Tensorflow 2.10.0"></a>安装Tensorflow 2.10.0</h2><pre><code class="shell">pip install tensorflow==2.10.0
 </code></pre>
-<p>** 注意，此处操作不会使原来文件丢失 **<br>接着重启系统，发现磁盘容量已经扩容</p>
-<p>*** 提示：任何磁盘操作都有丢失文件的风险，请先进行备份操作 ***</p>
-<p>##附加：BT-Panel的多个硬盘一件挂载指令（和本文无关）<br>这个命令方便的将未挂载的硬盘一键挂载到系统和BT-Panel上，十分方便。<br>Centos:</p>
-<pre><code>yum install wget -y &amp;&amp; wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; bash auto_disk.sh
+<p>如果没有任何报错的话，此时Tensorflow已经安装完成了。</p>
+<p>接下来可以自行安装其余的包，如numpy，matplotlib等。</p>
+<h1 id="测试Tensorflow"><a href="#测试Tensorflow" class="headerlink" title="测试Tensorflow"></a>测试Tensorflow</h1><h2 id="测试Tensorflow是否安装成功"><a href="#测试Tensorflow是否安装成功" class="headerlink" title="测试Tensorflow是否安装成功"></a>测试Tensorflow是否安装成功</h2><pre><code class="python">import tensorflow as tf
+print(tf.__version__)
 </code></pre>
-<p>Ubuntu:</p>
-<pre><code>wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; sudo bash auto_disk.sh
+<p>如果输出的版本号为2.10.0，则说明Tensorflow安装成功。</p>
+<h2 id="测试Tensorflow是否支持GPU"><a href="#测试Tensorflow是否支持GPU" class="headerlink" title="测试Tensorflow是否支持GPU"></a>测试Tensorflow是否支持GPU</h2><pre><code class="python">tf.config.list_physical_devices(&#39;GPU&#39;)
 </code></pre>
-<p>Debian:</p>
-<pre><code>wget -O auto_disk.sh http://download.bt.cn/tools/auto_disk.sh &amp;&amp; bash auto_disk.sh
-</code></pre>
-<p>一键挂载原文链接：<a href="https://www.bt.cn/bbs/thread-3187-1-1.html">https://www.bt.cn/bbs/thread-3187-1-1.html</a></p>
+<p>如果输出的结果为<code>[PhysicalDevice(name=&#39;/physical_device:GPU:0&#39;, device_type=&#39;GPU&#39;)]</code>，则说明Tensorflow支持GPU。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_102624.png"><br><em>python3.10.10也可以支持Tensorflow 2.10.0</em><br>至此，本文完结。</p>
 ]]></content>
   </entry>
   <entry>
@@ -336,31 +364,70 @@ hexo clean #clean cache
 ]]></content>
   </entry>
   <entry>
-    <title>Windows安装Tensorflow以使用GPU计算</title>
-    <url>/2023/04/13/Windows%E5%AE%89%E8%A3%85Tensorflow%E4%BB%A5%E4%BD%BF%E7%94%A8GPU%E8%AE%A1%E7%AE%97/</url>
-    <content><![CDATA[<p>最近ML课大量使用Tensorflow进行计算，并且卷积神经网络的计算量较大，因此我决定使用我的RTX3070Ti进行计算加速，增加生产力。本文记录了我在Windows 10上安装Tensorflow以使用GPU计算的过程。</p>
-<h1 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h1><p>本文安装的是<strong>Tensorflow 2.10.0</strong> 版本。此版本为Windows最后一个原生支持GPU计算的版本。自从Tensorflow 2.11开始，如需在Windows上使用Tensorflow GPU，需要使用WSL或者虚拟机。本文不会讨论WSL或者虚拟机的安装，如需了解，请自行搜索。<br>CUDA和cuDNN的版本选择<br>Tensorflow 2.10.0支持CUDA 11.2和cuDNN 8.1。因此，我们需要安装这两个版本的软件。<br>本文使用<strong>Anaconda</strong>进行安装</p>
-<p><em>建议不要使用过旧版本的Tensorflow，过老版本会存在很多的依赖问题。</em></p>
-<h1 id="安装CUDA"><a href="#安装CUDA" class="headerlink" title="安装CUDA"></a>安装CUDA</h1><p>从NVDIA官网上下载CUDA 11.2的安装包。<br><a href="https://developer.nvidia.com/cuda-11.2.0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10">传送门</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_094853.png"><br>下载完成后运行安装包，根据提示完成安装。</p>
-<h1 id="安装cuDNN"><a href="#安装cuDNN" class="headerlink" title="安装cuDNN"></a>安装cuDNN</h1><p>从NVDIA官网上下载cuDNN 8.1的安装包。<br><a href="https://developer.nvidia.com/rdp/cudnn-archive">传送门</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_095051.png"><br>下载完成后解压缩，将解压缩后的文件夹复制到CUDA的安装目录下。<br>默认安装目录为<code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2</code>。<br>将压缩包内的文件直接与CUDA目录合并即可。</p>
-<h1 id="安装Anaconda"><a href="#安装Anaconda" class="headerlink" title="安装Anaconda"></a>安装Anaconda</h1><p>从Anaconda官网上下载Anaconda 3的安装包。<br><a href="https://www.anaconda.com/products/individual">传送门</a><br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_102036.png"><br>根据提示完成安装。建议不要勾选添加PATH环境变量。</p>
-<h1 id="创建conda虚拟环境"><a href="#创建conda虚拟环境" class="headerlink" title="创建conda虚拟环境"></a>创建conda虚拟环境</h1><h2 id="创建一个新的env"><a href="#创建一个新的env" class="headerlink" title="创建一个新的env:"></a>创建一个新的env:</h2><pre><code class="shell">conda create --name tensorflow python=3.9
+    <title>使用Docker拉取OP编译环境并进行编译</title>
+    <url>/2022/04/21/%E4%BD%BF%E7%94%A8Docker%E6%8B%89%E5%8F%96OP%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91/</url>
+    <content><![CDATA[<p>最近台式机电脑电源坏了，送厂返修，很长一段时间没有台式机用，遂决定使用安装了OMV的小主机进行编译。由于系统版本较老，安装环境无法成功，于是使用Ubuntu-docker进行环境的搭建，并打包上传到DockerHub，以便下次使用，并且节省空间。<br><img src="https://raw.githubusercontent.com/docker-library/docs/c350af05d3fac7b5c3f6327ac82fe4d990d8729c/docker/logo.png"></p>
+<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><ul>
+<li>此次只是博主的一次尝试，docker image并没有进行精简，提及可能会比较大。</li>
+<li>op的一些包已经下载完成，减少多次下载的烦恼。</li>
+<li>docker可以根据需要将编译成果或者整个Lede目录挂载到本机方便文件操作，本篇只使用<code>docker cp</code>命令进行文件的转移。</li>
+<li>不喜勿喷，大佬勿喷。</li>
+</ul>
+<h1 id="使用Docker编译环境"><a href="#使用Docker编译环境" class="headerlink" title="使用Docker编译环境"></a>使用Docker编译环境</h1><h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><p>请前往dockerHub拉取镜像，<a href="https://hub.docker.com/repository/docker/frank921/opcompile">传送门</a>。选择最新的docker镜像的tag进行拉取：</p>
+<pre><code>docker pull frank921/opcompile:v3
 </code></pre>
-<h2 id="激活env"><a href="#激活env" class="headerlink" title="激活env:"></a>激活env:</h2><pre><code class="shell">conda activate tensorflow
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1230477398.png"></p>
+<h3 id="部署镜像"><a href="#部署镜像" class="headerlink" title="部署镜像"></a>部署镜像</h3><pre><code>docker run -itd --name opcompile frank921/opcompile:v3
 </code></pre>
-<p>接下来我们的操作都会在这个虚拟环境下进行，并不会影响到系统环境。</p>
-<p>如果需要查看更多Conda的常用命令，可以参考此文章<a href="https://page.frankutils.xyz/2023/04/11/anaconda/#more">传送门</a>, 或者直接在命令行中输入<code>conda</code>查看帮助。</p>
-<h1 id="安装Tensorflow"><a href="#安装Tensorflow" class="headerlink" title="安装Tensorflow"></a>安装Tensorflow</h1><h2 id="安装Tensorflow-2-10-0"><a href="#安装Tensorflow-2-10-0" class="headerlink" title="安装Tensorflow 2.10.0"></a>安装Tensorflow 2.10.0</h2><pre><code class="shell">pip install tensorflow==2.10.0
+<p>通过docker exec 进入容器并进行编译操作。<br><em>注意：这里可以通过 -v 参数添加目录映射，具体请查询docker文档</em></p>
+<pre><code>docker exec -it opcompile /bin/bash
 </code></pre>
-<p>如果没有任何报错的话，此时Tensorflow已经安装完成了。</p>
-<p>接下来可以自行安装其余的包，如numpy，matplotlib等。</p>
-<h1 id="测试Tensorflow"><a href="#测试Tensorflow" class="headerlink" title="测试Tensorflow"></a>测试Tensorflow</h1><h2 id="测试Tensorflow是否安装成功"><a href="#测试Tensorflow是否安装成功" class="headerlink" title="测试Tensorflow是否安装成功"></a>测试Tensorflow是否安装成功</h2><pre><code class="python">import tensorflow as tf
-print(tf.__version__)
+<p>由于openwrt的编译程序不支持使用root用户进行编译，切换至lede用户进行编译并进入lede主目录:</p>
+<pre><code>su lede
+cd ~/lede
 </code></pre>
-<p>如果输出的版本号为2.10.0，则说明Tensorflow安装成功。</p>
-<h2 id="测试Tensorflow是否支持GPU"><a href="#测试Tensorflow是否支持GPU" class="headerlink" title="测试Tensorflow是否支持GPU"></a>测试Tensorflow是否支持GPU</h2><pre><code class="python">tf.config.list_physical_devices(&#39;GPU&#39;)
+<p><strong>lede用户的用户密码默认是12345678，为了安全性，请及时更改</strong></p>
+<p>进行环境更新：</p>
+<pre><code>sudo apt update -y
+sudo apt full-upgrade -y
 </code></pre>
-<p>如果输出的结果为<code>[PhysicalDevice(name=&#39;/physical_device:GPU:0&#39;, device_type=&#39;GPU&#39;)]</code>，则说明Tensorflow支持GPU。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/Clip_20230414_102624.png"><br><em>python3.10.10也可以支持Tensorflow 2.10.0</em><br>至此，本文完结。</p>
+<p>进行仓库更新：</p>
+<pre><code>git pull
+./scripts/feeds update -a
+./scripts/feeds install -a
+make defconfig
+</code></pre>
+<p>默认配置文件中我加入了一些常用插件，如果不需要这类插件，输入：</p>
+<pre><code>rm -rf ./tmp &amp;&amp; rm -rf .config
+</code></pre>
+<p>然后进入编译流程：</p>
+<pre><code>make menuconfig
+make download -j8
+make V=s -j$(nproc)
+</code></pre>
+<h4 id="特别提示"><a href="#特别提示" class="headerlink" title="特别提示"></a>特别提示</h4><p>由于编译过程ssh不能中断，在网络较差的环境下，请使用screen进行持久化。<br>创建窗口：</p>
+<pre><code>screen -S compiler
+</code></pre>
+<p>此时会进入窗口，可以进行编译操作，如果要推出窗口，请按 <code> Ctrl +AD</code> （按住Ctrl,一次按下A和D）<br>此时就能退出窗口<br>连接回窗口：</p>
+<pre><code>screen -r compiler
+</code></pre>
+<p>如果发现因为窗口Attached无法连接，可以输入:</p>
+<pre><code>screen -d compiler
+</code></pre>
+<p>分离会话，然后输入：</p>
+<pre><code>screen -r compiler
+</code></pre>
+<p>进入会话。</p>
+<h3 id="编译完成"><a href="#编译完成" class="headerlink" title="编译完成"></a>编译完成</h3><p>当无错误编译完成以后，可以进入bin&#x2F;targets找到相应的固件。<br>进入主机，输入：</p>
+<pre><code>docker ps
+</code></pre>
+<p>查询相应容器ID。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2389212853.png"><br>记住ID</p>
+<p>输入：</p>
+<pre><code>docker cp 容器ID:/home/lede/lede/bin/targets 主机目录
+</code></pre>
+<p>复制完成固件，复制过程会等待几分钟，正常现象。<br>接着进入主机相应目录获取固件。</p>
+<h1 id="Enjoy"><a href="#Enjoy" class="headerlink" title="Enjoy!"></a>Enjoy!</h1><h1 id="特别鸣谢"><a href="#特别鸣谢" class="headerlink" title="特别鸣谢"></a>特别鸣谢</h1><p><a href="https://github.com/coolsnowwolf/lede">https://github.com/coolsnowwolf/lede</a></p>
+<p><a href="https://github.com/kenzok8/openwrt-packages">https://github.com/kenzok8/openwrt-packages</a></p>
 ]]></content>
   </entry>
   <entry>
@@ -447,70 +514,25 @@ docker run -i -t -d -p 8080:80 onlyoffice/documentserver
 ]]></content>
   </entry>
   <entry>
-    <title>使用Docker拉取OP编译环境并进行编译</title>
-    <url>/2022/04/21/%E4%BD%BF%E7%94%A8Docker%E6%8B%89%E5%8F%96OP%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91/</url>
-    <content><![CDATA[<p>最近台式机电脑电源坏了，送厂返修，很长一段时间没有台式机用，遂决定使用安装了OMV的小主机进行编译。由于系统版本较老，安装环境无法成功，于是使用Ubuntu-docker进行环境的搭建，并打包上传到DockerHub，以便下次使用，并且节省空间。<br><img src="https://raw.githubusercontent.com/docker-library/docs/c350af05d3fac7b5c3f6327ac82fe4d990d8729c/docker/logo.png"></p>
-<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><ul>
-<li>此次只是博主的一次尝试，docker image并没有进行精简，提及可能会比较大。</li>
-<li>op的一些包已经下载完成，减少多次下载的烦恼。</li>
-<li>docker可以根据需要将编译成果或者整个Lede目录挂载到本机方便文件操作，本篇只使用<code>docker cp</code>命令进行文件的转移。</li>
-<li>不喜勿喷，大佬勿喷。</li>
-</ul>
-<h1 id="使用Docker编译环境"><a href="#使用Docker编译环境" class="headerlink" title="使用Docker编译环境"></a>使用Docker编译环境</h1><h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><p>请前往dockerHub拉取镜像，<a href="https://hub.docker.com/repository/docker/frank921/opcompile">传送门</a>。选择最新的docker镜像的tag进行拉取：</p>
-<pre><code>docker pull frank921/opcompile:v3
-</code></pre>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1230477398.png"></p>
-<h3 id="部署镜像"><a href="#部署镜像" class="headerlink" title="部署镜像"></a>部署镜像</h3><pre><code>docker run -itd --name opcompile frank921/opcompile:v3
-</code></pre>
-<p>通过docker exec 进入容器并进行编译操作。<br><em>注意：这里可以通过 -v 参数添加目录映射，具体请查询docker文档</em></p>
-<pre><code>docker exec -it opcompile /bin/bash
-</code></pre>
-<p>由于openwrt的编译程序不支持使用root用户进行编译，切换至lede用户进行编译并进入lede主目录:</p>
-<pre><code>su lede
-cd ~/lede
-</code></pre>
-<p><strong>lede用户的用户密码默认是12345678，为了安全性，请及时更改</strong></p>
-<p>进行环境更新：</p>
-<pre><code>sudo apt update -y
-sudo apt full-upgrade -y
-</code></pre>
-<p>进行仓库更新：</p>
-<pre><code>git pull
-./scripts/feeds update -a
-./scripts/feeds install -a
-make defconfig
-</code></pre>
-<p>默认配置文件中我加入了一些常用插件，如果不需要这类插件，输入：</p>
-<pre><code>rm -rf ./tmp &amp;&amp; rm -rf .config
-</code></pre>
-<p>然后进入编译流程：</p>
-<pre><code>make menuconfig
-make download -j8
-make V=s -j$(nproc)
-</code></pre>
-<h4 id="特别提示"><a href="#特别提示" class="headerlink" title="特别提示"></a>特别提示</h4><p>由于编译过程ssh不能中断，在网络较差的环境下，请使用screen进行持久化。<br>创建窗口：</p>
-<pre><code>screen -S compiler
-</code></pre>
-<p>此时会进入窗口，可以进行编译操作，如果要推出窗口，请按 <code> Ctrl +AD</code> （按住Ctrl,一次按下A和D）<br>此时就能退出窗口<br>连接回窗口：</p>
-<pre><code>screen -r compiler
-</code></pre>
-<p>如果发现因为窗口Attached无法连接，可以输入:</p>
-<pre><code>screen -d compiler
-</code></pre>
-<p>分离会话，然后输入：</p>
-<pre><code>screen -r compiler
-</code></pre>
-<p>进入会话。</p>
-<h3 id="编译完成"><a href="#编译完成" class="headerlink" title="编译完成"></a>编译完成</h3><p>当无错误编译完成以后，可以进入bin&#x2F;targets找到相应的固件。<br>进入主机，输入：</p>
-<pre><code>docker ps
-</code></pre>
-<p>查询相应容器ID。<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2389212853.png"><br>记住ID</p>
-<p>输入：</p>
-<pre><code>docker cp 容器ID:/home/lede/lede/bin/targets 主机目录
-</code></pre>
-<p>复制完成固件，复制过程会等待几分钟，正常现象。<br>接着进入主机相应目录获取固件。</p>
-<h1 id="Enjoy"><a href="#Enjoy" class="headerlink" title="Enjoy!"></a>Enjoy!</h1><h1 id="特别鸣谢"><a href="#特别鸣谢" class="headerlink" title="特别鸣谢"></a>特别鸣谢</h1><p><a href="https://github.com/coolsnowwolf/lede">https://github.com/coolsnowwolf/lede</a></p>
-<p><a href="https://github.com/kenzok8/openwrt-packages">https://github.com/kenzok8/openwrt-packages</a></p>
+    <title>关于使用NBMiner挖掘ETH的初体验</title>
+    <url>/2022/01/29/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8NBMiner%E6%8C%96%E6%8E%98ETH%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C/</url>
+    <content><![CDATA[<p>最近因为上学博客已经好久没有更新了。</p>
+<p>因为之前沉迷战地2042，原来的1660Ti笔记本打起游戏来已经不够用了，遂在欧洲重新配了一台电脑。基本配置是11600K+3070Ti的组合。</p>
+<p><img src="https://img13.360buyimg.com/n1/jfs/t1/194019/10/13696/108345/60f5457fE97715066/79df0514503e752a.jpg" alt="技嘉魔鹰"></p>
+<p>PS：欧洲的电脑是真的贵啊。</p>
+<p>心想着既然这么好的电脑配了也配了，不如来试试挖矿回血。因为一些原因，电费不需要我来交，所以收入永远都是为正的。</p>
+<p>本篇只是记录一下挖矿心得，并不是教程。</p>
+<h2 id="矿池选择"><a href="#矿池选择" class="headerlink" title="矿池选择"></a>矿池选择</h2><p>市面上有很多挖矿矿池，请根据自己的需要进行选择。</p>
+<p>我使用的是Binance矿池，虽然总算力不高，但是好处就是可以随时体现，对于我这种只是尝试的人还是很香的。</p>
+<p>Binance矿池和Binance的账号是通用的，开通一个挖矿账号就可以开始挖矿了。</p>
+<h2 id="软件选择"><a href="#软件选择" class="headerlink" title="软件选择"></a>软件选择</h2><p>因为我的卡是RTX 3070Ti，是LHR版本（<em>LHR：low hash rate</em>），选择了NBMiner作为挖矿软件，毕竟是初来乍到，原来就听说了可以解锁68%的算力，还是很香的。</p>
+<p>本人测试的时候Nbminer更新到了v40.1版本，亲自测试，本卡可以解锁到73.5%-74%的算力性能。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2394345912.png"></p>
+<h2 id="网络事项"><a href="#网络事项" class="headerlink" title="网络事项"></a>网络事项</h2><p>由于中国境内的特殊原因，切勿直连到矿池进行挖矿。并且SSL技术也不可靠，不可能100%绕过监管。请使用socks类代理软件进行对挖矿软件的代理。NBminer支持使用socks5类型的代理进行矿池链接，亲测效果不错。</p>
+<h2 id="挖矿实测"><a href="#挖矿实测" class="headerlink" title="挖矿实测"></a>挖矿实测</h2><p>根据挖矿实际测试，如果满功耗不超频的情况下，算力会在50MH&#x2F;s左右波动，功耗会在210W左右, 按照现在的币价来说，不算电费一天可以赚15人名币左右，如果要回本还是要很长一个周期的。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2347629307.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>现在币价逐渐走低，市场对于虚拟产品都不是特别乐观，现在如果特别想入场还是需要十分谨慎，很容易亏钱。但是如果是游戏玩家自己买了卡想回回血，在提前计算自己家中电费的情况下，还是可以试一下的。如果在中国大陆挖矿还是请使用代理类软件，防止上门请喝茶。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/461364571.png"></p>
 ]]></content>
   </entry>
   <entry>
@@ -590,28 +612,6 @@ make V=s -j$(nproc)
 ]]></content>
   </entry>
   <entry>
-    <title>关于使用NBMiner挖掘ETH的初体验</title>
-    <url>/2022/01/29/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8NBMiner%E6%8C%96%E6%8E%98ETH%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C/</url>
-    <content><![CDATA[<p>最近因为上学博客已经好久没有更新了。</p>
-<p>因为之前沉迷战地2042，原来的1660Ti笔记本打起游戏来已经不够用了，遂在欧洲重新配了一台电脑。基本配置是11600K+3070Ti的组合。</p>
-<p><img src="https://img13.360buyimg.com/n1/jfs/t1/194019/10/13696/108345/60f5457fE97715066/79df0514503e752a.jpg" alt="技嘉魔鹰"></p>
-<p>PS：欧洲的电脑是真的贵啊。</p>
-<p>心想着既然这么好的电脑配了也配了，不如来试试挖矿回血。因为一些原因，电费不需要我来交，所以收入永远都是为正的。</p>
-<p>本篇只是记录一下挖矿心得，并不是教程。</p>
-<h2 id="矿池选择"><a href="#矿池选择" class="headerlink" title="矿池选择"></a>矿池选择</h2><p>市面上有很多挖矿矿池，请根据自己的需要进行选择。</p>
-<p>我使用的是Binance矿池，虽然总算力不高，但是好处就是可以随时体现，对于我这种只是尝试的人还是很香的。</p>
-<p>Binance矿池和Binance的账号是通用的，开通一个挖矿账号就可以开始挖矿了。</p>
-<h2 id="软件选择"><a href="#软件选择" class="headerlink" title="软件选择"></a>软件选择</h2><p>因为我的卡是RTX 3070Ti，是LHR版本（<em>LHR：low hash rate</em>），选择了NBMiner作为挖矿软件，毕竟是初来乍到，原来就听说了可以解锁68%的算力，还是很香的。</p>
-<p>本人测试的时候Nbminer更新到了v40.1版本，亲自测试，本卡可以解锁到73.5%-74%的算力性能。</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2394345912.png"></p>
-<h2 id="网络事项"><a href="#网络事项" class="headerlink" title="网络事项"></a>网络事项</h2><p>由于中国境内的特殊原因，切勿直连到矿池进行挖矿。并且SSL技术也不可靠，不可能100%绕过监管。请使用socks类代理软件进行对挖矿软件的代理。NBminer支持使用socks5类型的代理进行矿池链接，亲测效果不错。</p>
-<h2 id="挖矿实测"><a href="#挖矿实测" class="headerlink" title="挖矿实测"></a>挖矿实测</h2><p>根据挖矿实际测试，如果满功耗不超频的情况下，算力会在50MH&#x2F;s左右波动，功耗会在210W左右, 按照现在的币价来说，不算电费一天可以赚15人名币左右，如果要回本还是要很长一个周期的。</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2347629307.png"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>现在币价逐渐走低，市场对于虚拟产品都不是特别乐观，现在如果特别想入场还是需要十分谨慎，很容易亏钱。但是如果是游戏玩家自己买了卡想回回血，在提前计算自己家中电费的情况下，还是可以试一下的。如果在中国大陆挖矿还是请使用代理类软件，防止上门请喝茶。</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/461364571.png"></p>
-]]></content>
-  </entry>
-  <entry>
     <title>关于群晖数据恢复</title>
     <url>/2020/10/05/%E5%85%B3%E4%BA%8E%E7%BE%A4%E6%99%96%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/</url>
     <content><![CDATA[<p>今天又开始给博客除草了。这篇文章其实很早就想写了，奈何最近申请季，文书写到头大，实在分不出过多的精力来写这篇博客。今天就来讲讲群晖和硬盘的那些事。</p>
@@ -649,22 +649,6 @@ make V=s -j$(nproc)
 ]]></content>
   </entry>
   <entry>
-    <title>关于这个博客</title>
-    <url>/2020/07/23/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<p>##这个博客是从typecho移植过来的，为了能够使用github更好的全球分发，并且更加稳定。<br>之前的文章很多都已经找不到了，主要是因为typecho稳定版中间的备份功能竟然有Bug，很烦！ （╯‵□′）╯︵┴─┴<br>后面会继续记录一些个人的心路历程和踩坑经验，希望以后能够绕坑而行。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>如何在Windows10上挂载WebDav</title>
-    <url>/2020/07/31/%E5%A6%82%E4%BD%95%E5%9C%A8Windows10%E4%B8%8A%E6%8C%82%E8%BD%BDWebDav/</url>
-    <content><![CDATA[<p>由于FTP的安全性堪忧，所以很多时候使用网络驱动器都会使用到WebDav协议来传输文件。许多网盘，像坚果云，NextCloud, CloudReve, 群晖等等都支持了WebDav协议的网络硬盘挂载，这篇文章主要讲述如何在Windows平台上挂载WebDav。</p>
-<h3 id="打开此电脑，点击映射网络驱动器"><a href="#打开此电脑，点击映射网络驱动器" class="headerlink" title="打开此电脑，点击映射网络驱动器"></a>打开此电脑，点击映射网络驱动器</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1669217597.png"><br>请确保是** 映射网络驱动器 <strong>，而不是</strong> 添加网络位置 **<br>亲测，添加网络位置无法挂载基于Https的WebDav网络驱动器。</p>
-<h3 id="输入WebDav的url"><a href="#输入WebDav的url" class="headerlink" title="输入WebDav的url"></a>输入WebDav的url</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1251071193.png"><br>确保访问的路径正确，可以直接向提供者询问。</p>
-<h3 id="输入凭据"><a href="#输入凭据" class="headerlink" title="输入凭据"></a>输入凭据</h3><p>因为WebDav相较于FTP更为安全，是不允许匿名访问的，这里需要填写提供商提供的Webdav登录用户名和密码，<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/805380419.jpg"></p>
-<h3 id="返回到Windows资源管理器"><a href="#返回到Windows资源管理器" class="headerlink" title="返回到Windows资源管理器"></a>返回到Windows资源管理器</h3><p>如果前面的步骤都没有报错的话，这一步应该能在此电脑这个界面看到新挂载的WebDav驱动器了</p>
-]]></content>
-  </entry>
-  <entry>
     <title>如何使用D2550搭建一个黑群晖</title>
     <url>/2020/08/13/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8D2550%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%BB%91%E7%BE%A4%E6%99%96/</url>
     <content><![CDATA[<p>最近突发奇想，想刷一个黑群晖玩玩，手头上正好有一块闲置的D2550的主板，本来想做软路由的，现在刚好用来把它作为黑群晖的载体。虽说性能一般，但是比原来的DS216j的白群晖，应该可玩性要高一些。</p>
@@ -688,6 +672,77 @@ make V=s -j$(nproc)
 <hr>
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>切记不要在DSM系统中将群晖升级，不然系统会损坏，数据需要另外导出，很麻烦。<br>本人不建议将群晖洗白，去白嫖群晖官方的QuickConnet是不道德的，而且过度使用很可能迫使群晖官方封锁黑群晖，以后想用都不能用了，如果因为功能原因需要洗白，也不建议使用官方的QuickConnect，请注意！</p>
 <p>此文章参考了什么值得买上面的阿文菌的文章，文章原链接： <a href="https://post.smzdm.com/p/ag82zdd3/">https://post.smzdm.com/p/ag82zdd3/</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>如何在OpenWrt软路由上设置OpenClash</title>
+    <url>/2020/09/22/%E5%A6%82%E4%BD%95%E5%9C%A8OpenWrt%E8%BD%AF%E8%B7%AF%E7%94%B1%E4%B8%8A%E8%AE%BE%E7%BD%AEOpenClash/</url>
+    <content><![CDATA[<h2 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h2><p><em><strong>这篇文章可能违反了中国大陆的法律规定。如果您在中国大陆，请立刻离开。请勿转载和传播，否则可能受到中国大陆法律的处罚或制裁。</strong></em></p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/ff5d8a6cc97d3d129269d051fda69927.jpg"></p>
+<h2 id="杂话"><a href="#杂话" class="headerlink" title="杂话"></a>杂话</h2><p>因为已经开学了好久，最近都没什么时间除草，中间还因为一次手误，导致博客丢了几篇文章（备份系统不知道为什么失效了），很烦！所以最近对博客系统进行了一次更改，增加多层备份，并且简化了网络结构，使其更加稳定。</p>
+<p><img src="https://blogfrankpic.oss-cn-shenzhen.aliyuncs.com/usr/uploads/2020/09/2656002551.png" alt="OpenClash"></p>
+<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>最近发现SSRP+这类的软路由代理插件有一定的局限性，不能做到很强大的分流，无法进行无缝的故障转移，对于我这种需要通过梯子进行国际考试的考生来说十分痛苦。随即想到了使用OpenClash。Clash相对于大多数人都不会陌生，CFW，ClashX，ClashR等等终端上的软件也是耳熟能详，但是很少人接触过OpenClash。这篇文章主要讲OpenClash该如何设置，并且如何避开一些坑。</p>
+<p><em>因为OpenClash还处于开发活跃阶段，本文存在一定的时效性，如果时间过长，可能导致本文的内容失效！</em></p>
+<h2 id="固件准备"><a href="#固件准备" class="headerlink" title="固件准备"></a>固件准备</h2><p>首先需要准备一个带有OpenClash的固件，这里不推荐自己使用OPKG进行安装，依赖等问题很难办，而且谁也不知道你用的什么上古版本的OpenWrt，所以说，随机编译较为稳定。<del>这里会提供一个Github Actions的自动编译。固件含有OpenClash，需要可以自取。因为是自动编译，并没有每一个都进行测试，所以并不能保证100%的稳定性</del></p>
+<h2 id="配置文件准备"><a href="#配置文件准备" class="headerlink" title="配置文件准备"></a>配置文件准备</h2><p>熟悉Clash的朋友们应该知道，使用Clash必须要有一个yaml的配置文件。Clash无法直接使用Vmess，SSR，SS，Trojan的分享URL，需要第三方工具进行转化，并且，由于我们需要强大的分流规则，所以这里推荐ACL4SSR的规则转换</p>
+<p><a href="https://acl4ssr-sub.github.io/">ACL4SSR 在线订阅转换</a></p>
+<p>当然，还有另外一种方法，OpenClash提供了配置文件生成插件，可以自主进行规则的设置和节点的分组，但是因为我使用的ACL4SSR，没有使用OpenClash自带的，这里就不再赘述了。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3723353351.png"></p>
+<h2 id="开始设置"><a href="#开始设置" class="headerlink" title="开始设置"></a>开始设置</h2><p>首先在<code>配置文件订阅</code>中添加配置文件，然后设置好自动更新，可以添加多个，然后在<code>配置文件管理</code>中选择需要使用的配置文件</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1285836377.png"></p>
+<h3 id="更新内核"><a href="#更新内核" class="headerlink" title="更新内核"></a>更新内核</h3><p>进入<code>常规设置</code>选择适配的CPU架构。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2864548368.png"></p>
+<p>进入<code>版本更新</code>，找到一键更新，进行自动更新。</p>
+<p>如果自动更新失败，请手动下载内核文件，并且传入指定目录。OpenClash的页面写的很清楚，这里没必要细说。重启路由器。</p>
+<h3 id="模式设置"><a href="#模式设置" class="headerlink" title="模式设置"></a>模式设置</h3><p>进入<code>全局设置</code>，然后看见有模式选择，默认是Redir-Host模式。这里推荐是Redir-Host模式，这个模式更加稳定，性能更好，但是更新内核文件会出现问题，DNS请求会更慢。</p>
+<p>底下有一个黄色按钮切换到<code>Fake-IP模式</code>。Fake-ip能够让用户获得更加快速的DNS请求，并且可以完美更新内核文件。但是缺点很明显，DDNS会获取到错误IP，性能较差。</p>
+<p>这里不推荐使用TUN，会导致吞吐量极具降低！</p>
+<p>默认选择<code>Rule</code>模式，推荐启用<code>大陆IP绕过模式</code>，减少内存和CPU占用。</p>
+<p>UDP模式按照自己需求来开。</p>
+<h3 id="DNS设置"><a href="#DNS设置" class="headerlink" title="DNS设置"></a>DNS设置</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1223897652.png"></p>
+<p>本地DNS劫持请开启，保证正常功能的使用。如果有上游DNS，请按照提示进行设置</p>
+<p>IPV6 DNS请关闭，OpenClash对于IPV6支持较差，不建议开启。</p>
+<p>禁止DNSmasq缓存建议开启，有时错误的缓存会导致终端无法上网。</p>
+<p>高级设置按需进行设置，不一定要开。</p>
+<h3 id="其他设置"><a href="#其他设置" class="headerlink" title="其他设置"></a>其他设置</h3><p>GeoIP，大陆白名单，第三方规则 库都建议进行定时升级，确保最好的网络访问状态。</p>
+<p>在<code>网络--DHCP/DNS</code>中查看<code>DNS转发</code>是否是：127.0.0.1#7874，如果不是，请修改。关闭DNS v6的解析。</p>
+<p>如果使用TUN模式，在<code>网络--防火墙</code>中，间VPN接口的规则设置为全部接受。</p>
+<p>如果发现性能跟不上，网速跑不满，请关闭：流控类软件（Qos，SQM等），BBR，SFE，Flowoffload之类的加速软件。可以一个一个关闭排除问题，不用一下子全部关掉。建议Turbo ACC中关闭DNS加速。</p>
+<p><strong>在主界面点击<code>启动OpenClash</code></strong></p>
+<h2 id="Clash设置"><a href="#Clash设置" class="headerlink" title="Clash设置"></a>Clash设置</h2><p>回到OpenClash主页面，点击Yacd后面的<code>打开控制面板</code></p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2510127460.png"></p>
+<p>这里推荐Yacd面板，比较稳定。DashBoard有时候会连接显示不全，并且跳出验证项。请勿两个同时使用，配置文件不能实时互通。</p>
+<h3 id="策略设置"><a href="#策略设置" class="headerlink" title="策略设置"></a>策略设置</h3><p><strong>熟悉Clash的朋友们这里就不用看了，和软件版的Clash设置基本一样。</strong></p>
+<p>点击<code>Proxies</code></p>
+<p>将节点选择切换为自动选择（最稳定最快）</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2432732249.png"></p>
+<p><em>这样理论上就能进行畅快的网络遨游了。</em></p>
+<p>也可以选择继续设置：</p>
+<p>将每种Selector（后面都会有显示，如下图所示）选择自己想要的模式，达到最适合自己的分流目的。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2764898196.png"></p>
+<p>漏网之鱼和Global两种模式推荐节点选择或者Direct（直连）</p>
+<p>节点选择：不适配任何规则的流量通过代理</p>
+<p>Direct：不适配任何规则的流量不通过代理，直连。</p>
+<p>这里请按照自己的需求选择。’</p>
+<h2 id="正式上网"><a href="#正式上网" class="headerlink" title="正式上网"></a>正式上网</h2><p>如果一步不错的做到这里，应该就可以正常访问世界范围内的公网了。</p>
+<p>可以对本机进行测速，或者进入Yacd面板查看Connections，检查是否连上。如果出现问题，请看下文。</p>
+<h2 id="其他设置-1"><a href="#其他设置-1" class="headerlink" title="其他设置"></a>其他设置</h2><h3 id="进行调试"><a href="#进行调试" class="headerlink" title="进行调试"></a>进行调试</h3><p>OpenClash 有两个显示日志文件的地方，两个地方显示的日志文件不同。</p>
+<p>在<code>全局设置-调试日志-生成日志</code>后，可以检查到OpenClash和路由器本身的一些设置。检查问题并且进行更改。</p>
+<p>在OpenClash最上面一条的任务栏上有一个<code>运行日志</code>，这里主要显示OpenClash的运行状态和问题。</p>
+<p>如果发现OpenClash正常启动了，却无法上网，请检查调试日志。如果OpenClash本身出错，请检查运行日志。如果需要咨询，请附上日志文件，并详细描述问题，否则自动忽略。</p>
+<h3 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h3><p>使用的过程中必不可少的会发现有些规则并不是我们想要的，我们就需要自定义我们的规则了。</p>
+<ol>
+<li>DNS解析问题：如果想强制使某个域名使用国内ＤＮＳ解析，在<code>全局设置－－ＤＮＳ设置－－高级设置</code>中启用此功能。并且在下面根据示例进行填写。</li>
+<li>自定义适用规则：进入<code>全局设置－－规则设置</code>中启用<code>自定义规则</code>。在下方自定义规则中，按照示例，添加适用的规则<img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2400129481.png"></li>
+<li>ＤＮＳ劫持：拉到最下面，修改自定义ＨＯＳＴＳ文件。</li>
+</ol>
+<h3 id="完成设置"><a href="#完成设置" class="headerlink" title="完成设置"></a>完成设置</h3><p>到这里应该所有设置就完成了，如果需要询问，请发邮件至博主邮箱，或者通过自己的方式联系到我。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>关于这个博客</title>
+    <url>/2020/07/23/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<p>##这个博客是从typecho移植过来的，为了能够使用github更好的全球分发，并且更加稳定。<br>之前的文章很多都已经找不到了，主要是因为typecho稳定版中间的备份功能竟然有Bug，很烦！ （╯‵□′）╯︵┴─┴<br>后面会继续记录一些个人的心路历程和踩坑经验，希望以后能够绕坑而行。</p>
 ]]></content>
   </entry>
   <entry>
@@ -765,68 +820,13 @@ chmod +x zfile/bin/*.sh
 ]]></content>
   </entry>
   <entry>
-    <title>如何在OpenWrt软路由上设置OpenClash</title>
-    <url>/2020/09/22/%E5%A6%82%E4%BD%95%E5%9C%A8OpenWrt%E8%BD%AF%E8%B7%AF%E7%94%B1%E4%B8%8A%E8%AE%BE%E7%BD%AEOpenClash/</url>
-    <content><![CDATA[<h2 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h2><p><em><strong>这篇文章可能违反了中国大陆的法律规定。如果您在中国大陆，请立刻离开。请勿转载和传播，否则可能受到中国大陆法律的处罚或制裁。</strong></em></p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/ff5d8a6cc97d3d129269d051fda69927.jpg"></p>
-<h2 id="杂话"><a href="#杂话" class="headerlink" title="杂话"></a>杂话</h2><p>因为已经开学了好久，最近都没什么时间除草，中间还因为一次手误，导致博客丢了几篇文章（备份系统不知道为什么失效了），很烦！所以最近对博客系统进行了一次更改，增加多层备份，并且简化了网络结构，使其更加稳定。</p>
-<p><img src="https://blogfrankpic.oss-cn-shenzhen.aliyuncs.com/usr/uploads/2020/09/2656002551.png" alt="OpenClash"></p>
-<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>最近发现SSRP+这类的软路由代理插件有一定的局限性，不能做到很强大的分流，无法进行无缝的故障转移，对于我这种需要通过梯子进行国际考试的考生来说十分痛苦。随即想到了使用OpenClash。Clash相对于大多数人都不会陌生，CFW，ClashX，ClashR等等终端上的软件也是耳熟能详，但是很少人接触过OpenClash。这篇文章主要讲OpenClash该如何设置，并且如何避开一些坑。</p>
-<p><em>因为OpenClash还处于开发活跃阶段，本文存在一定的时效性，如果时间过长，可能导致本文的内容失效！</em></p>
-<h2 id="固件准备"><a href="#固件准备" class="headerlink" title="固件准备"></a>固件准备</h2><p>首先需要准备一个带有OpenClash的固件，这里不推荐自己使用OPKG进行安装，依赖等问题很难办，而且谁也不知道你用的什么上古版本的OpenWrt，所以说，随机编译较为稳定。<del>这里会提供一个Github Actions的自动编译。固件含有OpenClash，需要可以自取。因为是自动编译，并没有每一个都进行测试，所以并不能保证100%的稳定性</del></p>
-<h2 id="配置文件准备"><a href="#配置文件准备" class="headerlink" title="配置文件准备"></a>配置文件准备</h2><p>熟悉Clash的朋友们应该知道，使用Clash必须要有一个yaml的配置文件。Clash无法直接使用Vmess，SSR，SS，Trojan的分享URL，需要第三方工具进行转化，并且，由于我们需要强大的分流规则，所以这里推荐ACL4SSR的规则转换</p>
-<p><a href="https://acl4ssr-sub.github.io/">ACL4SSR 在线订阅转换</a></p>
-<p>当然，还有另外一种方法，OpenClash提供了配置文件生成插件，可以自主进行规则的设置和节点的分组，但是因为我使用的ACL4SSR，没有使用OpenClash自带的，这里就不再赘述了。</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3723353351.png"></p>
-<h2 id="开始设置"><a href="#开始设置" class="headerlink" title="开始设置"></a>开始设置</h2><p>首先在<code>配置文件订阅</code>中添加配置文件，然后设置好自动更新，可以添加多个，然后在<code>配置文件管理</code>中选择需要使用的配置文件</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1285836377.png"></p>
-<h3 id="更新内核"><a href="#更新内核" class="headerlink" title="更新内核"></a>更新内核</h3><p>进入<code>常规设置</code>选择适配的CPU架构。</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2864548368.png"></p>
-<p>进入<code>版本更新</code>，找到一键更新，进行自动更新。</p>
-<p>如果自动更新失败，请手动下载内核文件，并且传入指定目录。OpenClash的页面写的很清楚，这里没必要细说。重启路由器。</p>
-<h3 id="模式设置"><a href="#模式设置" class="headerlink" title="模式设置"></a>模式设置</h3><p>进入<code>全局设置</code>，然后看见有模式选择，默认是Redir-Host模式。这里推荐是Redir-Host模式，这个模式更加稳定，性能更好，但是更新内核文件会出现问题，DNS请求会更慢。</p>
-<p>底下有一个黄色按钮切换到<code>Fake-IP模式</code>。Fake-ip能够让用户获得更加快速的DNS请求，并且可以完美更新内核文件。但是缺点很明显，DDNS会获取到错误IP，性能较差。</p>
-<p>这里不推荐使用TUN，会导致吞吐量极具降低！</p>
-<p>默认选择<code>Rule</code>模式，推荐启用<code>大陆IP绕过模式</code>，减少内存和CPU占用。</p>
-<p>UDP模式按照自己需求来开。</p>
-<h3 id="DNS设置"><a href="#DNS设置" class="headerlink" title="DNS设置"></a>DNS设置</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1223897652.png"></p>
-<p>本地DNS劫持请开启，保证正常功能的使用。如果有上游DNS，请按照提示进行设置</p>
-<p>IPV6 DNS请关闭，OpenClash对于IPV6支持较差，不建议开启。</p>
-<p>禁止DNSmasq缓存建议开启，有时错误的缓存会导致终端无法上网。</p>
-<p>高级设置按需进行设置，不一定要开。</p>
-<h3 id="其他设置"><a href="#其他设置" class="headerlink" title="其他设置"></a>其他设置</h3><p>GeoIP，大陆白名单，第三方规则 库都建议进行定时升级，确保最好的网络访问状态。</p>
-<p>在<code>网络--DHCP/DNS</code>中查看<code>DNS转发</code>是否是：127.0.0.1#7874，如果不是，请修改。关闭DNS v6的解析。</p>
-<p>如果使用TUN模式，在<code>网络--防火墙</code>中，间VPN接口的规则设置为全部接受。</p>
-<p>如果发现性能跟不上，网速跑不满，请关闭：流控类软件（Qos，SQM等），BBR，SFE，Flowoffload之类的加速软件。可以一个一个关闭排除问题，不用一下子全部关掉。建议Turbo ACC中关闭DNS加速。</p>
-<p><strong>在主界面点击<code>启动OpenClash</code></strong></p>
-<h2 id="Clash设置"><a href="#Clash设置" class="headerlink" title="Clash设置"></a>Clash设置</h2><p>回到OpenClash主页面，点击Yacd后面的<code>打开控制面板</code></p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2510127460.png"></p>
-<p>这里推荐Yacd面板，比较稳定。DashBoard有时候会连接显示不全，并且跳出验证项。请勿两个同时使用，配置文件不能实时互通。</p>
-<h3 id="策略设置"><a href="#策略设置" class="headerlink" title="策略设置"></a>策略设置</h3><p><strong>熟悉Clash的朋友们这里就不用看了，和软件版的Clash设置基本一样。</strong></p>
-<p>点击<code>Proxies</code></p>
-<p>将节点选择切换为自动选择（最稳定最快）</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2432732249.png"></p>
-<p><em>这样理论上就能进行畅快的网络遨游了。</em></p>
-<p>也可以选择继续设置：</p>
-<p>将每种Selector（后面都会有显示，如下图所示）选择自己想要的模式，达到最适合自己的分流目的。</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2764898196.png"></p>
-<p>漏网之鱼和Global两种模式推荐节点选择或者Direct（直连）</p>
-<p>节点选择：不适配任何规则的流量通过代理</p>
-<p>Direct：不适配任何规则的流量不通过代理，直连。</p>
-<p>这里请按照自己的需求选择。’</p>
-<h2 id="正式上网"><a href="#正式上网" class="headerlink" title="正式上网"></a>正式上网</h2><p>如果一步不错的做到这里，应该就可以正常访问世界范围内的公网了。</p>
-<p>可以对本机进行测速，或者进入Yacd面板查看Connections，检查是否连上。如果出现问题，请看下文。</p>
-<h2 id="其他设置-1"><a href="#其他设置-1" class="headerlink" title="其他设置"></a>其他设置</h2><h3 id="进行调试"><a href="#进行调试" class="headerlink" title="进行调试"></a>进行调试</h3><p>OpenClash 有两个显示日志文件的地方，两个地方显示的日志文件不同。</p>
-<p>在<code>全局设置-调试日志-生成日志</code>后，可以检查到OpenClash和路由器本身的一些设置。检查问题并且进行更改。</p>
-<p>在OpenClash最上面一条的任务栏上有一个<code>运行日志</code>，这里主要显示OpenClash的运行状态和问题。</p>
-<p>如果发现OpenClash正常启动了，却无法上网，请检查调试日志。如果OpenClash本身出错，请检查运行日志。如果需要咨询，请附上日志文件，并详细描述问题，否则自动忽略。</p>
-<h3 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h3><p>使用的过程中必不可少的会发现有些规则并不是我们想要的，我们就需要自定义我们的规则了。</p>
-<ol>
-<li>DNS解析问题：如果想强制使某个域名使用国内ＤＮＳ解析，在<code>全局设置－－ＤＮＳ设置－－高级设置</code>中启用此功能。并且在下面根据示例进行填写。</li>
-<li>自定义适用规则：进入<code>全局设置－－规则设置</code>中启用<code>自定义规则</code>。在下方自定义规则中，按照示例，添加适用的规则<img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2400129481.png"></li>
-<li>ＤＮＳ劫持：拉到最下面，修改自定义ＨＯＳＴＳ文件。</li>
-</ol>
-<h3 id="完成设置"><a href="#完成设置" class="headerlink" title="完成设置"></a>完成设置</h3><p>到这里应该所有设置就完成了，如果需要询问，请发邮件至博主邮箱，或者通过自己的方式联系到我。</p>
+    <title>如何在Windows10上挂载WebDav</title>
+    <url>/2020/07/31/%E5%A6%82%E4%BD%95%E5%9C%A8Windows10%E4%B8%8A%E6%8C%82%E8%BD%BDWebDav/</url>
+    <content><![CDATA[<p>由于FTP的安全性堪忧，所以很多时候使用网络驱动器都会使用到WebDav协议来传输文件。许多网盘，像坚果云，NextCloud, CloudReve, 群晖等等都支持了WebDav协议的网络硬盘挂载，这篇文章主要讲述如何在Windows平台上挂载WebDav。</p>
+<h3 id="打开此电脑，点击映射网络驱动器"><a href="#打开此电脑，点击映射网络驱动器" class="headerlink" title="打开此电脑，点击映射网络驱动器"></a>打开此电脑，点击映射网络驱动器</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1669217597.png"><br>请确保是** 映射网络驱动器 <strong>，而不是</strong> 添加网络位置 **<br>亲测，添加网络位置无法挂载基于Https的WebDav网络驱动器。</p>
+<h3 id="输入WebDav的url"><a href="#输入WebDav的url" class="headerlink" title="输入WebDav的url"></a>输入WebDav的url</h3><p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1251071193.png"><br>确保访问的路径正确，可以直接向提供者询问。</p>
+<h3 id="输入凭据"><a href="#输入凭据" class="headerlink" title="输入凭据"></a>输入凭据</h3><p>因为WebDav相较于FTP更为安全，是不允许匿名访问的，这里需要填写提供商提供的Webdav登录用户名和密码，<br><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/805380419.jpg"></p>
+<h3 id="返回到Windows资源管理器"><a href="#返回到Windows资源管理器" class="headerlink" title="返回到Windows资源管理器"></a>返回到Windows资源管理器</h3><p>如果前面的步骤都没有报错的话，这一步应该能在此电脑这个界面看到新挂载的WebDav驱动器了</p>
 ]]></content>
   </entry>
   <entry>
