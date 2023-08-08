@@ -8,15 +8,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>test</title>
-    <url>/2023/07/07/test/</url>
-    <content><![CDATA[<h1 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h1><p>testetsteststset</p>
-]]></content>
-      <tags>
-        <tag>test file</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Windows安装Tensorflow以使用GPU计算</title>
     <url>/2023/04/13/Windows%E5%AE%89%E8%A3%85Tensorflow%E4%BB%A5%E4%BD%BF%E7%94%A8GPU%E8%AE%A1%E7%AE%97/</url>
     <content><![CDATA[<p>最近ML课大量使用Tensorflow进行计算，并且卷积神经网络的计算量较大，因此我决定使用我的RTX3070Ti进行计算加速，增加生产力。本文记录了我在Windows 10上安装Tensorflow以使用GPU计算的过程。</p>
