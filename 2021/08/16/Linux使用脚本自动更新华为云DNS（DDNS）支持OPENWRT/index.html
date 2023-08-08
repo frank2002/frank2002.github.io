@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT - Fs Page</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="F&#039;s Blog"><meta name="msapplication-TileImage" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1_seo-application-like-thumb.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="F&#039;s Blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="最近应朋友的需求，研究一个华为云的DDNS解决方式，并且支持OpenWRT和一些主流Linux发行版本。 本教程来源于Github大佬开发的脚本，传送门"><meta property="og:type" content="blog"><meta property="og:title" content="Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT"><meta property="og:url" content="https://page.frankutils.xyz/2021/08/16/Linux%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%8D%8E%E4%B8%BA%E4%BA%91DNS%EF%BC%88DDNS%EF%BC%89%E6%94%AF%E6%8C%81OPENWRT/"><meta property="og:site_name" content="Fs Page"><meta property="og:description" content="最近应朋友的需求，研究一个华为云的DDNS解决方式，并且支持OpenWRT和一些主流Linux发行版本。 本教程来源于Github大佬开发的脚本，传送门"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1611623921.png"><meta property="og:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3653619456.png"><meta property="og:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3610534789.png"><meta property="og:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2064672223.png"><meta property="og:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1929601006.png"><meta property="og:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/227733475.png"><meta property="article:published_time" content="2021-08-16T21:38:32.000Z"><meta property="article:modified_time" content="2023-08-08T14:00:21.614Z"><meta property="article:author" content="Frank W"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1611623921.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://page.frankutils.xyz/2021/08/16/Linux%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%8D%8E%E4%B8%BA%E4%BA%91DNS%EF%BC%88DDNS%EF%BC%89%E6%94%AF%E6%8C%81OPENWRT/"},"headline":"Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT","image":["https://raw.githubusercontent.com/frank2002/blogImg/main/page/1611623921.png","https://raw.githubusercontent.com/frank2002/blogImg/main/page/3653619456.png","https://raw.githubusercontent.com/frank2002/blogImg/main/page/3610534789.png","https://raw.githubusercontent.com/frank2002/blogImg/main/page/2064672223.png","https://raw.githubusercontent.com/frank2002/blogImg/main/page/1929601006.png","https://raw.githubusercontent.com/frank2002/blogImg/main/page/227733475.png"],"datePublished":"2021-08-16T21:38:32.000Z","dateModified":"2023-08-08T14:00:21.614Z","author":{"@type":"Person","name":"Frank W"},"publisher":{"@type":"Organization","name":"Fs Page","logo":{"@type":"ImageObject","url":"https://page.frankutils.xyz/img/logo.svg"}},"description":"最近应朋友的需求，研究一个华为云的DDNS解决方式，并且支持OpenWRT和一些主流Linux发行版本。 本教程来源于Github大佬开发的脚本，传送门"}</script><link rel="canonical" href="https://page.frankutils.xyz/2021/08/16/Linux%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%8D%8E%E4%B8%BA%E4%BA%91DNS%EF%BC%88DDNS%EF%BC%89%E6%94%AF%E6%8C%81OPENWRT/"><link rel="icon" href="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1_seo-application-like-thumb.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Fs Page" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/frank2002"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2021-08-16T21:38:32.000Z" title="8/16/2021, 9:38:32 PM">2021-08-16</time></span><span class="level-item">Updated&nbsp;<time dateTime="2023-08-08T14:00:21.614Z" title="8/8/2023, 2:00:21 PM">2023-08-08</time></span><span class="level-item">7 minutes read (About 1006 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT</h1><div class="content"><p>最近应朋友的需求，研究一个华为云的DDNS解决方式，并且支持OpenWRT和一些主流Linux发行版本。</p>
+<p>本教程来源于Github大佬开发的脚本，<a target="_blank" rel="noopener" href="https://github.com/lllvcs/huaweicloud_ddns">传送门</a></p>
+<p>并且感谢另外一位大佬修改脚本，使其支持Openwrt网卡获取IP：<a target="_blank" rel="noopener" href="https://github.com/iLay1678/huaweicloud_ddns">传送门</a></p>
+<p>此脚本支持IPV4与IPV6双栈，但是需要对脚本做出一些改动，下文会提到。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>首先将域名解析到华为云上，这里不再赘述。</p>
+<p>添加需要ddns的A记录或者AAAA记录。建议将TTL改小。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1611623921.png"></p>
+<h3 id="配置单IPV4或者单IPV6"><a href="#配置单IPV4或者单IPV6" class="headerlink" title="配置单IPV4或者单IPV6"></a>配置单IPV4或者单IPV6</h3><p>首先点击链接下载脚本文件（<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ilay1678/huaweicloud_ddns/master/huaweicloud_ddns.sh">IPV4</a>，<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ilay1678/huaweicloud_ddns/ipv6/huaweicloud_ddns_ipv6.sh">IPV6</a>)，请下载对应的脚本。</p>
+<ul>
+<li>首先在脚本开头，修改个人配置</li>
+</ul>
+<pre><code class="bash">#用户名
+username=&quot;&quot;
+#账户名
+accountname=&quot;&quot;
+#密码
+password=&quot;&quot;
+
+#域名
+domain=&quot;example.com&quot;
+#主机名
+host=&quot;www&quot;
+</code></pre>
+<p>username与accountname都填你登陆的用户名，password填入密码</p>
+<p>domain填入你的顶级域名，hosts填入二级域名，如果想直接用顶级域名，将hosts改成<code>#</code></p>
+<ul>
+<li>填写IP获取方式</li>
+</ul>
+<pre><code class="bash">#从外网api获取ip地址(开启1/关闭0 默认开启)
+REMOTE_RESOLVE=0
+
+#从网卡获取ip地址(填写网卡名 如eth0 ens3 he-ipv6)
+#并请根据实际情况填写sed行数(第96 98行处)
+INTERFACE=&quot;&quot;
+</code></pre>
+<p>如果需要从网卡获取，将Interface改成对应的WAN口网卡。</p>
+<p>如果要从外网API获取，请将REMOTE_RESOLVE改成<code>1</code></p>
+<ul>
+<li>上传到LINUX，给予权限，运行脚本</li>
+<li>如果返回没有报错，添加到Crontab中间进行定时获取。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3653619456.png"></p>
+<h2 id="配置双栈"><a href="#配置双栈" class="headerlink" title="配置双栈"></a>配置双栈</h2><p>据脚本作者所说：</p>
+<pre><code class="markdown">本项目存在已知的BUG，由于华为云API采用模糊搜索策略，recordset可能存在多个返回值，这会导致解析记录无法正常更新。
+经确认，为华为云方面更能迭代，目前只支持recordset的模糊搜索，请谨慎使用本脚本！
+</code></pre>
+<p>并且按照未修改的脚本，AAAA记录会和A记录产生冲突，无法更新某一条记录。</p>
+<p>由此我们这里需要对脚本进行手动配置</p>
+<p>首先将A记录与AAAA记录同时添加完成。</p>
+<p>IPV6脚本从上面的链接下载以后按照原来的脚本配置好，不需要改动，我们主要改动IPV4脚本。（改动哪个脚本都行，哪个脚本报错改哪个。）</p>
+<p>首先，我们进入华为云DNS界面，并且对一个记录点击<code>修改</code></p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3610534789.png"></p>
+<p>在这里不要动任何东西。</p>
+<p>在Chrome浏览器中，按<code>F12</code>，切换到Network选项卡，清除所有记录</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2064672223.png"></p>
+<p>此时在华为dns界面点击确定，此时右边会出现一些返回数据。</p>
+<p>在控制台中按<code>CTRL + F</code>，搜索<code>recordset</code>，找到如下图所示的值，打开response选项卡，复制所有数据到一个记事本中，方便分析。</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1929601006.png"></p>
+<p>仔细阅读记事本，首先找到你需要修改的记录。</p>
+<p>找到Zone_ID和Recordset_ID，每一条记录都会如下图所示</p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/227733475.png"></p>
+<p>记住Recordset_ID和Zone_ID，打开脚本</p>
+<p>在最后</p>
+<pre><code class="bash">curl -X PUT -L -k -s \
+    &quot;https://$dns/v2/zones/$ZONE_ID/recordsets/$RECORDSET_ID&quot; \
+    -H &quot;Content-Type: application/json&quot; \
+    -H &quot;X-Auth-Token: $token&quot; \
+    -d &quot;&#123;\&quot;records\&quot;: [\&quot;$TARGET_IP\&quot;],\&quot;ttl\&quot;: 1&#125;&quot;
+logger -t &quot;【更新dns地址解析】&quot; &quot;完成&quot;
+</code></pre>
+<p>中间的<code>$RECORDSET_ID</code> 和<code>$Zone_ID</code>替换成记事本中对应的值</p>
+<p>修改完成后上传Linux进行测试。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT</p><p><a href="https://page.frankutils.xyz/2021/08/16/Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT/">https://page.frankutils.xyz/2021/08/16/Linux使用脚本自动更新华为云DNS（DDNS）支持OPENWRT/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Frank W</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2021-08-16</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2023-08-08</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2022/01/29/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8NBMiner%E6%8C%96%E6%8E%98ETH%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">关于使用NBMiner挖掘ETH的初体验</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2021/02/01/%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%8C%AB%E5%92%AA%E4%B8%8E%E5%85%B6%E4%BB%96%E7%9A%84%E7%B1%BB%E4%BC%BC%E8%BD%AF%E4%BB%B6/"><span class="level-item">关于如何使用小猫咪与其他的类似软件</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: "11b78565d1d47c5fe7e4638420962f64",
+            repo: "frank2002.github.io",
+            owner: "frank2002",
+            clientID: "2d1591a8dad3d49f8997",
+            clientSecret: "ebda5bd79f02da2d81a97a035a1293e0c47e484e",
+            admin: "frank2002",
+            createIssueManually: false,
+            distractionFreeMode: false,
+            perPage: 10,
+            pagerDirection: "last",
+            
+            
+            enableHotKey: true,
+            
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/avatar.png" alt="Your name"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Your name</p><p class="is-size-6 is-block">Your title</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Your location</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives"><p class="title">22</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories"><p class="title">0</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags"><p class="title">2</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><!--!--><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-07T16:52:21.000Z">2023-07-07</time></p><p class="title"><a href="/2023/07/07/test/">test</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-04-13T23:50:45.000Z">2023-04-13</time></p><p class="title"><a href="/2023/04/13/Windows%E5%AE%89%E8%A3%85Tensorflow%E4%BB%A5%E4%BD%BF%E7%94%A8GPU%E8%AE%A1%E7%AE%97/">Windows安装Tensorflow以使用GPU计算</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-04-11T11:10:21.000Z">2023-04-11</time></p><p class="title"><a href="/2023/04/11/anaconda/">anaconda frequent commands</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-04-10T21:00:31.000Z">2023-04-10</time></p><p class="title"><a href="/2023/04/10/announcement/">Announcement / 须知</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-04-10T17:57:01.000Z">2023-04-10</time></p><p class="title"><a href="/2023/04/10/commands/">Hexo frequent commands</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2023/"><span class="level-start"><span class="level-item">2023</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/"><span class="level-start"><span class="level-item">2022</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/"><span class="level-start"><span class="level-item">2021</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/"><span class="level-start"><span class="level-item">2020</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/command-notes/"><span class="tag">command notes</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/test-file/"><span class="tag">test file</span><span class="tag">1</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">Subscribe for updates</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div><div class="card widget"><div class="card-content"><div class="notification is-danger">You need to set <code>client_id</code> and <code>slot_id</code> to show this AD unit. Please set it in <code>_config.yml</code>.</div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">follow.it</h3><form action="" method="post" target="_blank"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Fs Page" height="28"></a><p class="is-size-7"><span>&copy; 2023 Frank W</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2023</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>

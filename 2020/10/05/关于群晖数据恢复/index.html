@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>关于群晖数据恢复 - Fs Page</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="F&#039;s Blog"><meta name="msapplication-TileImage" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1_seo-application-like-thumb.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="F&#039;s Blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="今天又开始给博客除草了。这篇文章其实很早就想写了，奈何最近申请季，文书写到头大，实在分不出过多的精力来写这篇博客。今天就来讲讲群晖和硬盘的那些事。 系统配置"><meta property="og:type" content="blog"><meta property="og:title" content="关于群晖数据恢复"><meta property="og:url" content="https://page.frankutils.xyz/2020/10/05/%E5%85%B3%E4%BA%8E%E7%BE%A4%E6%99%96%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/"><meta property="og:site_name" content="Fs Page"><meta property="og:description" content="今天又开始给博客除草了。这篇文章其实很早就想写了，奈何最近申请季，文书写到头大，实在分不出过多的精力来写这篇博客。今天就来讲讲群晖和硬盘的那些事。 系统配置"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://images-na.ssl-images-amazon.com/images/I/91wSK3hWBLL._AC_SX466_.jpg"><meta property="og:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1595373681.jpg"><meta property="article:published_time" content="2020-10-05T06:54:10.000Z"><meta property="article:modified_time" content="2023-08-08T14:00:21.614Z"><meta property="article:author" content="Frank W"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://images-na.ssl-images-amazon.com/images/I/91wSK3hWBLL._AC_SX466_.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://page.frankutils.xyz/2020/10/05/%E5%85%B3%E4%BA%8E%E7%BE%A4%E6%99%96%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/"},"headline":"关于群晖数据恢复","image":["https://images-na.ssl-images-amazon.com/images/I/91wSK3hWBLL._AC_SX466_.jpg","https://raw.githubusercontent.com/frank2002/blogImg/main/page/1595373681.jpg"],"datePublished":"2020-10-05T06:54:10.000Z","dateModified":"2023-08-08T14:00:21.614Z","author":{"@type":"Person","name":"Frank W"},"publisher":{"@type":"Organization","name":"Fs Page","logo":{"@type":"ImageObject","url":"https://page.frankutils.xyz/img/logo.svg"}},"description":"今天又开始给博客除草了。这篇文章其实很早就想写了，奈何最近申请季，文书写到头大，实在分不出过多的精力来写这篇博客。今天就来讲讲群晖和硬盘的那些事。 系统配置"}</script><link rel="canonical" href="https://page.frankutils.xyz/2020/10/05/%E5%85%B3%E4%BA%8E%E7%BE%A4%E6%99%96%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/"><link rel="icon" href="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1_seo-application-like-thumb.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Fs Page" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/frank2002"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2020-10-05T06:54:10.000Z" title="10/5/2020, 6:54:10 AM">2020-10-05</time></span><span class="level-item">Updated&nbsp;<time dateTime="2023-08-08T14:00:21.614Z" title="8/8/2023, 2:00:21 PM">2023-08-08</time></span><span class="level-item">8 minutes read (About 1227 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">关于群晖数据恢复</h1><div class="content"><p>今天又开始给博客除草了。这篇文章其实很早就想写了，奈何最近申请季，文书写到头大，实在分不出过多的精力来写这篇博客。今天就来讲讲群晖和硬盘的那些事。</p>
+<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><p>群晖DS216j, 32位CPU，512MB内存，可以说配置不能再差了，并且由于内存很小，硬盘的SWAP是不能关闭的。</p>
+<p>1个千兆网口做内网交换</p>
+<p>西数NAS红盘2TB*2，型号：WD20EFRX-68EUZN0</p>
+<p>双硬盘组软RAID1，提高可靠性</p>
+<p><img src="https://images-na.ssl-images-amazon.com/images/I/91wSK3hWBLL._AC_SX466_.jpg" alt="WD RED"></p>
+<h2 id="事件经过"><a href="#事件经过" class="headerlink" title="事件经过"></a>事件经过</h2><p>最早的时候有一段时间使用群晖自带的Download station进行BT下载，众所周知，群晖自带的下载器性能很差，而且会生成大量的缓存文件，很伤硬盘，所以没到2年一块硬盘就坏了，送回原“淘宝”店家进行质保。这里需要注意一点，这个淘宝店非官方店，很可能会出现假货，我在这里并不清楚，而且质保的质量也不确定。</p>
+<p>在今年年中，另一块硬盘开始逐渐出现坏道，但是没有达到阈值，并且群晖自带的SMART的快速检测没有发现任何问题，完全检测没有办法完成。（这里其实 又是一个大坑，家用版的群晖完整版smart无法检测完成竟然没有提示，其实这里可以直接分析这块硬盘已经坏了）</p>
+<p>随着硬盘坏道数量越来越多，本来计划在双11重新购入硬盘，但是因为坏道太多，在10.1国庆节的低价购入了希捷酷狼4TB*2来替换原来的硬盘。</p>
+<p>在进行raid1扩容操作前，因为疏忽忘记进行备份数据，这里也是一个坑。在1块2TB和1块4TB进行重建数据的时候，另一块系数红盘爆出大量坏道，硬盘直接损毁，存储空间也直接损毁，无法修复。随后进行数据恢复。</p>
+<h2 id="数据恢复"><a href="#数据恢复" class="headerlink" title="数据恢复"></a>数据恢复</h2><p>群晖官方推荐使用UBUNTU进行恢复，但是我在这里并不推荐，因为组了raid必须要插入两块硬盘同时读取，非常麻烦。</p>
+<p><a target="_blank" rel="noopener" href="https://www.synology.com/en-uk/knowledgebase/DSM/tutorial/Storage/How_can_I_recover_data_from_my_DiskStation_using_a_PC">原文链接</a></p>
+<p>我在这里推荐一款软件，可以直接在Windows平台进行对于群晖硬盘的读取，并且Raid1可以单盘读取。</p>
+<p>Nas Data Recovery 4.0</p>
+<p><a href="undefined">RuntimeNASDataRecovery_2.zip</a></p>
+<p>百度上可以直接搜索到破解版，下载安装即可使用，虽然是全英文，但是不难理解。</p>
+<p>缺点：无法进行两块raid1硬盘同时读取，修复受损文件。</p>
+<h3 id="事后"><a href="#事后" class="headerlink" title="事后"></a>事后</h3><p>后来发现DiskGenius可以直接读取，哭了！</p>
+<h2 id="硬盘分析"><a href="#硬盘分析" class="headerlink" title="硬盘分析"></a>硬盘分析</h2><p>拿出来放入DiskGenius进行故障排查，发现SMART C5黄字，差不多要完了。随后进行坏道扫描，发现实际有800+坏道，并且大多是坏道集中在硬盘前50G中，绝对超出群晖检测的100-坏道。其实群晖的硬盘检测高度依赖SMART，如果smart无法完成，硬盘检测十分不准。</p>
+<p>尝试写0和低格，发现有时甚至直接掉盘，遂放弃。</p>
+<h2 id="废物利用"><a href="#废物利用" class="headerlink" title="废物利用"></a>废物利用</h2><p>之前家里随手装了一台黑裙玩，一直用一块320G机械硬盘挂PT，一直觉得小，觉得这硬盘虽然损坏，但是还可以发光发热（反正下载的数据没了也就没了，再下就行）。</p>
+<p>刚开始插进去硬盘会直接变成堪用状态，这里我直接禁用硬盘警告</p>
+<p>创建RAID GROUP时切记进行硬盘扫描，否则直接空间损毁。</p>
+<p>创建存储空间时创建两个，第一个空间约50G，用来隔离坏道，数据放在第二个存储空间。实际效果非常理想，PT过程中基本无硬盘错误。</p>
+<p>这里切记全局禁止掉硬盘检查。</p>
+<h2 id="事后分析"><a href="#事后分析" class="headerlink" title="事后分析"></a>事后分析</h2><ol>
+<li>千万别买非官方店的硬盘，小白大概率翻车。送保尽量自己送到原厂保修。</li>
+<li>硬盘操作前都应该进行数据备份</li>
+<li>别买群晖低端家用版，硬盘缓存会减小硬盘寿命（硬盘坏道集中在硬盘前部扇区）</li>
+<li>准备这个双十一试水威联通中端机器。</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1595373681.jpg"></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>关于群晖数据恢复</p><p><a href="https://page.frankutils.xyz/2020/10/05/关于群晖数据恢复/">https://page.frankutils.xyz/2020/10/05/关于群晖数据恢复/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Frank W</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2020-10-05</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2023-08-08</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2021/02/01/%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%8C%AB%E5%92%AA%E4%B8%8E%E5%85%B6%E4%BB%96%E7%9A%84%E7%B1%BB%E4%BC%BC%E8%BD%AF%E4%BB%B6/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">关于如何使用小猫咪与其他的类似软件</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2020/09/28/%E5%B0%9D%E8%AF%95%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E4%B8%80%E5%A5%97%E4%BD%8E%E5%8A%9F%E7%8E%87%E4%B8%8B%E8%BD%BD%E6%9C%BA/"><span class="level-item">尝试使用树莓派搭建一套低功率下载机</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: "635dea357c9dbdb12869d531091870a1",
+            repo: "frank2002.github.io",
+            owner: "frank2002",
+            clientID: "2d1591a8dad3d49f8997",
+            clientSecret: "ebda5bd79f02da2d81a97a035a1293e0c47e484e",
+            admin: "frank2002",
+            createIssueManually: false,
+            distractionFreeMode: false,
+            perPage: 10,
+            pagerDirection: "last",
+            
+            
+            enableHotKey: true,
+            
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/avatar.png" alt="Your name"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Your name</p><p class="is-size-6 is-block">Your title</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Your location</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives"><p class="title">22</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories"><p class="title">0</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags"><p class="title">2</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><!--!--><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-07T16:52:21.000Z">2023-07-07</time></p><p class="title"><a href="/2023/07/07/test/">test</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-04-13T23:50:45.000Z">2023-04-13</time></p><p class="title"><a href="/2023/04/13/Windows%E5%AE%89%E8%A3%85Tensorflow%E4%BB%A5%E4%BD%BF%E7%94%A8GPU%E8%AE%A1%E7%AE%97/">Windows安装Tensorflow以使用GPU计算</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-04-11T11:10:21.000Z">2023-04-11</time></p><p class="title"><a href="/2023/04/11/anaconda/">anaconda frequent commands</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-04-10T21:00:31.000Z">2023-04-10</time></p><p class="title"><a href="/2023/04/10/announcement/">Announcement / 须知</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-04-10T17:57:01.000Z">2023-04-10</time></p><p class="title"><a href="/2023/04/10/commands/">Hexo frequent commands</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2023/"><span class="level-start"><span class="level-item">2023</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/"><span class="level-start"><span class="level-item">2022</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/"><span class="level-start"><span class="level-item">2021</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/"><span class="level-start"><span class="level-item">2020</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/command-notes/"><span class="tag">command notes</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/test-file/"><span class="tag">test file</span><span class="tag">1</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">Subscribe for updates</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div><div class="card widget"><div class="card-content"><div class="notification is-danger">You need to set <code>client_id</code> and <code>slot_id</code> to show this AD unit. Please set it in <code>_config.yml</code>.</div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">follow.it</h3><form action="" method="post" target="_blank"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Fs Page" height="28"></a><p class="is-size-7"><span>&copy; 2023 Frank W</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2023</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>
