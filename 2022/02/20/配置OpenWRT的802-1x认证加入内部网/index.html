@@ -7,7 +7,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/head.jpg">
 <meta property="article:published_time" content="2022-02-20T02:55:32.000Z">
-<meta property="article:modified_time" content="2023-08-08T14:52:28.163Z">
+<meta property="article:modified_time" content="2023-08-08T14:53:06.835Z">
 <meta property="article:author" content="Frank W">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/frank2002/blogImg/main/page/head.jpg"><link rel="shortcut icon" href="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1_seo-application-like-thumb.svg"><link rel="canonical" href="https://page.frankutils.xyz/2022/02/20/%E9%85%8D%E7%BD%AEOpenWRT%E7%9A%84802-1x%E8%AE%A4%E8%AF%81%E5%8A%A0%E5%85%A5%E5%86%85%E9%83%A8%E7%BD%91/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
@@ -57,7 +57,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2023-08-08 14:52:28'
+  postUpdate: '2023-08-08 14:53:06'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -161,38 +161,36 @@
       }
     }
     detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Fs Page"><span class="site-name">Fs Page</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">配置OpenWRT的802.1x认证加入内部网</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-02-20T02:55:32.000Z" title="Created 2022-02-20 02:55:32">2022-02-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-08-08T14:52:28.163Z" title="Updated 2023-08-08 14:52:28">2023-08-08</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="配置OpenWRT的802.1x认证加入内部网"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>又是很久没有更新了，其实这个已经完成了很多时候了，但是事情太多一直没来的及写。</p>
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Fs Page"><span class="site-name">Fs Page</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">配置OpenWRT的802.1x认证加入内部网</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-02-20T02:55:32.000Z" title="Created 2022-02-20 02:55:32">2022-02-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-08-08T14:53:06.835Z" title="Updated 2023-08-08 14:53:06">2023-08-08</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="配置OpenWRT的802.1x认证加入内部网"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>又是很久没有更新了，其实这个已经完成了很多时候了，但是事情太多一直没来的及写。</p>
 <p>因为学校使用的Ethernet是通过802.1x认证的（好像WIFI也是），对于智能家居等不方便更改网络的设备非常不方便，遂有了添加路由器的想法。</p>
 <p><em>顺便说一句，校园网的速度还是非常爽的，最重要的是包含在房租里了，不用另外付费。</em></p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2552550750.png"></p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2552550750.png" alt=""></p>
 <p>这个测速确认是外网速度，校园内没有测速节点。（可惜是NAT3，不然可以开机子了🤣）</p>
 <h1 id="硬件配置"><a href="#硬件配置" class="headerlink" title="硬件配置"></a>硬件配置</h1><p>主路由使用的是R2S，对于我一个人来说性能足够了（毕竟不需要科学上网了）。</p>
 <p>整体速度能跑满上下千兆，内网还带了一个nas做pt下载用，性能足够。</p>
 <p>本人使用骷髅头固件，注意自编译固件会有大负载下重启的问题，此固件无此类问题。<a target="_blank" rel="noopener" href="https://github.com/DHDAXCW/NanoPi-R2S/releases">传送门</a></p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3781328203.jpg"></p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/3781328203.jpg" alt=""></p>
 <p>另外我还买了一个小米AX1800，就是国内的小米AX5作为AP使用，刷入极客固件，无线网的速度能跑到700Mbps左右。</p>
 <p><em>其实这个成绩还是挺差的，没有达到我的心理预期，WIFI6性价比路由器还没有WIFI5强，其实没有升级的必要</em></p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2362271810.jpg"></p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/2362271810.jpg" alt=""></p>
 <h1 id="配置802-1x认证"><a href="#配置802-1x认证" class="headerlink" title="配置802.1x认证"></a>配置802.1x认证</h1><p>最重要的就是配置802.1x认证了，不然都是瞎扯。</p>
 <h2 id="1-安装完整WPAD"><a href="#1-安装完整WPAD" class="headerlink" title="1. 安装完整WPAD"></a>1. 安装完整WPAD</h2><p>现在OpenWRT上默认使用的是wpad-mini，并不支持802.1x认证，需要安装wpad来进行认证。</p>
-<p><em>如果OpenWRT系统使用了wpad完整版或者Hostapd就无需再次安装，直接跳到下一步，上面使用的骷髅头固件，在2022&#x2F;2&#x2F;19的版本以后已经集成了hostapd，无需此步。</em></p>
+<p><em>如果OpenWRT系统使用了wpad完整版或者Hostapd就无需再次安装，直接跳到下一步，上面使用的骷髅头固件，在2022/2/19的版本以后已经集成了hostapd，无需此步。</em></p>
 <h3 id="如果有网络访问"><a href="#如果有网络访问" class="headerlink" title="如果有网络访问"></a>如果有网络访问</h3><pre><code>opkg update
 opkg download wpad
 opkg remove wpad-basic
 opkg install wpad_&lt;version&gt;_&lt;arch&gt;.ipk
 #请注意替换文件名
-</code></pre>
-<p><em>这时候一般是没有外网的，可以通过手机热点，共享给电脑，再通过windows共享给路由器，路由器注意修改网关，稍微有些复杂，这里不再赘述，不会的话可以通过下面的方式。</em></p>
+</code></pre><p><em>这时候一般是没有外网的，可以通过手机热点，共享给电脑，再通过windows共享给路由器，路由器注意修改网关，稍微有些复杂，这里不再赘述，不会的话可以通过下面的方式。</em></p>
 <h3 id="如果没有外网访问"><a href="#如果没有外网访问" class="headerlink" title="如果没有外网访问"></a>如果没有外网访问</h3><h4 id="1-获取软件包的位置"><a href="#1-获取软件包的位置" class="headerlink" title="1. 获取软件包的位置"></a>1. 获取软件包的位置</h4><p>在控制台中输入 <code>opkg update</code></p>
-<p>找到如下的一个URL（从开头一直到base)：<img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1396639689.png"></p>
+<p>找到如下的一个URL（从开头一直到base)：<img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1396639689.png" alt=""></p>
 <p>将网址输入浏览器，查找wpad，下载对应的软件包，如下所示：</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1026497168.png"></p>
-<p>通过SCP或者FTP将软件包上传到软路由下并进行安装：<code> opkg install wpadxxxxxx.ipk</code></p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/1026497168.png" alt=""></p>
+<p>通过SCP或者FTP将软件包上传到软路由下并进行安装：<code>opkg install wpadxxxxxx.ipk</code></p>
 <h2 id="配置802-1x配置文件"><a href="#配置802-1x配置文件" class="headerlink" title="配置802.1x配置文件"></a>配置802.1x配置文件</h2><p>创建一个配置文件:</p>
 <pre><code>vim /etc/config/wpa_supplicant.802.1x.conf
-</code></pre>
-<p>输入如下信息：</p>
-<pre><code class="shell">ctrl_interface=/var/run/wpa_supplicant
+</code></pre><p>输入如下信息：</p>
+<pre><code class="lang-shell">ctrl_interface=/var/run/wpa_supplicant
 ctrl_interface_group=root
 ap_scan=0
 network=&#123;
@@ -207,13 +205,13 @@ network=&#123;
 <p>这里需要注意一下校园或者单位的加密方式等配置，具体请在各自网站查找，或询问技术人员。</p>
 <h2 id="验证信息"><a href="#验证信息" class="headerlink" title="验证信息"></a>验证信息</h2><p>查找验证自己WAN口的网卡设备名称</p>
 <p>执行命令并确认是否正常：（注意修改网卡名称）</p>
-<pre><code class="shell">wpa_supplicant -D wired -i eth0.2 -c /etc/config/wpa_supplicant.802.1x.conf -dd -t
+<pre><code class="lang-shell">wpa_supplicant -D wired -i eth0.2 -c /etc/config/wpa_supplicant.802.1x.conf -dd -t
 </code></pre>
 <h2 id="创建开机脚本"><a href="#创建开机脚本" class="headerlink" title="创建开机脚本"></a>创建开机脚本</h2><p>创建文件：</p>
-<pre><code class="shell">vim /etc/init.d/wpa-autostart
+<pre><code class="lang-shell">vim /etc/init.d/wpa-autostart
 </code></pre>
 <p>输入以下内容：（注意修改网卡设备名称）</p>
-<pre><code class="shell">#!/bin/sh /etc/rc.common
+<pre><code class="lang-shell">#!/bin/sh /etc/rc.common
 START=99
 
 start() &#123;
@@ -223,13 +221,13 @@ echo start
 &#125;
 </code></pre>
 <p>赋予脚本权限和启动自启脚本：</p>
-<pre><code class="shell">chmod +x /etc/init.d/wpa-autostart
+<pre><code class="lang-shell">chmod +x /etc/init.d/wpa-autostart
 /etc/init.d/wpa-autostart enable
 </code></pre>
 <h2 id="创建检测脚本"><a href="#创建检测脚本" class="headerlink" title="创建检测脚本"></a>创建检测脚本</h2><p>此脚本是为了断线重连，非必须。</p>
 <p>创建一个crontab脚本：</p>
-<pre><code class="shell">#!/bin/sh
-  
+<pre><code class="lang-shell">#!/bin/sh
+
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
 
 # uci show network.wan.ifname
@@ -254,9 +252,8 @@ fi
 <p>注意：请修改对应的网卡设备名称，此脚本只检测是否存在对应的IPV4地址，并不检测和上级路由是否通畅。</p>
 <p>添加crontab任务：</p>
 <pre><code>crontab -l
-</code></pre>
-<p>加入以下内容：</p>
-<pre><code class="shell">* * * * * /bin/sh -x /etc/config/check.802.1x.sh &amp;&gt; /tmp/check.802.1x.log
+</code></pre><p>加入以下内容：</p>
+<pre><code class="lang-shell">* * * * * /bin/sh -x /etc/config/check.802.1x.sh &amp;&gt; /tmp/check.802.1x.log
 </code></pre>
 <p>启动crontab服务并观察：</p>
 <pre><code>/etc/init.d/cron enable
@@ -265,16 +262,14 @@ fi
 pgrep -af cron
 
 logread -e cron
-</code></pre>
-<p>到这里就基本完成上网的认证了</p>
+</code></pre><p>到这里就基本完成上网的认证了</p>
 <h1 id="升级OpenWRT系统相关问题"><a href="#升级OpenWRT系统相关问题" class="headerlink" title="升级OpenWRT系统相关问题"></a>升级OpenWRT系统相关问题</h1><p>由于Openwrt系统默认不保存我们生成的系统文件，我们要对备份做一些修改。进入web后台：</p>
-<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/9660548.png"></p>
+<p><img src="https://raw.githubusercontent.com/frank2002/blogImg/main/page/9660548.png" alt=""></p>
 <p>加入下列路径：</p>
 <pre><code>/etc/config/wpa_supplicant.802.1x.conf
 /etc/init.d/wpa-autostart
 /etc/config/check.802.1x.sh
-</code></pre>
-<p>如果没有wpad的系统也可以备份一下wpad安装包，根据自己的路径进行备份。（有可能升级以后旧版wpad安装包无法安装）</p>
+</code></pre><p>如果没有wpad的系统也可以备份一下wpad安装包，根据自己的路径进行备份。（有可能升级以后旧版wpad安装包无法安装）</p>
 <p>点击右下角提交，进入<code>动作</code>选项卡，执行一次备份。</p>
 <h1 id="关于DNS接管问题"><a href="#关于DNS接管问题" class="headerlink" title="关于DNS接管问题"></a>关于DNS接管问题</h1><p>有的时候认证成功获取到ip以后访问外网IP可以通，外网域名无法解析的情况下，可能是内网将dns接管了</p>
 <p>只需要在 luci 的 Network &gt; DHCP and DNS 下关闭 <code>Rebind protection</code></p>
