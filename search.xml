@@ -35,6 +35,7 @@
 <li>secrets.REPO_NAME：DockerHub 仓库名称</li>
 <li>latest：可以替换成你想要的Tag</li>
 </ul>
+<p><strong>注意这里最后一个点，这个不可省略，表示构建当前目录</strong></p>
 <p>如果只需要本地build和运行，<code>$&#123;&#123; secrets.DOCKERHUB_USERNAME &#125;&#125;/$&#123;&#123; secrets.REPO_NAME &#125;&#125;:latest</code> 这一部分可以换成 <code>&lt;image-name&gt;:&lt;tag&gt;</code>。</p>
 <h2 id="运行Docker"><a href="#运行Docker" class="headerlink" title="运行Docker"></a>运行Docker</h2><p>创建持久化Volume:<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker volume create --name &lt;volume-name&gt;</span><br></pre></td></tr></table></figure><br>运行Docker：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d -v &lt;volume-name&gt;:/root -p 8022:22 &lt;image-name&gt;:&lt;tag&gt;</span><br></pre></td></tr></table></figure><br>自行替换缺失部分</p>
 <p>由于已经生成了ssh密码以及公钥证书，可以直接通过证书进行ssh链接</p>
